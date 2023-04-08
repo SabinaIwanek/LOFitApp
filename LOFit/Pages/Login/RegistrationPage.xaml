@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Login.RegistrationPage"
+             Title="Zarejestruj się">
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+
+    </ContentPage.Resources>
+
+
+    <ScrollView WidthRequest="300">
+        <VerticalStackLayout WidthRequest="300">
+
+            <StackLayout Orientation="Horizontal" Padding="0" Margin="0,0,0,10">
+                <Button x:Name="UserButton" Text="Użytkownik" Clicked="OnUserButtonClicked" WidthRequest="150" BorderColor="#A6A6A6" BorderWidth="2" Margin="0,0,-1,0" TextColor="#505050"/>
+                <Button x:Name="CoachButton" Text="Trener" Clicked="OnCoachButtonClicked" WidthRequest="150"  Margin="0,0,0,0" BackgroundColor="#A6A6A6"/>
+            </StackLayout>
+
+            <Label Text="Email*"/>
+            <Entry Text="{Binding Path=UserM.Email}" Placeholder="Wpisz e-mail"/>
+
+            <Label Text="Haslo*"/>
+            <Entry Text="{Binding Path=UserM.Haslo}" IsPassword="True"/>
+
+            <Label Text="Powtórz hasło*"/>
+            <Entry Text="{Binding Password2}" IsPassword="True"/>
+
+            <Label Text="Imie*"/>
+            <Entry Text="{Binding Path=UserM.Imie}"/>
+
+            <Label Text="Nazwisko"/>
+            <Entry Text="{Binding Path=UserM.Nazwisko}"/>
+
+            <Label Text="Płeć"/>
+            <Picker x:Name="GenderPicker" SelectedItem="{Binding SelectedGender}">
+                <Picker.Items>
+                    <x:String>Kobieta</x:String>
+                    <x:String>Mężczyzna</x:String>
+                    <x:String>Nie podano</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="Data urodzenia"/>
+            <DatePicker Date="{Binding Path=UserM.Data_urodzenia}" />
+
+            <Label Text="Numer telefonu"/>
+            <Entry Text="{Binding Phone}"/>
+
+            <Label Text="Miejscowość" x:Name="MiejscowoscLabel" IsVisible="false"/>
+            <Entry Text="{Binding Path=UserM.Miejscowosc}" x:Name="MiejscowoscEntry" IsVisible="false"/>
+
+            <Label Text="Typ trenera" x:Name="Typ_treneraLabel" IsVisible="false"/>
+            <Picker x:Name="CoachPicker" SelectedItem="{Binding SelectedCoach}" IsVisible="false">
+                <Picker.Items>
+                    <x:String>Trener</x:String>
+                    <x:String>Dietetyk</x:String>
+                    <x:String>Oba</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label Text="*Wymagane pola" FontSize="10"/>
+
+            <Button x:Name="SendButton" Text="Załóż konto" Clicked="OnSendButtonClicked" Margin="0,20,0,0"/>
+
+            <Label x:Name="Information"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Meals.MealPage"
+             Title="Posiłek">
+
+    <ContentPage.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="WidthRequest" Value="300" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="Padding" Value="10,0,0,0" />
+        </Style>
+    </ContentPage.Resources>
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+            <Entry Text="{Binding Path=Model.Nazwa_dania}" BackgroundColor="{StaticResource MyBg}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+            <TimePicker Time="{Binding MealTime}" FontSize="30" HorizontalOptions="Center"/>
+        </StackLayout>
+
+        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="150" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Text="Produkt" HorizontalOptions="Center"/>
+
+                <Label Grid.Column="0" Grid.Row="1" Text="Nazwa: " VerticalOptions="Center"/>
+                <Entry x:Name="EntryNazwa" Grid.Column="1" Grid.Row="1" Text="{Binding Path=ModelProd.Nazwa}" HorizontalOptions="StartAndExpand"/>
+
+                <Label Grid.Column="0" Grid.Row="2" Text="Ean: " VerticalOptions="Center"/>
+                <Entry x:Name="EntryEan" Grid.Column="1" Grid.Row="2" Text="{Binding Path=ModelProd.Ean}" HorizontalOptions="StartAndExpand"/>
+
+                <Label Grid.Column="0" Grid.Row="3" Text="Gramy: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="3" Text="{Binding Path=Gramy}" HorizontalOptions="StartAndExpand"/>
+
+                <Label Grid.Column="0" Grid.Row="4" Text="Kcla: " VerticalOptions="Center"/>
+                <Entry x:Name="EntryKcla" Grid.Column="1" Grid.Row="4" Text="{Binding Path=ModelProd.Kcla}" HorizontalOptions="StartAndExpand"/>
+                <Entry x:Name="CalculatedKcla" Grid.Column="1" Grid.Row="4" Text="{Binding Kcla}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+
+                <Label Grid.Column="0" Grid.Row="5" Text="Białko: " VerticalOptions="Center"/>
+                <Entry x:Name="EntryBialko" Grid.Column="1" Grid.Row="5" Text="{Binding Path=ModelProd.Bialko}" HorizontalOptions="StartAndExpand"/>
+                <Entry x:Name="CalculatedBialko" Grid.Column="1" Grid.Row="5" Text="{Binding Bialko}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+
+                <Label Grid.Column="0" Grid.Row="6" Text="Tłuszcze: " VerticalOptions="Center"/>
+                <Entry x:Name="EntryTluszcze" Grid.Column="1" Grid.Row="6" Text="{Binding Path=ModelProd.Tluszcze}" HorizontalOptions="StartAndExpand"/>
+                <Entry x:Name="CalculatedTluszcze" Grid.Column="1" Grid.Row="6" Text="{Binding Tluszcze}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+
+                <Label Grid.Column="0" Grid.Row="7" Text="Węgle: " VerticalOptions="Center"/>
+                <Entry x:Name="EntryWegle" Grid.Column="1" Grid.Row="7" Text="{Binding Path=ModelProd.Wegle}" HorizontalOptions="StartAndExpand"/>
+                <Entry x:Name="CalculatedWegle" Grid.Column="1" Grid.Row="7" Text="{Binding Wegle}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+
+                <Button Grid.Column="0" Grid.Row="8" x:Name="ButtonAddProd" Text="Nowy" HorizontalOptions="FillAndExpand" Clicked="OnButtonAddProdClicked" BackgroundColor="{StaticResource MyText}"/>
+                <Button Grid.Column="1" Grid.Row="8" x:Name="ButtonMyList" Text="Moje produkty" HorizontalOptions="FillAndExpand" Clicked="OnButtonMyListClicked" BackgroundColor="{StaticResource MyText}"/>
+                <Button Grid.Column="2" Grid.Row="8" x:Name="ButtonAppList" Text="Lista produktów" HorizontalOptions="FillAndExpand" Clicked="OnButtonAppListClicked" BackgroundColor="{StaticResource MyText}"/>
+
+
+            </Grid>
+        </ScrollView>
+
+
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Zapisz" Clicked="OnModifyButtonClicked"  HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

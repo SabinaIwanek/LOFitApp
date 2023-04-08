@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Admin.CentralAdminPage"
+             Title="Panel administracyjny">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <VerticalStackLayout HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+
+            <Button Grid.Column="0" Grid.Row="0" Text="Trenerzy do zatwierdzenia" Clicked="OnButtonVerifyCoachClicked" />
+            <Label Grid.Column="1" Grid.Row="0" Text="{Binding InfoCoachs}"/>
+
+            <Button Grid.Column="0" Grid.Row="1" Text="Certyfikaty do zatwierdzenia" Clicked="OnButtonVerifyCertificateClicked" />
+            <Label Grid.Column="1" Grid.Row="1" Text="{Binding InfoCertificate}"/>
+
+            <Button Grid.Column="0" Grid.Row="2" Text="Opinie do weryfikacji" Clicked="OnButtonVerifyOpinionClicked" />
+            <Label Grid.Column="1" Grid.Row="2" Text="{Binding InfoVerifyOpinion}"/>
+
+            <Button Grid.Column="0" Grid.Row="3" Text="Zgłoszenia" Clicked="OnButtonVerifyReportClicked" />
+            <Label Grid.Column="1" Grid.Row="3" Text="{Binding InfoVerifyReport}"/>
+
+            <Button Grid.Column="0" Grid.Row="4" Text="Wszyscy użytkownicy" Clicked="OnButtonAppUsersClicked" />
+            <Label Grid.Column="1" Grid.Row="4" Text="{Binding InfoAppUsers}"/>
+
+        </Grid>
+
+    </VerticalStackLayout>
+</ContentPage>

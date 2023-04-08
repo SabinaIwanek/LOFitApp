@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Workouts.WorkoutsPage"
+             Title="Treningi">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Button x:Name="Button1" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton1Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button2" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton2Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button3" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton3Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button4" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton4Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button5" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton5Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button6" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton6Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button7" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton7Clicked" BackgroundColor="{StaticResource MyText}"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <DatePicker Date="{Binding DateCalendar}" FontSize="30"/>
+        </StackLayout>
+
+        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnWorkoutClicked">
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate>
+                        <Label Text="{Binding Id_treningu}" FontSize="Medium" Margin="2"/>
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

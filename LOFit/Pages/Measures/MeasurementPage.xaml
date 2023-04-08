@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Measures.MeasurementPage"
+             Title="Pomiary">
+
+    <ContentPage.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="FontSize" Value="30" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="30" />
+        </Style>
+    </ContentPage.Resources>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Zmien tryb" Clicked="OnChangeThemeClicked" Order="Secondary" />
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Button x:Name="Button1" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton1Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button2" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton2Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button3" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton3Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button4" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton4Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button5" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton5Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button6" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton6Clicked" BackgroundColor="{StaticResource MyText}"/>
+            <Button x:Name="Button7" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton7Clicked" BackgroundColor="{StaticResource MyText}"/>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <DatePicker Date="{Binding DateCalendar}" FontSize="30"/>
+        </StackLayout>
+
+        <!--ZAWARTOSC-->
+        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+
+                <Label Text="Waga" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonWaga1" Text="-" CommandParameter="Waga" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Waga}"/>
+                    <Button x:Name="ButtonWaga2" Text="+" CommandParameter="Waga" Clicked="OnButtonPlusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Procent tłuszczu" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonProcent_tluszczu1" Text="-" CommandParameter="Procent_tluszczu" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Procent_tluszczu}"/>
+                    <Button x:Name="ButtonProcent_tluszczu2" Text="+"  CommandParameter="Procent_tluszczu" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Biceps" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonBiceps1" Text="-" CommandParameter="Biceps" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Biceps}"/>
+                        <Button x:Name="ButtonBiceps2" Text="+"  CommandParameter="Biceps" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Klatka piersiowa" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonKlatka_piersiowa1" Text="-" CommandParameter="Klatka_piersiowa" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Klatka_piersiowa}"/>
+                    <Button x:Name="ButtonKlatka_piersiowa2" Text="+"  CommandParameter="Klatka_piersiowa" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Pod klatką piersiową" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonPod_klatka_piersiowa1" Text="-" CommandParameter="Pod_klatka_piersiowa" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Pod_klatka_piersiowa}"/>
+                    <Button x:Name="ButtonPod_klatka_piersiowa2" Text="+"  CommandParameter="Pod_klatka_piersiowa" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Talia" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonTalia1" Text="-" CommandParameter="Talia" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Talia}"/>
+                    <Button x:Name="ButtonTalia2" Text="+"  CommandParameter="Talia" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Pas" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonPas1" Text="-" CommandParameter="Pas" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Pas}"/>
+                    <Button x:Name="ButtonPas2" Text="+"  CommandParameter="Pas" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Pośladki" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonPosladki1" Text="-" CommandParameter="Posladki" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Posladki}"/>
+                    <Button x:Name="ButtonPosladki2" Text="+"  CommandParameter="Posladki" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Udo" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonUdo1" Text="-" CommandParameter="Udo" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Udo}"/>
+                    <Button x:Name="ButtonUdo2" Text="+"  CommandParameter="Udo" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Kolano" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonKolano1" Text="-" CommandParameter="Kolano" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Kolano}"/>
+                    <Button x:Name="ButtonKolano2" Text="+"  CommandParameter="Kolano" Clicked="OnButtonPlusClicked"  BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+                <Label Text="Lydka" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="ButtonLydka1" Text="-" CommandParameter="Lydka" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                    <Entry Text="{Binding Path=Model.Lydka}"/>
+                    <Button x:Name="ButtonLydka2" Text="+"  CommandParameter="Lydka" Clicked="OnButtonPlusClicked" BackgroundColor="{StaticResource MyText}" Padding="30,0"/>
+                </StackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Zapisz" Clicked="OnModifyButtonClicked"  HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Workouts.WorkoutPage"
+             Title="Trening">
+
+    <ContentPage.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="WidthRequest" Value="300" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="Padding" Value="10,0,0,0" />
+        </Style>
+    </ContentPage.Resources>
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+            <TimePicker Time="{Binding WorkoutTime}" FontSize="30" HorizontalOptions="Center" Margin="0,20,0,0"/>
+        </StackLayout>
+
+        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="225" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="140" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="80" />
+                    <RowDefinition Height="350" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Text="Trening" HorizontalOptions="Center" VerticalOptions="End"/>
+
+                <Label Grid.Column="0" Grid.Row="1" Text="Nazwa: " VerticalOptions="Center"/>
+                <Entry x:Name="EntryNazwa" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Text="{Binding Path=ModelWorkout.Nazwa}" HorizontalOptions="StartAndExpand"/>
+
+                <Label Grid.Column="0" Grid.Row="2" Text="Czas: " VerticalOptions="Center"/>
+                <TimePicker Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2"  Time="{Binding WorkoutingTime}" FontSize="30" HorizontalOptions="Center"/>
+
+                <Label Grid.Column="0" Grid.Row="3" Text="Opis: " VerticalOptions="Start"/>
+                <Entry x:Name="EntryOpis" Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="2"  Text="{Binding Path=ModelWorkout.Opis}" Keyboard="Chat"  HeightRequest="300"  HorizontalOptions="StartAndExpand" VerticalOptions="Start"/>
+
+                <Button Grid.Column="0" Grid.Row="4"  Grid.ColumnSpan="2" x:Name="ButtonAddWorkout" Text="Nowy" HorizontalOptions="FillAndExpand" Clicked="OnButtonAddWorkoutClicked" BackgroundColor="{StaticResource MyText}"/>
+                <Button Grid.Column="2" Grid.Row="4" x:Name="ButtonMyList" Text="Moje treningi" HorizontalOptions="FillAndExpand" Clicked="OnButtonMyListClicked" BackgroundColor="{StaticResource MyText}"/>
+
+            </Grid>
+        </ScrollView>
+
+
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Zapisz" Clicked="OnModifyButtonClicked"  HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

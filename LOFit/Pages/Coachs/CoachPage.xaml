@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Coachs.CoachPage"
+             Title="Trener">
+
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="Margin" Value="0,5" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+
+    <ScrollView HorizontalOptions="Fill" VerticalOptions="Fill">
+        <StackLayout>
+
+            <!--Wizytówka-->
+            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="6" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
+
+                <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="40" Margin="0,0,0,5" />
+
+                <Label Grid.Column="1" Grid.Row="1" Text="Ocena: " />
+                <Label Grid.Column="2" Grid.Row="1" Text="{Binding Ocena}"  />
+
+                <Label Grid.Column="1" Grid.Row="2" Text="Typ trenera: " />
+                <Label Grid.Column="2" Grid.Row="2" Text="{Binding TypTrenera}"  />
+
+                <Label Grid.Column="1" Grid.Row="3" Text="Cena usługi: " />
+                <Label Grid.Column="2" Grid.Row="3" Text="{Binding CenaUslugi}"  />
+
+                <Label Grid.Column="1" Grid.Row="4" Text="Data urodzenia: " />
+                <Label Grid.Column="2" Grid.Row="4" Text="{Binding Path=CoachM.Data_urodzenia}" />
+
+                <Label Grid.Column="1" Grid.Row="5" Text="Numer telefonu: " />
+                <Label Grid.Column="2" Grid.Row="5" Text="{Binding Path=CoachM.Nr_telefonu}" />
+
+                <Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" Text="{Binding Path=CoachM.Opis_profilu}"  />
+
+            </Grid>
+
+            <!--Listy działania-->
+            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="0" Text="Certyfikaty" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Certyf"/>
+                <Button Grid.Column="1" Grid.Row="0" Text="Opinie" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Opinie" BackgroundColor="{StaticResource MyText}"/>
+                <Button Grid.Column="2" Grid.Row="0" Text="Kalendarz" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Kalend" BackgroundColor="{StaticResource MyText}"/>
+
+            </Grid>
+            
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

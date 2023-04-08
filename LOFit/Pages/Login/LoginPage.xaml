@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Login.LoginPage"
+             Title="Zaloguj się">
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0,0,0,25"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout WidthRequest="300">
+
+        <Label TextColor="#8BC34A" Text="LoFit" FontSize="30" HorizontalTextAlignment="Center"/>
+
+        <Entry Text="{Binding Path=LoginM.Email}" Keyboard="Email" Placeholder="Wpisz e-mail"/>
+        <Entry Text="{Binding Path=LoginM.Password}" IsPassword="True" />
+        
+        <StackLayout>
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnSendCodeButtonClicked" />
+            </StackLayout.GestureRecognizers>
+            <Label Text="Zapomniałeś hasła?" TextColor="{StaticResource MyTextLight}" TextDecorations="Underline" FontSize="12" HorizontalTextAlignment="Center"/>
+        </StackLayout>
+
+        <Button x:Name="LoginButton" Text="Zaloguj" Clicked="OnLoginButtonClicked" />
+
+        
+        <StackLayout>
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnRegistrationButtonClicked" />
+            </StackLayout.GestureRecognizers>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Nie masz jeszcze konta? " />
+                        <Span Text="Zarejestruj się" TextDecorations="Underline" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+
+
+        <Label x:Name="Information"/>
+
+    </VerticalStackLayout>
+
+</ContentPage>

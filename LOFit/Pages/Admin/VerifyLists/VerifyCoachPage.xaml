@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Admin.VerifyLists.VerifyCoachPage"
+             xmlns:model="clr-namespace:LOFit.Models"
+             Title="VerifyCoachPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Wstecz" Clicked="OnBackClicked" Order="Primary"/>
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <StackLayout>
+            <Grid  VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" CommandParameter="0" Text="Nowe"  Clicked="OnTypeClicked" />
+                <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" CommandParameter="1" Text="Zatwierdzone"  Clicked="OnTypeClicked" />
+                <Button Grid.Column="2" Grid.Row="0" x:Name="Button3" CommandParameter="2" Text="Odrzucone" Clicked="OnTypeClicked" />
+
+            </Grid>
+        </StackLayout>
+
+        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnCoachClicked">
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="model:CoachModel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Imie}" FontSize="Medium" Margin="2"/>
+                            <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwisko}" FontSize="Medium" Margin="2"/>
+                            <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Nr_telefonu}" FontSize="Medium" Margin="2"/>
+
+                            <Button Grid.Column="3" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}"/>
+                            <Button Grid.Column="4" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}"/>
+                        </Grid>
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </StackLayout>
+
+</ContentPage>
