@@ -9,6 +9,8 @@ namespace LOFit.Tools
         //Check
         public static bool CheckEmail(string email)
         {
+            if (email == string.Empty) return false;
+
             try
             {
                 string[] spaces = email.Split(' ');

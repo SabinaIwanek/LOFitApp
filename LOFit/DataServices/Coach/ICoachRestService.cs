@@ -9,6 +9,7 @@ namespace LOFit.DataServices.Coach
 {
     public interface ICoachRestService
     {
+        Task<CoachModel> GetOne(int id);
         Task<List<CoachModel>> GetAll();
     }
 }

@@ -16,7 +16,7 @@
 
     <VerticalStackLayout WidthRequest="300">
 
-        <Label TextColor="#8BC34A" Text="LoFit" FontSize="30" HorizontalTextAlignment="Center"/>
+        <Label TextColor="#8BC34A" Text="LoFit" FontSize="30" HorizontalTextAlignment="Center" FontAttributes="Bold" FontFamily="Roboto" />
 
         <Entry Text="{Binding Path=LoginM.Email}" Keyboard="Email" Placeholder="Wpisz e-mail"/>
         <Entry Text="{Binding Path=LoginM.Password}" IsPassword="True" />

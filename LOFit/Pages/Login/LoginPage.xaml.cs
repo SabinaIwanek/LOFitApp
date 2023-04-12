@@ -1,9 +1,10 @@
-﻿using LOFit.DataServices.Login;
+﻿using LOFit.DataServices.Coach;
+using LOFit.DataServices.Login;
 using LOFit.DataServices.Measurement;
 using LOFit.Enums;
 using LOFit.Models;
 using LOFit.Pages.Admin;
-using LOFit.Pages.Central;
+using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
 using LOFit.Tools;
 
@@ -13,6 +14,7 @@ namespace LOFit.Pages.Login;
 public partial class LoginPage : ContentPage
 {
     private readonly ILoginRestService _dataServiceLogin;
+    private readonly ICoachRestService _dataServiceCoach;
 
     private LoginModel _loginModel;
     public LoginModel LoginM
@@ -25,18 +27,22 @@ public partial class LoginPage : ContentPage
         }
     }
 
-    public LoginPage(ILoginRestService dataServiceLogin)
+    public LoginPage(ILoginRestService dataServiceLogin, ICoachRestService dataServiceCoach)
     {
         InitializeComponent();
 
         _dataServiceLogin = dataServiceLogin;
+        _dataServiceCoach = dataServiceCoach;
+
         BindingContext = this;
         LoginM = new LoginModel(false);
     }
 
     async void OnLoginButtonClicked(object sender, EventArgs e)
     {
-        if (_loginModel.Email == string.Empty || _loginModel.Password == string.Empty)
+        Information.Text = string.Empty;
+
+        if (_loginModel.Email == string.Empty || _loginModel.Password == string.Empty || _loginModel.Email == null || _loginModel.Password == null)
         {
             Information.Text = "Wprowadź dane do obu pól.";
             return;
@@ -60,7 +66,14 @@ public partial class LoginPage : ContentPage
 
             if (Singleton.Instance.Type == TypKonta.Trener)
             {
-                await Shell.Current.GoToAsync(nameof(CentralCoachPage));
+                CoachModel model = await _dataServiceCoach.GetOne(-1);
+
+                var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), model}
+                };
+
+                await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
                 return;
             }
         }

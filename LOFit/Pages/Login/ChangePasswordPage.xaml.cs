@@ -61,7 +61,8 @@ public partial class ChangePasswordPage : ContentPage
             CodeEntry.IsVisible = true;
             ChangeButton.IsVisible = true;
             CodeButton.IsVisible = false;
-            Information.Text = string.Empty;
+
+            Information.Text = $"Wys³ano kod na email {LoginM.Email}.";
         }
         else
         {
@@ -70,9 +71,11 @@ public partial class ChangePasswordPage : ContentPage
     }
     async void OnChangeButtonClicked(object sender, EventArgs e)
     {
-        if (LoginM.Password == string.Empty || Password2 == string.Empty)
+        Information.Text = string.Empty;
+
+        if (LoginM.Password == null || Password2 == null || LoginM.Password == string.Empty || Password2 == string.Empty)
         {
-            Information.Text = "Has³a ró¿ni¹ siê.";
+            Information.Text = "Wpisz oba has³a.";
             return;
         }
 

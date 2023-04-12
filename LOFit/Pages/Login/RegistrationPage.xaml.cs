@@ -1,6 +1,7 @@
 using LOFit.DataServices.Login;
 using LOFit.DataServices.Registration;
 using LOFit.Models;
+using LOFit.Resources.Styles;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Login;
@@ -8,6 +9,7 @@ namespace LOFit.Pages.Login;
 [QueryProperty(nameof(UserM), "RegistrationModel")]
 public partial class RegistrationPage : ContentPage
 {
+    #region Binding prop
     private string _selectedGender;
     public string SelectedGender
     {
@@ -94,6 +96,8 @@ public partial class RegistrationPage : ContentPage
             OnPropertyChanged();
         }
     }
+    #endregion
+
     public RegistrationPage(IRegistrationRestService dataService)
     {
         InitializeComponent();
@@ -103,6 +107,7 @@ public partial class RegistrationPage : ContentPage
         UserM = new RegistrationModel();
     }
 
+    #region Choice Buttons
     async void OnUserButtonClicked(object sender, EventArgs e)
     {
         MiejscowoscLabel.IsVisible = false;
@@ -112,14 +117,11 @@ public partial class RegistrationPage : ContentPage
         IsUser = true;
 
         //wizualne
-        UserButton.BorderWidth = 2;
-        UserButton.BorderColor = Color.FromHex("#A6A6A6");
-        UserButton.TextColor = Color.FromHex("#505050");
-        UserButton.BackgroundColor = Color.FromHex("#8BC34A");
+        UserButton.TextColor = MyColors.Primary;
+        BottomUserButton.BackgroundColor = MyColors.Primary;
 
-        CoachButton.BorderWidth = 0;
-        CoachButton.BackgroundColor = Color.FromHex("#A6A6A6");
-        CoachButton.TextColor = Color.FromHex("#FFFFFF");
+        CoachButton.TextColor = MyColors.MyText;
+        BottomCoachButton.BackgroundColor = Colors.Transparent;
     }
     async void OnCoachButtonClicked(object sender, EventArgs e)
     {
@@ -130,25 +132,26 @@ public partial class RegistrationPage : ContentPage
         IsUser = false;
 
         //wizualne
-        CoachButton.BorderWidth = 2;
-        CoachButton.BorderColor = Color.FromHex("#A6A6A6");
-        CoachButton.TextColor = Color.FromHex("#505050");
-        CoachButton.BackgroundColor = Color.FromHex("#8BC34A");
+        CoachButton.TextColor = MyColors.Primary;
+        BottomCoachButton.BackgroundColor = MyColors.Primary;
 
-        UserButton.BorderWidth = 0;
-        UserButton.BackgroundColor = Color.FromHex("#A6A6A6");
-        UserButton.TextColor = Color.FromHex("#FFFFFF");
-
+        UserButton.TextColor = MyColors.MyText;
+        BottomUserButton.BackgroundColor = Colors.Transparent;
     }
+    #endregion
+
+    #region Bottom button
     async void OnSendButtonClicked(object sender, EventArgs e)
     {
+        Information.Text = string.Empty;
+
         if (!DataTools.CheckEmail(UserM.Email))
         {
             Information.Text = "B³êdny adres email";
             return;
         }
 
-        if (Password2 == string.Empty || UserM.Haslo == string.Empty)
+        if (Password2 == string.Empty || UserM.Haslo == string.Empty || Password2 == null || UserM.Haslo == null)
         {
             Information.Text = "Wpisz has³o do dwóch pól.";
             return;
@@ -160,7 +163,7 @@ public partial class RegistrationPage : ContentPage
             return;
         }
 
-        if (UserM.Imie == string.Empty)
+        if (UserM.Imie == string.Empty || UserM.Imie == null)
         {
             Information.Text = "Wpisz imiê.";
             return;
@@ -185,4 +188,5 @@ public partial class RegistrationPage : ContentPage
             Information.Text = answer;
         }
     }
+    #endregion
 }

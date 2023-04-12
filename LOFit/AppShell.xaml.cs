@@ -1,6 +1,4 @@
-﻿using LOFit.Pages;
-using LOFit.Pages.Central;
-using LOFit.Pages.Menu;
+﻿using LOFit.Pages.Menu;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Login;
 using LOFit.Pages.Measures;
@@ -21,8 +19,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("Login", typeof(LoginPage));
         Routing.RegisterRoute(nameof(ChangePasswordPage), typeof(ChangePasswordPage));
 		Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
-
-		Routing.RegisterRoute(nameof(CentralCoachPage), typeof(CentralCoachPage));
 
         Routing.RegisterRoute(nameof(SettingsUserPage), typeof(SettingsUserPage));
         Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));

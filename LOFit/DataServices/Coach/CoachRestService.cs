@@ -24,6 +24,41 @@ namespace LOFit.DataServices.Coach
             };
         }
         // TokenGetModel
+        public async Task<CoachModel> GetOne(int id)
+        {
+            CoachModel model = new CoachModel();
+
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                return null;
+            }
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    model = JsonSerializer.Deserialize<CoachModel>(responseContent, _jsonSerializaerOptions);
+
+                    return model;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<List<CoachModel>> GetAll()
         {
             List<CoachModel> list = new List<CoachModel>();

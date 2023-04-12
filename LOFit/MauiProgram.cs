@@ -1,5 +1,7 @@
 ﻿using LOFit.DataServices.Admin;
+using LOFit.DataServices.Certificate;
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.Connection;
 using LOFit.DataServices.Login;
 using LOFit.DataServices.Meals;
 using LOFit.DataServices.Measurement;
@@ -9,7 +11,6 @@ using LOFit.DataServices.Workout;
 using LOFit.DataServices.Workouts;
 using LOFit.Pages.Admin;
 using LOFit.Pages.Admin.VerifyLists;
-using LOFit.Pages.Central;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Login;
 using LOFit.Pages.Meals;
@@ -32,12 +33,14 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        //builder.Services.AddSingleton<IRestDataService, RestDataService>();
         builder.Services.AddHttpClient<IAdminRestService, AdminRestService>();
+        builder.Services.AddHttpClient<ICertificateRestService, CertificateRestService>();
         builder.Services.AddHttpClient<ICoachRestService, CoachRestService>();
+        builder.Services.AddHttpClient<IConnectionRestService, ConnectionRestService>();
         builder.Services.AddHttpClient<ILoginRestService, LoginRestService>();
         builder.Services.AddHttpClient<IMeasurementRestService, MeasurementRestService>();
         builder.Services.AddHttpClient<IMealRestService, MealRestService>();
+        builder.Services.AddHttpClient<IOpinionRestService, OpinionRestService>();
         builder.Services.AddHttpClient<IProductRestService, ProductRestService>();
         builder.Services.AddHttpClient<IRegistrationRestService, RegistrationRestService>();
         builder.Services.AddHttpClient<IWorkoutRestService, WorkoutRestService>();
@@ -76,9 +79,6 @@ public static class MauiProgram
         builder.Services.AddTransient<VerifyReportPage>();
         builder.Services.AddTransient<VerifyAppUsersPage>();
 
-
-        // Coach
-        builder.Services.AddTransient<CentralCoachPage>();
 
         return builder.Build();
     }

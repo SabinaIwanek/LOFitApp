@@ -1,8 +1,10 @@
+using LOFit.DataServices.Certificate;
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.Connection;
+using LOFit.Enums;
 using LOFit.Models;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
-using Microsoft.Maui.Controls;
 
 namespace LOFit.Pages.Coachs;
 
@@ -10,6 +12,10 @@ namespace LOFit.Pages.Coachs;
 public partial class CoachPage : ContentPage
 {
     private readonly ICoachRestService _dataService;
+    private readonly ICertificateRestService _dataServiceCert;
+    private readonly IOpinionRestService _dataServiceOpinion;
+    private readonly IConnectionRestService _dataServiceConn;
+    private List<Button> _buttons;
 
     #region Binding prop
 
@@ -26,6 +32,27 @@ public partial class CoachPage : ContentPage
                 Ocena = _model.Ocena();
                 TypTrenera = _model.TypTrenera();
                 CenaUslugi = _model.CenaUslugi();
+                ListLoadCertyf();
+                if (Singleton.Instance.Type == TypKonta.Uzytkownik) LoadMyOpinion();
+            }
+            OnPropertyChanged();
+        }
+    }
+
+    OpinionModel _opinia;
+    public OpinionModel Opinia
+    {
+        get { return _opinia; }
+        set
+        {
+            _opinia = value;
+            if (_opinia == null || _opinia.Id == 0)
+            {
+                ButtonSaveOpinion.Text = "Dodaj";
+            }
+            else
+            {
+                ButtonSaveOpinion.Text = "Zmieñ";
             }
             OnPropertyChanged();
         }
@@ -60,14 +87,24 @@ public partial class CoachPage : ContentPage
     }
     #endregion
 
-    public CoachPage(ICoachRestService dataService)
+    public CoachPage(ICoachRestService dataService, ICertificateRestService dataServiceCert, IOpinionRestService dataServiceOpinion, IConnectionRestService dataServiceConn)
     {
         InitializeComponent();
         _dataService = dataService;
+        _dataServiceCert = dataServiceCert;
+        _dataServiceOpinion = dataServiceOpinion;
+        _dataServiceConn = dataServiceConn;
+
         BindingContext = this;
+        _buttons = new List<Button>() { Button1, Button2, Button3 };
+
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            ButtonSelect.IsVisible= false;
+        }
 
         #region Swipe right
-        SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
+            SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
         {
             Direction = SwipeDirection.Right
         };
@@ -78,6 +115,7 @@ public partial class CoachPage : ContentPage
         };
 
         Content.GestureRecognizers.Add(swipeGestureRight);
+        _dataServiceOpinion = dataServiceOpinion;
         #endregion
     }
 
@@ -113,15 +151,120 @@ public partial class CoachPage : ContentPage
     #region Lists
     async void OnLoadListClicked(object sender, EventArgs e)
     {
+        DataTools.ButtonNotClicked(_buttons);
+
         var button = (Button)sender;
         var property = button.CommandParameter.ToString();
-        if (property == "Certyf") ;
-        if (property == "Opinie") ;
-        if (property == "Kalend") ;
+
+        if (property == "Certyf")
+        {
+            collectionViewOpinie.IsVisible = false;
+            collectionViewCertyf.IsVisible = true;
+            GridDodajOpinie.IsVisible = false;
+            DataTools.ButtonClicked(_buttons[0]);
+
+            ListLoadCertyf();
+        }
+        if (property == "Opinie")
+        {
+            collectionViewOpinie.IsVisible = true;
+            collectionViewCertyf.IsVisible = false;
+            if (Singleton.Instance.Type == TypKonta.Uzytkownik) GridDodajOpinie.IsVisible = true;
+            
+            DataTools.ButtonClicked(_buttons[1]);
+
+            ListLoadOpinie();
+        }
+        if (property == "Kalend")
+        {
+            collectionViewOpinie.IsVisible = false;
+            collectionViewCertyf.IsVisible = false;
+            DataTools.ButtonClicked(_buttons[2]);
+        }
     }
+
+    #region Certyfikaty
     async void ListLoadCertyf()
     {
-        collectionView.ItemsSource = await _dataService.();
+        collectionViewCertyf.ItemsSource = await _dataServiceCert.GetCoachList(CoachM.Id);
+    }
+
+    // Trenerzy
+    async void OnCertClicked(object sender, SelectionChangedEventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            bool result = await DisplayAlert("Usuñ certyfikat", "Czy chcesz usun¹æ certyfikat?", "Tak", "Nie");
+
+            if (result)
+            {
+                CertificateModel model = e.CurrentSelection.FirstOrDefault() as CertificateModel;
+                await _dataServiceCert.Delete(model.Id);
+            }
+            ListLoadCertyf();
+        }
+    }
+    #endregion
+
+    #region Opinie
+    async void ListLoadOpinie()
+    {
+        collectionViewOpinie.ItemsSource = await _dataServiceOpinion.GetCoachList(CoachM.Id);
+    }
+    async void LoadMyOpinion()
+    {
+        Opinia = await _dataServiceOpinion.GetMyOpinion(CoachM.Id);
+    }
+
+    // Users
+    async void OnSendOpinionClicked(object sender, EventArgs e)
+    {
+        Opinia.Id_trenera = CoachM.Id;
+        if (Opinia.Opis_zgloszenia == null) Opinia.Opis_zgloszenia = "";
+
+        if (Opinia.Id == 0) await _dataServiceOpinion.Add(Opinia);
+        else await _dataServiceOpinion.Update(Opinia);
+
+        LoadMyOpinion();
+        ListLoadOpinie();
+    }
+    // Trenerzy
+    async void OnOpinionClicked(object sender, SelectionChangedEventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            bool result = await DisplayAlert("Zg³oœ opiniê", "Czy chcesz zg³osiæ opiniê?", "Tak", "Nie");
+
+            if (result)
+            {
+                OpinionModel model = e.CurrentSelection.FirstOrDefault() as OpinionModel;
+                model.Zgloszona = 1;
+                await _dataServiceOpinion.Update(model);
+            }
+            ListLoadOpinie();
+        }
+    }
+    #endregion
+
+
+
+
+    #endregion
+
+    #region Bottom button
+    async void OnSelectButtonClicked(object sender, EventArgs e)
+    {
+        bool result = await DisplayAlert("Wybierz trenera", "Czy chcesz, aby wybrany trener mia³ podgl¹d do Twoich danych?", "Tak", "Nie");
+
+        if(result)
+        {
+            ConnectionModel model = new ConnectionModel();
+            model.Id_trenera = CoachM.Id;
+            model.Czas_od = DateTime.Now;
+            model.Zatwierdzone = 0;
+
+            await _dataServiceConn.Add(model);
+        }
     }
     #endregion
 }

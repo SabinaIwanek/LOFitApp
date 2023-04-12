@@ -1,20 +1,20 @@
 using LOFit.DataServices.Coach;
-using LOFit.Enums;
+using LOFit.DataServices.Connection;
 using LOFit.Models;
-using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Coachs;
 
-public partial class CoachsPage : ContentPage
+public partial class ConnectionsPage : ContentPage
 {
-
-    private readonly ICoachRestService _dataService;
-    public CoachsPage(ICoachRestService dataService)
+    private readonly IConnectionRestService _dataService;
+    private readonly ICoachRestService _dataServiceCoach;
+    public ConnectionsPage(IConnectionRestService dataService, ICoachRestService dataServiceCoach)
 	{
 		InitializeComponent();
         _dataService = dataService;
+        _dataServiceCoach = dataServiceCoach;
         ListLoad();
 
         #region Swipe right
@@ -32,15 +32,16 @@ public partial class CoachsPage : ContentPage
     #region Swiped
     async void OnSwipeRight()
     {
-        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-        {
-            Shell.Current.GoToAsync(nameof(MeasurementPage));
-        }
-    }
-    async void OnSwipeLeft()
-    {
+        CoachModel model = await _dataServiceCoach.GetOne(-1);
 
+        var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), model}
+                };
+
+        await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
     }
+
     #endregion
 
     #region Menu buttons
@@ -74,18 +75,20 @@ public partial class CoachsPage : ContentPage
     #endregion
     async void ListLoad()
     {
-        collectionView.ItemsSource = ListModelTools.ReturnCoachList(await _dataService.GetAll());
+        collectionView.ItemsSource = await _dataService.GetCoachList(-1);
     }
 
-    async void OnCoachClicked(object sender, SelectionChangedEventArgs e)
+    async void OnConnectionClicked(object sender, SelectionChangedEventArgs e)
     {
-        CoachListModel model = e.CurrentSelection.FirstOrDefault() as CoachListModel;
+        bool result = await DisplayAlert("Pwo¹zanie", "Czy potwierdziæ powi¹zanie?", "Tak", "Nie");
 
-        var navigationParameter = new Dictionary<string, object>
+        if (result)
         {
-            { nameof(CoachModel), model.Coach as CoachModel}
-        };
+            
+        }
+        else
+        {
 
-        await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
+        }
     }
 }

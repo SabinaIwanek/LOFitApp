@@ -34,8 +34,8 @@ namespace LOFit.Models
             }
         }
 
-        private string? _opis_zgloszenia;
-        public string? Opis_zgloszenia
+        private string _opis_zgloszenia;
+        public string Opis_zgloszenia
         {
             get => _opis_zgloszenia;
             set

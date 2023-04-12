@@ -1,12 +1,10 @@
 using LOFit.DataServices.Measurement;
 using LOFit.Models;
-using LOFit.Pages.Central;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Menu;
 using LOFit.Pages.Workouts;
 using LOFit.Tools;
-using Microsoft.Maui.ApplicationModel;
 
 namespace LOFit.Pages.Measures;
 
