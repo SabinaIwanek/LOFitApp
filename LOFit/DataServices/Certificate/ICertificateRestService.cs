@@ -4,7 +4,7 @@ namespace LOFit.DataServices.Certificate
 {
     public interface ICertificateRestService
     { 
-        Task<int> Add(CertificateModel form);
+        Task<string> Add(CertificateModel form);
         Task<string> Update(CertificateModel form);
         Task<string> Delete(int id);
         Task<CertificateModel> GetOne(int id);

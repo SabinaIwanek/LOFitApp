@@ -14,7 +14,7 @@
 
     <StackLayout>
 
-        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" x:Name="Header1">
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" x:Name="Header1" IsVisible="false">
             <Label Text="Moi trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30"/>
         </HorizontalStackLayout>
         
@@ -59,7 +59,7 @@
 
     </CollectionView>
 
-        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" x:Name="Header2">
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" x:Name="Header2" IsVisible="false">
             <Label Text="Inni trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30"/>
         </HorizontalStackLayout>
 

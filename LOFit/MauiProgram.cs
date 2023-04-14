@@ -60,6 +60,8 @@ public static class MauiProgram
         // Users
         builder.Services.AddTransient<CoachsPage>();
         builder.Services.AddTransient<CoachPage>();
+        builder.Services.AddTransient<CertificatePage>();
+        builder.Services.AddTransient<ConnectionsPage>();
 
         builder.Services.AddTransient<MeasurementPage>();
 

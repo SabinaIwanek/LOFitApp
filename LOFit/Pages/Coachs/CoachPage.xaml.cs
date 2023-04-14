@@ -4,6 +4,7 @@ using LOFit.DataServices.Connection;
 using LOFit.Enums;
 using LOFit.Models;
 using LOFit.Pages.Menu;
+using LOFit.Resources.Styles;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Coachs;
@@ -17,6 +18,7 @@ public partial class CoachPage : ContentPage
     private readonly IConnectionRestService _dataServiceConn;
     private List<Button> _buttons;
     private int _type;
+    private bool _isUserProfile;
 
     #region Binding prop
 
@@ -29,16 +31,40 @@ public partial class CoachPage : ContentPage
             _model = value;
             if (_model != null)
             {
+                _isUserProfile = _model.Id == Singleton.Instance.IdTrenera;
+
                 Wizytowka = _model.Wizytowka();
                 Ocena = _model.Ocena();
                 TypTrenera = _model.TypTrenera();
                 CenaUslugi = _model.CenaUslugi();
                 ListLoadCertyf();
-                LoadOnSelectButtonClickedText();
 
-                if (Singleton.Instance.Type == TypKonta.Uzytkownik) LoadMyOpinion();
+                if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+                {
+                    LoadMyOpinion();
+                    LoadOnSelectButtonClickedText();
+                    GridDodajOpinie.IsVisible = true;
+                    ButtonAddCert.IsVisible = false;
+                    ButtonSelect.IsVisible = true;
+                    ButtonOpisEdit.IsVisible = false;
+                }
+                else if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
+                {
+                    GridDodajOpinie.IsVisible = false;
+                    ButtonAddCert.IsVisible = true;
+                    ButtonSelect.IsVisible = false;
+                    ButtonOpisEdit.IsVisible = true;
+                }
+                else if(Singleton.Instance.Type == TypKonta.Administrator)
+                {
+                    GridDodajOpinie.IsVisible = false;
+                    ButtonAddCert.IsVisible = false;
+                    ButtonSelect.IsVisible = false;
+                    ButtonOpisEdit.IsVisible = false;
+                }
+
+                OnPropertyChanged();
             }
-            OnPropertyChanged();
         }
     }
 
@@ -96,15 +122,10 @@ public partial class CoachPage : ContentPage
         _dataService = dataService;
         _dataServiceCert = dataServiceCert;
         _dataServiceOpinion = dataServiceOpinion;
-        _dataServiceConn = dataServiceConn;
+        _dataServiceConn = dataServiceConn; 
 
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3 };
-
-        if (Singleton.Instance.Type == TypKonta.Trener)
-        {
-            ButtonSelect.IsVisible= false;
-        }
 
         #region Swipe right
             SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
@@ -151,6 +172,24 @@ public partial class CoachPage : ContentPage
     }
     #endregion
 
+    #region Coach Info
+
+    async void OnEditCicked(object sender, EventArgs e)
+    {
+        EntryOpisEdit.IsReadOnly = !EntryOpisEdit.IsReadOnly;
+
+        if (EntryOpisEdit.IsReadOnly)
+        {
+            EntryOpisEdit.BackgroundColor = Colors.Transparent;
+           // await _dataService.Update(CoachM);
+        }
+        else
+        {
+            EntryOpisEdit.BackgroundColor = MyColors.MyEntryBg;
+        }
+    }
+    #endregion
+
     #region Lists
     void OnLoadListClicked(object sender, EventArgs e)
     {
@@ -164,7 +203,9 @@ public partial class CoachPage : ContentPage
             collectionViewOpinie.IsVisible = false;
             collectionViewCertyf.IsVisible = true;
             GridDodajOpinie.IsVisible = false;
-            DataTools.ButtonClicked(_buttons[0]);
+            if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile) ButtonAddCert.IsVisible = true;
+
+                DataTools.ButtonClicked(_buttons[0]);
 
             ListLoadCertyf();
         }
@@ -173,7 +214,8 @@ public partial class CoachPage : ContentPage
             collectionViewOpinie.IsVisible = true;
             collectionViewCertyf.IsVisible = false;
             if (Singleton.Instance.Type == TypKonta.Uzytkownik) GridDodajOpinie.IsVisible = true;
-            
+            ButtonAddCert.IsVisible = false;
+
             DataTools.ButtonClicked(_buttons[1]);
 
             ListLoadOpinie();
@@ -182,6 +224,9 @@ public partial class CoachPage : ContentPage
         {
             collectionViewOpinie.IsVisible = false;
             collectionViewCertyf.IsVisible = false;
+            GridDodajOpinie.IsVisible = false;
+            ButtonAddCert.IsVisible = false;
+
             DataTools.ButtonClicked(_buttons[2]);
         }
     }
@@ -205,6 +250,18 @@ public partial class CoachPage : ContentPage
                 await _dataServiceCert.Delete(model.Id);
             }
             ListLoadCertyf();
+        }
+    }
+    async void OnAddCertClcked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            var navigationParameter = new Dictionary<string, object>
+            {
+                    { nameof(CertificateModel), new CertificateModel() }
+            };
+
+            await Shell.Current.GoToAsync(nameof(CertificatePage), navigationParameter);
         }
     }
     #endregion
@@ -248,9 +305,6 @@ public partial class CoachPage : ContentPage
         }
     }
     #endregion
-
-
-
 
     #endregion
 

@@ -10,6 +10,7 @@ namespace LOFit.Tools
         public TypKonta? Type;
         public string User;
         public DateTime DateToShow;
+        public int IdTrenera;
         Singleton()
         {
             Token = string.Empty;

@@ -152,7 +152,7 @@ public partial class WorkoutPage : ContentPage
     #endregion
 
     #region Workout buttons
-    async void OnButtonAddWorkoutClicked(object sender, EventArgs e)
+    void OnButtonAddWorkoutClicked(object sender, EventArgs e)
     {
         DataTools.ButtonClicked(ButtonAddWorkout);
         DataTools.ButtonNotClicked(ButtonMyList);
@@ -213,7 +213,7 @@ public partial class WorkoutPage : ContentPage
             answer = await _dataService.Update(Model);
 
         if (answer == "Ok")
-            Shell.Current.GoToAsync(nameof(WorkoutsPage));
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
     }
     #endregion
 }

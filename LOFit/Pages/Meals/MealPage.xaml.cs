@@ -202,7 +202,7 @@ public partial class MealPage : ContentPage
     #endregion
 
     #region Product buttons
-    async void OnButtonAddProdClicked(object sender, EventArgs e)
+    void OnButtonAddProdClicked(object sender, EventArgs e)
     {
         DataTools.ButtonClicked(ButtonAddProd);
         DataTools.ButtonNotClicked(ButtonMyList);

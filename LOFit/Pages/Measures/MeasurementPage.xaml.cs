@@ -200,6 +200,26 @@ public partial class MeasurementPage : ContentPage
         Model = new MeasurementModel(_weekModels[6]);
         DateCalendar = Model.Data_pomiaru;
     }
+
+    private async void EntryWeekButtons(DateTime date)
+    {
+        _firstDayWeek = DataTools.ReturnFirstDayWeek(date);
+        _weekModels = new List<MeasurementModel>();
+
+        _buttonsWorking = false;
+
+        int buttonIndex = DataTools.ButtonClicked(date.DayOfWeek, _buttons);
+
+        _weekModels = await _dataService.GetWeek(_firstDayWeek);
+        Model = await Task.Run(() => new MeasurementModel(_weekModels[buttonIndex]));
+
+        for (int i = 0; i < 7; i++)
+        {
+            _buttons[i].Text = _firstDayWeek.AddDays(i).ToString("dd.MM");
+        }
+
+        _buttonsWorking = true;
+    }
     #endregion
 
     #region Plus / Minus
@@ -249,23 +269,4 @@ public partial class MeasurementPage : ContentPage
     }
     #endregion
 
-    private async void EntryWeekButtons(DateTime date)
-    {
-        _firstDayWeek = DataTools.ReturnFirstDayWeek(date);
-        _weekModels = new List<MeasurementModel>();
-
-        _buttonsWorking = false;
-
-        int buttonIndex = DataTools.ButtonClicked(date.DayOfWeek, _buttons);
-
-        _weekModels = await _dataService.GetWeek(_firstDayWeek);
-        Model = await Task.Run(() => new MeasurementModel(_weekModels[buttonIndex]));
-
-        for (int i = 0; i < 7; i++)
-        {
-            _buttons[i].Text = _firstDayWeek.AddDays(i).ToString("dd.MM");
-        }
-
-        _buttonsWorking = true;
-    }
 }

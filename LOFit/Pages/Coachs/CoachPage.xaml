@@ -39,6 +39,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="6" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
@@ -60,7 +61,8 @@
                     <Label Grid.Column="1" Grid.Row="5" Text="Numer telefonu: " />
                     <Label Grid.Column="2" Grid.Row="5" Text="{Binding Path=CoachM.Nr_telefonu}" />
 
-                    <Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" Text="{Binding Path=CoachM.Opis_profilu}"  />
+                    <Entry x:Name="EntryOpisEdit" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" Text="{Binding Path=CoachM.Opis_profilu}" IsReadOnly="true"  BackgroundColor="Transparent" />
+                    <Button x:Name="ButtonOpisEdit" Grid.Column="2" Grid.Row="6" Clicked="OnEditCicked" Text="Edytuj opis" Margin="30" IsVisible="false"/>
 
                 </Grid>
 
@@ -75,13 +77,14 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" Text="Certyfikaty" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Certyf"/>
                     <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" Text="Opinie" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Opinie" BackgroundColor="{StaticResource MyText}"/>
                     <Button Grid.Column="2" Grid.Row="0" x:Name="Button3" Text="Kalendarz" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Kalend" BackgroundColor="{StaticResource MyText}"/>
 
-                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" IsVisible="false">
+                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" IsVisible="false" >
                         <HorizontalStackLayout>
                             <Entry x:Name="EntryOcena" Text="{Binding Opinia.Ocena}" />
                             <Entry x:Name="EntryOpis" Text="{Binding Opinia.Opis}" />
@@ -151,6 +154,9 @@
 
                         </CollectionView>
                     </Grid>
+
+                    <Button x:Name="ButtonAddCert" Grid.Column="2" Grid.Row="3" Clicked="OnAddCertClcked" Text="Dodaj" Margin="30" IsVisible="false"/>
+
                 </Grid>
 
             </StackLayout>

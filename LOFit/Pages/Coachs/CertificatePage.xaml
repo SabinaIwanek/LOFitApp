@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Coachs.CertificatePage"
+             Title="Certyfikat">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Zmien tryb" Clicked="OnChangeThemeClicked" Order="Secondary" />
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+
+        <!--ZAWARTOSC-->
+        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Grid HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Text="Nazwa: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="0" Text="{Binding Path=ModelC.Nazwa}" />
+
+                <Label Grid.Column="0" Grid.Row="1" Text="Organizacja: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="1" Text="{Binding Path=ModelC.Organizacja}" />
+
+                <Label Grid.Column="0" Grid.Row="2" Text="Data certyfikatu: " VerticalOptions="Center"/>
+                <DatePicker Grid.Column="1" Grid.Row="2" Date="{Binding DateCalendar}" FontSize="30"/>
+
+                <Label Grid.Column="0" Grid.Row="3" Text="Kod certyfikatu: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="3" Text="{Binding Path=ModelC.Kod_certyfikatu}" />
+
+            </Grid>
+        </ScrollView>
+
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

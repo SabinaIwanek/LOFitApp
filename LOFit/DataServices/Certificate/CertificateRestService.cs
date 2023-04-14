@@ -25,11 +25,11 @@ namespace LOFit.DataServices.Certificate
             };
         }
 
-        public async Task<int> Add(CertificateModel form)
+        public async Task<string> Add(CertificateModel form)
         {
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
-                return 0;
+                return "Brak połączenia z internetem...";
             }
 
             try
@@ -47,16 +47,16 @@ namespace LOFit.DataServices.Certificate
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
 
-                    return JsonSerializer.Deserialize<int>(responseContent, _jsonSerializaerOptions);
+                    return responseContent;
                 }
                 else
                 {
-                    return 0;
+                    return null;
                 }
             }
             catch (Exception ex)
             {
-                return 0;
+                return $"ERROR: {ex}";
             }
         }
         public async Task<string> Update(CertificateModel form)
