@@ -10,5 +10,7 @@ namespace LOFit.DataServices.Connection
         Task<List<ConnectionModel>> GetCoachList(int id);
         Task<List<ConnectionModel>> GetUserList(int id);
         Task<int> GetCoachState(int id);
+        Task<string> UpdateStateOk(int id);
+        Task<string> UpdateStateNo(int id);
     }
 }

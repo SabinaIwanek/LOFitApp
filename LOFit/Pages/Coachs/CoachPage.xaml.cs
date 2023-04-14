@@ -128,20 +128,37 @@ public partial class CoachPage : ContentPage
         _buttons = new List<Button>() { Button1, Button2, Button3 };
 
         #region Swipe right
-            SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
+        SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
         {
             Direction = SwipeDirection.Right
         };
 
-        swipeGestureRight.Swiped += (s, e) =>
-        {
-            Shell.Current.GoToAsync(nameof(CoachsPage));
-        };
+        swipeGestureRight.Swiped += (s, e) => OnRightSwiped();
 
         Content.GestureRecognizers.Add(swipeGestureRight);
-        _dataServiceOpinion = dataServiceOpinion;
+        #endregion
+
+        #region Swipe left
+        SwipeGestureRecognizer swipeGestureLeft = new SwipeGestureRecognizer
+        {
+            Direction = SwipeDirection.Left
+        };
+
+        swipeGestureLeft.Swiped += (s, e) => OnLeftSwiped();
+
+        Content.GestureRecognizers.Add(swipeGestureLeft);
         #endregion
     }
+    #region Swipe
+    async void OnRightSwiped()
+    {
+        if(!_isUserProfile) await Shell.Current.GoToAsync(nameof(CoachsPage));
+    }
+    async void OnLeftSwiped()
+    {
+        await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+    }
+    #endregion
 
     #region Menu buttons
     async void OnCoachsClicked(object sender, EventArgs e)
@@ -181,11 +198,15 @@ public partial class CoachPage : ContentPage
         if (EntryOpisEdit.IsReadOnly)
         {
             EntryOpisEdit.BackgroundColor = Colors.Transparent;
-           // await _dataService.Update(CoachM);
+
+            string answer =await _dataService.Update(CoachM);
+
+            if(answer == "Ok") ButtonOpisEdit.Text = "Zmieñ opis";
         }
         else
         {
             EntryOpisEdit.BackgroundColor = MyColors.MyEntryBg;
+            ButtonOpisEdit.Text = "Zapisz";
         }
     }
     #endregion
@@ -240,7 +261,7 @@ public partial class CoachPage : ContentPage
     // Trenerzy
     async void OnCertClicked(object sender, SelectionChangedEventArgs e)
     {
-        if (Singleton.Instance.Type == TypKonta.Trener)
+        if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
         {
             bool result = await DisplayAlert("Usuñ certyfikat", "Czy chcesz usun¹æ certyfikat?", "Tak", "Nie");
 
@@ -254,7 +275,7 @@ public partial class CoachPage : ContentPage
     }
     async void OnAddCertClcked(object sender, EventArgs e)
     {
-        if (Singleton.Instance.Type == TypKonta.Trener)
+        if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
         {
             var navigationParameter = new Dictionary<string, object>
             {
@@ -291,7 +312,7 @@ public partial class CoachPage : ContentPage
     // Trenerzy
     async void OnOpinionClicked(object sender, SelectionChangedEventArgs e)
     {
-        if (Singleton.Instance.Type == TypKonta.Trener)
+        if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
         {
             bool result = await DisplayAlert("Zg³oœ opiniê", "Czy chcesz zg³osiæ opiniê?", "Tak", "Nie");
 

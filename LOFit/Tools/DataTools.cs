@@ -113,6 +113,11 @@ namespace LOFit.Tools
         {
             button.Background = MyColors.Primary;
         }
+        public static void ButtonClicked(Button button, Grid grid)
+        {
+            button.TextColor = MyColors.Primary;
+            grid.BackgroundColor = MyColors.Primary;
+        }
         public static void ButtonNotClicked(Button button)
         {
             button.Background = MyColors.MyText;
@@ -124,6 +129,19 @@ namespace LOFit.Tools
                 button.Background = MyColors.MyText;
             }
         }
+        public static void ButtonNotClicked(List<Button> buttons, List<Grid> grids)
+        {
+            foreach (var button in buttons)
+            {
+                button.TextColor = MyColors.MyText;
+            }
+
+            foreach (var grid in grids)
+            {
+                grid.BackgroundColor = Colors.Transparent;
+            }
+        }
+
         public static void ButtonSwitch(Button buttonPress, Button buttonUp)
         {
             if (buttonPress == buttonUp)

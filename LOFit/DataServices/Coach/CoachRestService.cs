@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 using LOFit.Tools;
+using System.Text;
 
 namespace LOFit.DataServices.Coach
 {
@@ -48,6 +49,38 @@ namespace LOFit.DataServices.Coach
                     model = JsonSerializer.Deserialize<CoachModel>(responseContent, _jsonSerializaerOptions);
 
                     return model;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<string> Update(CoachModel form)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                return "Brak połączenia z internetem...";
+            }
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                string jsonBody = JsonSerializer.Serialize(form, _jsonSerializaerOptions);
+                StringContent content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Ok";
                 }
                 else
                 {

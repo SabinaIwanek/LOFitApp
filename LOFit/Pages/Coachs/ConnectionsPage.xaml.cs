@@ -3,6 +3,7 @@ using LOFit.DataServices.Connection;
 using LOFit.Models;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
+using System.Runtime.InteropServices;
 
 namespace LOFit.Pages.Coachs;
 
@@ -10,12 +11,18 @@ public partial class ConnectionsPage : ContentPage
 {
     private readonly IConnectionRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
+    private List<Button> _buttons;
+    private List<Grid> _grids;
+    private int _type;
+
     public ConnectionsPage(IConnectionRestService dataService, ICoachRestService dataServiceCoach)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
-        ListLoad();
+        _buttons = new List<Button>() { NewButton, ActiveButton, HistoryButton };
+        _grids = new List<Grid>() { BottomNewButton, BottomActiveButton, BottomHistoryButton };
+        ListLoad(0);
 
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
@@ -73,9 +80,19 @@ public partial class ConnectionsPage : ContentPage
     }
 
     #endregion
-    async void ListLoad()
+
+    #region List
+    async void ListLoad(int type)
     {
-        collectionView.ItemsSource = await _dataService.GetCoachList(-1);
+        var list = await _dataService.GetCoachList(-1);
+
+        Dispatcher.Dispatch(() =>
+        {
+            if (type == 3)
+                collectionView.ItemsSource = list;
+            else
+                collectionView.ItemsSource = list.Where(x => x.Zatwierdzone == type);
+        });
     }
 
     async void OnConnectionClicked(object sender, SelectionChangedEventArgs e)
@@ -84,11 +101,40 @@ public partial class ConnectionsPage : ContentPage
 
         if (result)
         {
-            
         }
         else
         {
 
         }
     }
+    void OnListTypeClicked(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        _type = Int32.Parse((string)button.CommandParameter);
+
+        ListLoad(_type);
+
+        int index = _type;
+        if (_type == 3) index = 2;
+
+        DataTools.ButtonNotClicked(_buttons, _grids);
+        DataTools.ButtonClicked(_buttons[index], _grids[index]);
+    }
+    async void OnDecideOkClicked(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        var id = (int)button.CommandParameter;
+
+        await _dataService.UpdateStateOk(id);
+        ListLoad(_type);
+    }
+    async void OnDecideNoClicked(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        var id = (int)button.CommandParameter;
+
+        await _dataService.UpdateStateNo(id);
+        ListLoad(_type);
+    }
+    #endregion
 }

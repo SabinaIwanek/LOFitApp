@@ -25,6 +25,11 @@ namespace LOFit.Models
             }
         }
 
+        public void OK()
+        {
+
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
