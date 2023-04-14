@@ -21,7 +21,7 @@
 
     <StackLayout>
 
-        <ScrollView HorizontalOptions="Fill" VerticalOptions="Fill">
+        <ScrollView HorizontalOptions="Fill" VerticalOptions="StartAndExpand">
             <StackLayout>
 
                 <!--Wizytówka-->
@@ -156,7 +156,7 @@
             </StackLayout>
         </ScrollView>
 
-        <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+        <StackLayout Orientation="Horizontal" VerticalOptions="End">
             <Button x:Name="ButtonSelect" Text="Wybierz trenera" Clicked="OnSelectButtonClicked" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
         </StackLayout>
 

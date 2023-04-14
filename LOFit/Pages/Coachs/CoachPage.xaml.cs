@@ -16,6 +16,7 @@ public partial class CoachPage : ContentPage
     private readonly IOpinionRestService _dataServiceOpinion;
     private readonly IConnectionRestService _dataServiceConn;
     private List<Button> _buttons;
+    private int _type;
 
     #region Binding prop
 
@@ -33,6 +34,8 @@ public partial class CoachPage : ContentPage
                 TypTrenera = _model.TypTrenera();
                 CenaUslugi = _model.CenaUslugi();
                 ListLoadCertyf();
+                LoadOnSelectButtonClickedText();
+
                 if (Singleton.Instance.Type == TypKonta.Uzytkownik) LoadMyOpinion();
             }
             OnPropertyChanged();
@@ -149,7 +152,7 @@ public partial class CoachPage : ContentPage
     #endregion
 
     #region Lists
-    async void OnLoadListClicked(object sender, EventArgs e)
+    void OnLoadListClicked(object sender, EventArgs e)
     {
         DataTools.ButtonNotClicked(_buttons);
 
@@ -254,17 +257,64 @@ public partial class CoachPage : ContentPage
     #region Bottom button
     async void OnSelectButtonClicked(object sender, EventArgs e)
     {
-        bool result = await DisplayAlert("Wybierz trenera", "Czy chcesz, aby wybrany trener mia³ podgl¹d do Twoich danych?", "Tak", "Nie");
+        bool result = await DisplayAlert($"{ButtonSelect.Text}", "Czy aby na pewno?", "Tak", "Nie");
 
         if(result)
         {
-            ConnectionModel model = new ConnectionModel();
-            model.Id_trenera = CoachM.Id;
-            model.Czas_od = DateTime.Now;
-            model.Zatwierdzone = 0;
+            if(_type == 0)
+            {
+                List<ConnectionModel> connections = await _dataServiceConn.GetUserList(-1);
+                Dispatcher.Dispatch(() =>
+                {
+                    if (!connections.Any()) return;
+                    int? id = connections.Where(x => x.Id_trenera == CoachM.Id && x.Zatwierdzone == 0).Select(x => x.Id).FirstOrDefault();
 
-            await _dataServiceConn.Add(model);
+                    if (id == null) return;
+                    _dataServiceConn.Delete((int)id);
+                });
+            }
+            if (_type == 1)
+            {
+                List<ConnectionModel> connections = await _dataServiceConn.GetUserList(-1);
+                Dispatcher.Dispatch(() =>
+                {
+                    if (!connections.Any()) return;
+
+                    ConnectionModel model = connections.Where(x => x.Id_trenera == CoachM.Id && x.Zatwierdzone == 1 && (x.Czas_do ==null || x.Czas_do >= DateTime.Now)).FirstOrDefault();
+                    if (model == null) return;
+
+                    model.Czas_do = DateTime.Now;
+
+                    _dataServiceConn.Update(model);
+                });
+            }
+            if (_type == 2 || _type == 3)
+            {
+                ConnectionModel model = new ConnectionModel();
+                model.Id_trenera = CoachM.Id;
+                model.Czas_od = DateTime.Now;
+                model.Zatwierdzone = 0;
+
+                await _dataServiceConn.Add(model);
+            }
         }
+        Dispatcher.Dispatch(() =>
+        {
+            LoadOnSelectButtonClickedText();
+        });
+    }
+    async void LoadOnSelectButtonClickedText()
+    {
+        _type = await _dataServiceConn.GetCoachState(CoachM.Id);
+
+        Dispatcher.Dispatch(()=>
+        {
+            if (_type == 4) return;
+            if (_type == 0) ButtonSelect.Text = "Cofnij proœbê";
+            if (_type == 1) ButtonSelect.Text = "Zakoñcz powi¹zanie";
+            if (_type == 2) ButtonSelect.Text = "Ponów proœbê (ostatnia odrzucona)";
+            if (_type == 3) ButtonSelect.Text = "Wybierz trenera";
+        });
     }
     #endregion
 }
