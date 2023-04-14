@@ -34,13 +34,13 @@ public partial class CoachsPage : ContentPage
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
         {
-            Shell.Current.GoToAsync(nameof(MeasurementPage));
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
         }
     }
-    async void OnSwipeLeft()
+    /*async void OnSwipeLeft()
     {
 
-    }
+    }*/
     #endregion
 
     #region Menu buttons
@@ -72,9 +72,34 @@ public partial class CoachsPage : ContentPage
     }
 
     #endregion
+
+    #region Lists
     async void ListLoad()
     {
-        collectionView.ItemsSource = ListModelTools.ReturnCoachList(await _dataService.GetAll());
+        List<CoachListModel> myList = ListModelTools.ReturnCoachList(await _dataService.GetMy(1));
+        List<CoachListModel> list = ListModelTools.ReturnCoachList(await _dataService.GetAll());
+
+        foreach (var myCoach in myList)
+        {
+            list.Remove(list.Where(x => x.Coach.Id == myCoach.Coach.Id).First());
+        }
+
+        Dispatcher.Dispatch(() =>
+        {
+            collectionViewMyCoach.ItemsSource = myList;
+            collectionView.ItemsSource = list;
+
+            if (myList.Any())
+            {
+                Header1.IsVisible = true;
+                Header2.IsVisible = true;
+            }
+            else
+            {
+                Header1.IsVisible = false;
+                Header2.IsVisible = false;
+            }
+        });
     }
 
     async void OnCoachClicked(object sender, SelectionChangedEventArgs e)
@@ -88,4 +113,5 @@ public partial class CoachsPage : ContentPage
 
         await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
     }
+    #endregion
 }

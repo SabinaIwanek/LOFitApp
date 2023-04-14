@@ -91,6 +91,35 @@ namespace LOFit.DataServices.Connection
                 return null;
             }
         }
+        public async Task<string> Delete(int id)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                return "Brak połączenia z internetem...";
+            }
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Ok";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<List<ConnectionModel>> GetCoachList(int id)
         {
             List<ConnectionModel> model = new List<ConnectionModel>();
@@ -159,6 +188,37 @@ namespace LOFit.DataServices.Connection
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+        public async Task<int> GetCoachState(int id)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                return 4;
+            }
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/coachstate/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    return Int32.Parse(responseContent);
+                }
+                else
+                {
+                    return 4;
+                }
+            }
+            catch (Exception ex)
+            {
+                return 4;
             }
         }
 

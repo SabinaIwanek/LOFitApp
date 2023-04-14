@@ -94,5 +94,40 @@ namespace LOFit.DataServices.Coach
                 return null;
             }
         }
+        public async Task<List<CoachModel>> GetMy(int type)
+        {
+            List<CoachModel> list = new List<CoachModel>();
+
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                return null;
+            }
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/getmy/{type}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    list = JsonSerializer.Deserialize<List<CoachModel>>(responseContent, _jsonSerializaerOptions);
+
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

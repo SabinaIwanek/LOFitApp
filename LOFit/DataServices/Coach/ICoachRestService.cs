@@ -11,5 +11,6 @@ namespace LOFit.DataServices.Coach
     {
         Task<CoachModel> GetOne(int id);
         Task<List<CoachModel>> GetAll();
+        Task<List<CoachModel>> GetMy(int type);
     }
 }

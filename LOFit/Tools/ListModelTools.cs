@@ -7,6 +7,7 @@ namespace LOFit.Tools
         public static List<CoachListModel> ReturnCoachList(List<CoachModel> list)
         {
             List<CoachListModel> newList= new List<CoachListModel>();
+            if(list == null) return newList;
 
             foreach (CoachModel coach in list)
             {
