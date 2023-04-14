@@ -97,12 +97,7 @@ public partial class ConnectionsPage : ContentPage
 
     async void OnConnectionClicked(object sender, SelectionChangedEventArgs e)
     {
-        bool result = await DisplayAlert("Pwo¹zanie", "Czy potwierdziæ powi¹zanie?", "Tak", "Nie");
-
-        if (result)
-        {
-        }
-        else
+        if(_type == 1)
         {
 
         }
