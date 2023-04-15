@@ -1,6 +1,7 @@
 using LOFit.DataServices.Coach;
 using LOFit.DataServices.Connection;
 using LOFit.Models;
+using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
 using System.Runtime.InteropServices;
@@ -99,7 +100,10 @@ public partial class ConnectionsPage : ContentPage
     {
         if(_type == 1)
         {
+            var model = e.CurrentSelection.FirstOrDefault() as ConnectionModel;
+            Singleton.Instance.IdUsera = model.Id_usera;
 
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
         }
     }
     void OnListTypeClicked(object sender, EventArgs e)

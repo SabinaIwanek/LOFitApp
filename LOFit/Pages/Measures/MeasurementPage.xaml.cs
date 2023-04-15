@@ -1,4 +1,5 @@
 using LOFit.DataServices.Measurement;
+using LOFit.Enums;
 using LOFit.Models;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Meals;
@@ -210,7 +211,9 @@ public partial class MeasurementPage : ContentPage
 
         int buttonIndex = DataTools.ButtonClicked(date.DayOfWeek, _buttons);
 
-        _weekModels = await _dataService.GetWeek(_firstDayWeek);
+        if(Singleton.Instance.Type == TypKonta.Trener) _weekModels = await _dataService.GetWeek(_firstDayWeek, Singleton.Instance.IdUsera);
+        else _weekModels = await _dataService.GetWeek(_firstDayWeek);
+
         Model = await Task.Run(() => new MeasurementModel(_weekModels[buttonIndex]));
 
         for (int i = 0; i < 7; i++)
@@ -254,18 +257,21 @@ public partial class MeasurementPage : ContentPage
     #region Bottom menu
     async void OnModifyButtonClicked(object sender, EventArgs e)
     {
-        if (_isNew)
+        if(Singleton.Instance.Type == TypKonta.Uzytkownik)
         {
-            string answer = await _dataService.Add(Model);
+            if (_isNew)
+            {
+                string answer = await _dataService.Add(Model);
 
-            if (answer == "Ok")
-                _isNew = false;
+                if (answer == "Ok")
+                    _isNew = false;
+            }
+            else await _dataService.Update(Model);
+
+            // Odœwie¿anie
+            Model = Model;
+            EntryWeekButtons(Model.Data_pomiaru);
         }
-        else await _dataService.Update(Model);
-
-        // Odœwie¿anie
-        Model = Model;
-        EntryWeekButtons(Model.Data_pomiaru);
     }
     #endregion
 
