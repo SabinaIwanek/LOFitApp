@@ -123,6 +123,7 @@
         <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MyEntryBg}, Dark={StaticResource MyEntryBg}}"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="Format" Value="HH:mm:ss"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>

@@ -1,4 +1,4 @@
-﻿using LOFit.Models;
+﻿using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Meals
 {
@@ -8,6 +8,6 @@ namespace LOFit.DataServices.Meals
         Task<string> Update(MealModel form);
         Task<string> Delete(int id);
         Task<MealModel> GetOne(int id);
-        Task<List<MealModel>> GetUserList(DateTime date);
+        Task<List<MealModel>> GetUserList(DateTime date, int userId);
     }
 }

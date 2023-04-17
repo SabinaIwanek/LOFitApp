@@ -1,4 +1,4 @@
-﻿using LOFit.Models;
+﻿using LOFit.Models.ProfileMenu;
 
 namespace LOFit.DataServices.Connection
 {

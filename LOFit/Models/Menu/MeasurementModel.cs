@@ -1,26 +1,26 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Menu
 {
     public class MeasurementModel : INotifyPropertyChanged
     {
-        public MeasurementModel() {}
+        public MeasurementModel() { }
         public MeasurementModel(MeasurementModel model)
         {
-            Id= model.Id;
-            Id_usera= model.Id_usera;
+            Id = model.Id;
+            Id_usera = model.Id_usera;
             Data_pomiaru = model.Data_pomiaru;
             Waga = model.Waga;
             Procent_tluszczu = model.Procent_tluszczu;
             Biceps = model.Biceps;
             Klatka_piersiowa = model.Klatka_piersiowa;
             Pod_klatka_piersiowa = model.Pod_klatka_piersiowa;
-            Talia= model.Talia;
+            Talia = model.Talia;
             Pas = model.Pas;
             Posladki = model.Posladki;
             Udo = model.Udo;
             Kolano = model.Kolano;
-            Lydka= model.Lydka;
+            Lydka = model.Lydka;
         }
 
         public int Id { get; set; }

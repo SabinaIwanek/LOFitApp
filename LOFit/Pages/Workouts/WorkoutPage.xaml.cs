@@ -1,6 +1,7 @@
 using LOFit.DataServices.Workout;
 using LOFit.DataServices.Workouts;
-using LOFit.Models;
+using LOFit.Models.Accounts;
+using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Menu;
 using LOFit.Resources.Styles;
@@ -154,8 +155,8 @@ public partial class WorkoutPage : ContentPage
     #region Workout buttons
     void OnButtonAddWorkoutClicked(object sender, EventArgs e)
     {
-        DataTools.ButtonClicked(ButtonAddWorkout);
-        DataTools.ButtonNotClicked(ButtonMyList);
+        DataTools.ButtonClicked(ButtonAddWorkout, BottomAddWorkout);
+        DataTools.ButtonNotClicked(ButtonMyList, BottomMyList);
 
         IsNewWorkout(true);
         ModelWorkout = new WorkoutModel();
@@ -179,8 +180,8 @@ public partial class WorkoutPage : ContentPage
     }
     private void MyListClicked()
     {
-        DataTools.ButtonNotClicked(ButtonAddWorkout);
-        DataTools.ButtonClicked(ButtonMyList);
+        DataTools.ButtonNotClicked(ButtonAddWorkout, BottomAddWorkout);
+        DataTools.ButtonClicked(ButtonMyList, BottomMyList);
 
         IsNewWorkout(false);
     }
@@ -206,6 +207,7 @@ public partial class WorkoutPage : ContentPage
 
         Model.Data_czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, WorkoutTime.Hours, WorkoutTime.Minutes, WorkoutTime.Seconds);
         Model.Czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, WorkoutingTime.Hours, WorkoutingTime.Minutes, WorkoutingTime.Seconds);
+        Model.Id_usera = Singleton.Instance.IdUsera;
 
         if (_isNew)
             answer = await _dataService.Add(Model);

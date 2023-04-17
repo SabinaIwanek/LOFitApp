@@ -7,11 +7,11 @@
     <ContentPage.Resources>
         <Style TargetType="Entry">
             <Setter Property="Margin" Value="0,5" />
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="20" />
             <Setter Property="WidthRequest" Value="300" />
         </Style>
         <Style TargetType="Label">
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="20" />
             <Setter Property="Padding" Value="10,0,0,0" />
         </Style>
     </ContentPage.Resources>
@@ -26,18 +26,21 @@
 
     <StackLayout>
         <StackLayout Orientation="Vertical" HorizontalOptions="Center">
-            <Entry Text="{Binding Path=Model.Nazwa_dania}" BackgroundColor="{StaticResource MyBg}" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
-            <TimePicker Time="{Binding MealTime}" FontSize="30" HorizontalOptions="Center"/>
+            <Entry Text="{Binding Path=Model.Nazwa_dania}" BackgroundColor="{StaticResource MyBg}" FontSize="25" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+            <TimePicker Time="{Binding MealTime}" FontSize="20" HorizontalOptions="Center" />
         </StackLayout>
 
         <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Grid HorizontalOptions="Center">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="5" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -45,42 +48,43 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="50" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Text="Produkt" HorizontalOptions="Center"/>
+                <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" BackgroundColor="{StaticResource Primary}"/>
 
-                <Label Grid.Column="0" Grid.Row="1" Text="Nazwa: " VerticalOptions="Center"/>
-                <Entry x:Name="EntryNazwa" Grid.Column="1" Grid.Row="1" Text="{Binding Path=ModelProd.Nazwa}" HorizontalOptions="StartAndExpand"/>
+                <Button Grid.Column="0" Grid.Row="1" x:Name="ButtonAddProd" Text="Nowy" Clicked="OnButtonAddProdClicked" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="Small"/>
+                <Button Grid.Column="1" Grid.Row="1" x:Name="ButtonMyList" Text="Moja lista" Clicked="OnButtonMyListClicked" BackgroundColor="Transparent"  TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Small"/>
+                <Button Grid.Column="2" Grid.Row="1" x:Name="ButtonAppList" Text="Lista główna" Clicked="OnButtonAppListClicked" BackgroundColor="Transparent"  TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Small"/>
 
-                <Label Grid.Column="0" Grid.Row="2" Text="Ean: " VerticalOptions="Center"/>
-                <Entry x:Name="EntryEan" Grid.Column="1" Grid.Row="2" Text="{Binding Path=ModelProd.Ean}" HorizontalOptions="StartAndExpand"/>
+                <Grid Grid.Column="0" Grid.Row="2"  x:Name="BottomAddProd" BackgroundColor="{StaticResource Primary}"/>
+                <Grid Grid.Column="1" Grid.Row="2" x:Name="BottomMyList" />
+                <Grid Grid.Column="2" Grid.Row="2" x:Name="BottomAppList" />
 
-                <Label Grid.Column="0" Grid.Row="3" Text="Gramy: " VerticalOptions="Center"/>
-                <Entry Grid.Column="1" Grid.Row="3" Text="{Binding Path=Gramy}" HorizontalOptions="StartAndExpand"/>
+                <Label Grid.Column="0" Grid.Row="3" Text="Nazwa: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="3" x:Name="EntryNazwa"  Text="{Binding Path=ModelProd.Nazwa}" HorizontalOptions="StartAndExpand"/>
 
-                <Label Grid.Column="0" Grid.Row="4" Text="Kcla: " VerticalOptions="Center"/>
-                <Entry x:Name="EntryKcla" Grid.Column="1" Grid.Row="4" Text="{Binding Path=ModelProd.Kcla}" HorizontalOptions="StartAndExpand"/>
-                <Entry x:Name="CalculatedKcla" Grid.Column="1" Grid.Row="4" Text="{Binding Kcla}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+                <Label Grid.Column="0" Grid.Row="4" Text="Ean: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="4"  x:Name="EntryEan" Text="{Binding Path=ModelProd.Ean}" HorizontalOptions="StartAndExpand"/>
 
-                <Label Grid.Column="0" Grid.Row="5" Text="Białko: " VerticalOptions="Center"/>
-                <Entry x:Name="EntryBialko" Grid.Column="1" Grid.Row="5" Text="{Binding Path=ModelProd.Bialko}" HorizontalOptions="StartAndExpand"/>
-                <Entry x:Name="CalculatedBialko" Grid.Column="1" Grid.Row="5" Text="{Binding Bialko}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+                <Label Grid.Column="0" Grid.Row="5" Text="Gramy: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="5" Text="{Binding Path=Gramy}" HorizontalOptions="StartAndExpand"/>
 
-                <Label Grid.Column="0" Grid.Row="6" Text="Tłuszcze: " VerticalOptions="Center"/>
-                <Entry x:Name="EntryTluszcze" Grid.Column="1" Grid.Row="6" Text="{Binding Path=ModelProd.Tluszcze}" HorizontalOptions="StartAndExpand"/>
-                <Entry x:Name="CalculatedTluszcze" Grid.Column="1" Grid.Row="6" Text="{Binding Tluszcze}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+                <Label Grid.Column="0" Grid.Row="6" Text="Kcla: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="6" x:Name="EntryKcla" Text="{Binding Path=ModelProd.Kcla}" HorizontalOptions="StartAndExpand"/>
+                <Entry Grid.Column="1" Grid.Row="6" x:Name="CalculatedKcla" Text="{Binding Kcla}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
 
-                <Label Grid.Column="0" Grid.Row="7" Text="Węgle: " VerticalOptions="Center"/>
-                <Entry x:Name="EntryWegle" Grid.Column="1" Grid.Row="7" Text="{Binding Path=ModelProd.Wegle}" HorizontalOptions="StartAndExpand"/>
-                <Entry x:Name="CalculatedWegle" Grid.Column="1" Grid.Row="7" Text="{Binding Wegle}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
+                <Label Grid.Column="0" Grid.Row="7" Text="Białko: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="7" x:Name="EntryBialko" Text="{Binding Path=ModelProd.Bialko}" HorizontalOptions="StartAndExpand"/>
+                <Entry Grid.Column="1" Grid.Row="7" x:Name="CalculatedBialko" Text="{Binding Bialko}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
 
-                <Button Grid.Column="0" Grid.Row="8" x:Name="ButtonAddProd" Text="Nowy" HorizontalOptions="FillAndExpand" Clicked="OnButtonAddProdClicked" BackgroundColor="{StaticResource MyText}"/>
-                <Button Grid.Column="1" Grid.Row="8" x:Name="ButtonMyList" Text="Moje produkty" HorizontalOptions="FillAndExpand" Clicked="OnButtonMyListClicked" BackgroundColor="{StaticResource MyText}"/>
-                <Button Grid.Column="2" Grid.Row="8" x:Name="ButtonAppList" Text="Lista produktów" HorizontalOptions="FillAndExpand" Clicked="OnButtonAppListClicked" BackgroundColor="{StaticResource MyText}"/>
+                <Label Grid.Column="0" Grid.Row="8" Text="Tłuszcze: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="8" x:Name="EntryTluszcze" Text="{Binding Path=ModelProd.Tluszcze}" HorizontalOptions="StartAndExpand"/>
+                <Entry Grid.Column="1" Grid.Row="8" x:Name="CalculatedTluszcze" Text="{Binding Tluszcze}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
 
+                <Label Grid.Column="0" Grid.Row="9" Text="Węgle: " VerticalOptions="Center"/>
+                <Entry Grid.Column="1" Grid.Row="9" x:Name="EntryWegle" Text="{Binding Path=ModelProd.Wegle}" HorizontalOptions="StartAndExpand"/>
+                <Entry Grid.Column="1" Grid.Row="9" x:Name="CalculatedWegle" Text="{Binding Wegle}" HorizontalOptions="StartAndExpand" IsReadOnly="true" IsVisible="false" BackgroundColor="{x:StaticResource MyBg}"/>
 
             </Grid>
         </ScrollView>

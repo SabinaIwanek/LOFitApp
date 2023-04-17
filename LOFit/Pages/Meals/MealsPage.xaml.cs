@@ -1,5 +1,6 @@
 using LOFit.DataServices.Meals;
-using LOFit.Models;
+using LOFit.Models.Accounts;
+using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
@@ -177,11 +178,12 @@ public partial class MealsPage : ContentPage
     #region List
     async void ListLoad(DateTime date)
     {
-        collectionView.ItemsSource = await _dataService.GetUserList(date);
+        collectionView.ItemsSource = ListModelTools.ReturnMealList( await _dataService.GetUserList(date, Singleton.Instance.IdUsera));
     }
     async void OnMealClicked(object sender, SelectionChangedEventArgs e)
     {
-        MealModel meal = e.CurrentSelection.FirstOrDefault() as MealModel;
+        MealListModel listModel = e.CurrentSelection.FirstOrDefault() as MealListModel;
+        MealModel meal = listModel.Meal;
 
         var navigationParameter = new Dictionary<string, object>
         {
@@ -204,7 +206,7 @@ public partial class MealsPage : ContentPage
         await Shell.Current.GoToAsync(nameof(MealPage), navigationParameter);
     }
     #endregion
-    private async void EntryWeekDates(DateTime date)
+    private void EntryWeekDates(DateTime date)
     {
         _firstDayWeek = DataTools.ReturnFirstDayWeek(date);
         _weekDates = new List<DateTime>();

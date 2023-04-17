@@ -1,7 +1,8 @@
-﻿using LOFit.Models;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using LOFit.Tools;
+using LOFit.Models.Accounts;
+using LOFit.Models.ProfileMenu;
 
 namespace LOFit.DataServices.Admin
 {

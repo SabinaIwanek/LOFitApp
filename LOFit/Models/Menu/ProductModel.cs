@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Menu
 {
     public class ProductModel : INotifyPropertyChanged
     {

@@ -1,4 +1,4 @@
-using LOFit.Models;
+using LOFit.Models.Accounts;
 using LOFit.Pages.Admin.VerifyLists;
 using LOFit.Tools;
 

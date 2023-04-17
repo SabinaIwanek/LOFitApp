@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Menu
 {
     public class MealModel : INotifyPropertyChanged
     {
-        public MealModel() {}
+        public MealModel() { }
         public MealModel(MealModel model)
         {
-            Id= model.Id;
+            Id = model.Id;
             Id_produktu = model.Id_produktu;
             Id_usera = model.Id_usera;
             Nazwa_dania = model.Nazwa_dania;
@@ -86,8 +86,8 @@ namespace LOFit.Models
             }
         }
 
-        private string? _opis_od_trenera;
-        public string? Opis_od_trenera
+        private string _opis_od_trenera;
+        public string Opis_od_trenera
         {
             get => _opis_od_trenera;
             set

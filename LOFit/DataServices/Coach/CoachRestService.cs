@@ -1,8 +1,8 @@
-﻿using LOFit.Models;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using LOFit.Tools;
 using System.Text;
+using LOFit.Models.Accounts;
 
 namespace LOFit.DataServices.Coach
 {

@@ -1,4 +1,4 @@
-﻿using LOFit.Models;
+﻿using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Workout
 {

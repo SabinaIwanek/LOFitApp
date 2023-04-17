@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Accounts
 {
     public class LoginModel : INotifyPropertyChanged
     {
         public LoginModel(bool isCode)
         {
-            IsCode= isCode;
+            IsCode = isCode;
         }
 
         private string _email;

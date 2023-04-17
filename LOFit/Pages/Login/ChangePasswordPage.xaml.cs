@@ -1,5 +1,5 @@
 using LOFit.DataServices.Login;
-using LOFit.Models;
+using LOFit.Models.Accounts;
 
 namespace LOFit.Pages.Login;
 

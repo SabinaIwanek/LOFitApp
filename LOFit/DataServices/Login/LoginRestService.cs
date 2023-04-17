@@ -1,5 +1,5 @@
 ﻿using LOFit.Enums;
-using LOFit.Models;
+using LOFit.Models.Accounts;
 using LOFit.Tools;
 using System.Text;
 using System.Text.Json;

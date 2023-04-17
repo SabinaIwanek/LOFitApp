@@ -1,6 +1,6 @@
 using LOFit.DataServices.Coach;
 using LOFit.Enums;
-using LOFit.Models;
+using LOFit.Models.Accounts;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
 using LOFit.Tools;

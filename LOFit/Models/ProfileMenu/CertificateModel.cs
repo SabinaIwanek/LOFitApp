@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.ProfileMenu
 {
     public class CertificateModel : INotifyPropertyChanged
     {
@@ -46,8 +46,8 @@ namespace LOFit.Models
             }
         }
 
-        private string? _kod_certyfikatu;
-        public string? Kod_certyfikatu
+        private string _kod_certyfikatu;
+        public string Kod_certyfikatu
         {
             get => _kod_certyfikatu;
             set

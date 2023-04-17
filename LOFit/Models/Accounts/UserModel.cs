@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Accounts
 {
     public class UserModel : INotifyPropertyChanged
     {
         public int Id { get; set; }
         public string Imie { get; set; }
 
-        private string? _nazwisko;
-        public string? Nazwisko
+        private string _nazwisko;
+        public string Nazwisko
         {
             get => _nazwisko;
             set

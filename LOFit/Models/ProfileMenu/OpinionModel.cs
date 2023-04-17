@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.ProfileMenu
 {
     public class OpinionModel : INotifyPropertyChanged
     {
@@ -8,8 +8,8 @@ namespace LOFit.Models
         public int Id_usera { get; set; }
         public int Id_trenera { get; set; }
 
-        private string? _opis;
-        public string? Opis
+        private string _opis;
+        public string Opis
         {
             get => _opis;
             set
@@ -20,8 +20,8 @@ namespace LOFit.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Opis"));
             }
         }
-       
-        private int _ocena; 
+
+        private int _ocena;
         public int Ocena
         {
             get => _ocena;

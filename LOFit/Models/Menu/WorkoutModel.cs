@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Menu
 {
     public class WorkoutModel : INotifyPropertyChanged
     {
@@ -45,8 +45,8 @@ namespace LOFit.Models
             }
         }
 
-        private string? _opis;
-        public string? Opis
+        private string _opis;
+        public string Opis
         {
             get => _opis;
             set

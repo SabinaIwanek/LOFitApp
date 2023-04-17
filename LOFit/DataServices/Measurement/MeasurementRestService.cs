@@ -1,9 +1,9 @@
 ﻿using LOFit.Tools;
-using LOFit.Models;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Collections.Generic;
+using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Measurement
 {
@@ -51,41 +51,6 @@ namespace LOFit.DataServices.Measurement
                     model.Data_pomiaru = date;
 
                     return model;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-        public async Task<List<MeasurementModel>> GetWeek(DateTime date)
-        {
-            List<MeasurementModel> list = new List<MeasurementModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
-            try
-            {
-                string token = Singleton.Instance.Token;
-
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/week/{date.ToString("yyyy-MM-dd")}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    list = JsonSerializer.Deserialize<List<MeasurementModel>>(responseContent, _jsonSerializaerOptions);
-
-                    return list;
                 }
                 else
                 {

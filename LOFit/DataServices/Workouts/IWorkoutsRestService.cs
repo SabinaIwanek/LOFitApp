@@ -1,4 +1,4 @@
-﻿using LOFit.Models;
+﻿using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Workouts
 {
@@ -8,6 +8,6 @@ namespace LOFit.DataServices.Workouts
         Task<string> Update(WorkoutDayModel form);
         Task<string> Delete(int id);
         Task<WorkoutDayModel> GetOne(int id);
-        Task<List<WorkoutDayModel>> GetUserList(DateTime date);
+        Task<List<WorkoutDayModel>> GetUserList(DateTime date, int idUsera);
     }
 }

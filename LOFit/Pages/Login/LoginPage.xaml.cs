@@ -2,7 +2,7 @@
 using LOFit.DataServices.Login;
 using LOFit.DataServices.Measurement;
 using LOFit.Enums;
-using LOFit.Models;
+using LOFit.Models.Accounts;
 using LOFit.Pages.Admin;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
@@ -60,6 +60,8 @@ public partial class LoginPage : ContentPage
 
             if (Singleton.Instance.Type == TypKonta.Uzytkownik)
             {
+                Singleton.Instance.IdUsera = -1;
+
                 await Shell.Current.GoToAsync(nameof(MeasurementPage));
                 return;
             }

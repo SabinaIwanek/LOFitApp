@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.ProfileMenu
 {
     public class ConnectionModel : INotifyPropertyChanged
     {

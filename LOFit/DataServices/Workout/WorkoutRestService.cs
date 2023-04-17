@@ -1,8 +1,8 @@
 ﻿using LOFit.Tools;
-using LOFit.Models;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Workout
 {

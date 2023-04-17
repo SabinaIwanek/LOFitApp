@@ -1,4 +1,4 @@
-﻿namespace LOFit.Models
+﻿namespace LOFit.Models.Accounts
 {
     public class TokenGetModel
     {

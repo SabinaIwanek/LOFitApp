@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Accounts
 {
     public class RegistrationModel : INotifyPropertyChanged
     {
@@ -40,8 +40,8 @@ namespace LOFit.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Imie"));
             }
         }
-        private string? _nazwisko;
-        public string? Nazwisko
+        private string _nazwisko;
+        public string Nazwisko
         {
             get => _nazwisko;
             set
@@ -88,8 +88,8 @@ namespace LOFit.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Nr_telefonu"));
             }
         }
-        private string? _miejscowosc;
-        public string? Miejscowosc
+        private string _miejscowosc;
+        public string Miejscowosc
         {
             get => _miejscowosc;
             set

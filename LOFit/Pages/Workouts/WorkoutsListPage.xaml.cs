@@ -1,5 +1,5 @@
 using LOFit.DataServices.Workout;
-using LOFit.Models;
+using LOFit.Models.Menu;
 
 namespace LOFit.Pages.Workouts;
 

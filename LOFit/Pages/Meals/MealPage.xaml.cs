@@ -1,6 +1,7 @@
 using LOFit.DataServices.Meals;
 using LOFit.DataServices.Product;
-using LOFit.Models;
+using LOFit.Models.Accounts;
+using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Menu;
 using LOFit.Resources.Styles;
@@ -15,6 +16,8 @@ public partial class MealPage : ContentPage
 {
     private readonly IMealRestService _dataService;
     private readonly IProductRestService _productDataService;
+    private List<Button> _buttons;
+    private List<Grid> _grids;
     private bool _isNew;
     private bool _isNewProd;
 
@@ -113,7 +116,7 @@ public partial class MealPage : ContentPage
             Gramy = Model.Gramy;
 
             OnPropertyChanged();
-            if(Model.Id_usera == 0)
+            if (Model.Id_usera == 0)
             {
                 _isNew = true;
                 Model.Nazwa_dania = DataTools.ReturnDefaultMealName(Model.Data_czas);
@@ -154,6 +157,8 @@ public partial class MealPage : ContentPage
         _dataService = dataService;
         _productDataService = productDataService;
         BindingContext = this;
+        _buttons = new List<Button>() { ButtonAddProd, ButtonMyList, ButtonAppList };
+        _grids = new List<Grid>() { BottomAddProd, BottomMyList, BottomAppList };
 
         MealTime = DateTime.Now.TimeOfDay;
 
@@ -204,9 +209,8 @@ public partial class MealPage : ContentPage
     #region Product buttons
     void OnButtonAddProdClicked(object sender, EventArgs e)
     {
-        DataTools.ButtonClicked(ButtonAddProd);
-        DataTools.ButtonNotClicked(ButtonMyList);
-        DataTools.ButtonNotClicked(ButtonAppList);
+        DataTools.ButtonNotClicked(_buttons, _grids);
+        DataTools.ButtonClicked(ButtonAddProd, BottomAddProd);
 
         IsNewProd(true);
         ModelProd = new ProductModel();
@@ -256,17 +260,15 @@ public partial class MealPage : ContentPage
     }
     private void MyListClicked()
     {
-        DataTools.ButtonNotClicked(ButtonAddProd);
-        DataTools.ButtonClicked(ButtonMyList);
-        DataTools.ButtonNotClicked(ButtonAppList);
+        DataTools.ButtonNotClicked(_buttons, _grids);
+        DataTools.ButtonClicked(ButtonMyList, BottomMyList);
 
         IsNewProd(false);
     }
     private void AppListClicked()
     {
-        DataTools.ButtonNotClicked(ButtonAddProd);
-        DataTools.ButtonNotClicked(ButtonMyList);
-        DataTools.ButtonClicked(ButtonAppList);
+        DataTools.ButtonNotClicked(_buttons, _grids);
+        DataTools.ButtonClicked(ButtonAppList, BottomAppList);
 
         IsNewProd(false);
     }
@@ -295,6 +297,7 @@ public partial class MealPage : ContentPage
         if (Model.Id_produktu == 0) return;
 
         Model.Data_czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, MealTime.Hours, MealTime.Minutes, MealTime.Seconds);
+        Model.Id_usera = Singleton.Instance.IdUsera;
 
         if (_isNew)
             answer = await _dataService.Add(Model);
@@ -302,7 +305,7 @@ public partial class MealPage : ContentPage
             answer = await _dataService.Update(Model);
 
         if (answer == "Ok")
-            Shell.Current.GoToAsync(nameof(MealsPage));
+            await Shell.Current.GoToAsync(nameof(MealsPage));
     }
     #endregion
 }

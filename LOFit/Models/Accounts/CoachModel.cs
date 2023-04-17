@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Accounts
 {
     public class CoachModel : INotifyPropertyChanged
     {
@@ -60,8 +60,8 @@ namespace LOFit.Models
             }
         }
 
-        private string? _miejscowosc;
-        public string? Miejscowosc
+        private string _miejscowosc;
+        public string Miejscowosc
         {
             get => _miejscowosc;
             set
@@ -128,7 +128,7 @@ namespace LOFit.Models
         public int Zatwierdzony_dietetyk { get; set; } //status weryfikacji
         public int Zatwierdzony_trener { get; set; } //status weryfikacji
 
-       // [ICommand]
+        // [ICommand]
         public string Wizytowka()
         {
             return $"{Imie} {Nazwisko}  ({Miejscowosc})";

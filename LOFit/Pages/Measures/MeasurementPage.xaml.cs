@@ -1,6 +1,7 @@
 using LOFit.DataServices.Measurement;
 using LOFit.Enums;
-using LOFit.Models;
+using LOFit.Models.Accounts;
+using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Menu;
@@ -65,8 +66,8 @@ public partial class MeasurementPage : ContentPage
         _dataService = dataService;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4, Button5, Button6, Button7 };
-       
-        if(Singleton.Instance.DateToShow.Year != 1)
+
+        if (Singleton.Instance.DateToShow.Year != 1)
         {
             EntryWeekButtons(Singleton.Instance.DateToShow);
             DateCalendar = Singleton.Instance.DateToShow;
@@ -210,9 +211,7 @@ public partial class MeasurementPage : ContentPage
         _buttonsWorking = false;
 
         int buttonIndex = DataTools.ButtonClicked(date.DayOfWeek, _buttons);
-
-        if(Singleton.Instance.Type == TypKonta.Trener) _weekModels = await _dataService.GetWeek(_firstDayWeek, Singleton.Instance.IdUsera);
-        else _weekModels = await _dataService.GetWeek(_firstDayWeek);
+        _weekModels = await _dataService.GetWeek(_firstDayWeek, Singleton.Instance.IdUsera);
 
         Model = await Task.Run(() => new MeasurementModel(_weekModels[buttonIndex]));
 
@@ -233,7 +232,7 @@ public partial class MeasurementPage : ContentPage
 
         var propertyInfo = Model.GetType().GetProperty(propertyName);
         var propertyValue = (decimal?)propertyInfo.GetValue(Model);
-        
+
         if (propertyValue == null) propertyValue = 0;
         else propertyValue--;
 
@@ -257,7 +256,7 @@ public partial class MeasurementPage : ContentPage
     #region Bottom menu
     async void OnModifyButtonClicked(object sender, EventArgs e)
     {
-        if(Singleton.Instance.Type == TypKonta.Uzytkownik)
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
         {
             if (_isNew)
             {

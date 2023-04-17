@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Accounts
 {
     public class AdminModel /*: INotifyPropertyChanged*/
     {

@@ -1,9 +1,9 @@
 ﻿using LOFit.Tools;
-using LOFit.Models;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Collections.Generic;
+using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Meals
 {
@@ -154,7 +154,7 @@ namespace LOFit.DataServices.Meals
                 return null;
             }
         }
-        public async Task<List<MealModel>> GetUserList(DateTime date)
+        public async Task<List<MealModel>> GetUserList(DateTime date, int userId)
         {
             List<MealModel> model = new List<MealModel>();
 
@@ -169,7 +169,7 @@ namespace LOFit.DataServices.Meals
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userlist/{date.ToString("yyyy-MM-dd")}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userlist/{date.ToString("yyyy-MM-dd")}/{userId}");
 
                 if (response.IsSuccessStatusCode)
                 {

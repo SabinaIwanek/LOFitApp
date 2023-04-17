@@ -1,6 +1,7 @@
 using LOFit.DataServices.Measurement;
 using LOFit.DataServices.Workouts;
-using LOFit.Models;
+using LOFit.Models.Accounts;
+using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
@@ -186,7 +187,7 @@ public partial class WorkoutsPage : ContentPage
     #region List
     async void ListLoad(DateTime date)
     {
-        collectionView.ItemsSource = await _dataService.GetUserList(date);
+        collectionView.ItemsSource = await _dataService.GetUserList(date, Singleton.Instance.IdUsera);
     }
     async void OnWorkoutClicked(object sender, SelectionChangedEventArgs e)
     {

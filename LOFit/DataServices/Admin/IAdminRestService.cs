@@ -1,4 +1,5 @@
-﻿using LOFit.Models;
+﻿using LOFit.Models.Accounts;
+using LOFit.Models.ProfileMenu;
 
 namespace LOFit.DataServices.Admin
 {

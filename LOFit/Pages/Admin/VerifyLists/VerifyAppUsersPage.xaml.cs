@@ -1,5 +1,5 @@
 using LOFit.DataServices.Admin;
-using LOFit.Models;
+using LOFit.Models.Accounts;
 using LOFit.Pages.Coachs;
 using LOFit.Tools;
 using Microsoft.Maui.Controls;

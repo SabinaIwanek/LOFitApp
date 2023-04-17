@@ -1,8 +1,8 @@
 ﻿using LOFit.Tools;
-using LOFit.Models;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Workouts
 {
@@ -153,7 +153,7 @@ namespace LOFit.DataServices.Workouts
                 return null;
             }
         }
-        public async Task<List<WorkoutDayModel>> GetUserList(DateTime date)
+        public async Task<List<WorkoutDayModel>> GetUserList(DateTime date, int idUsera)
         {
             List<WorkoutDayModel> model = new List<WorkoutDayModel>();
 
@@ -168,7 +168,7 @@ namespace LOFit.DataServices.Workouts
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userlist/{date.ToString("yyyy-MM-dd")}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userlist/{date.ToString("yyyy-MM-dd")}/{idUsera}");
 
                 if (response.IsSuccessStatusCode)
                 {

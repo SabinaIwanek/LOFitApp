@@ -29,14 +29,14 @@ namespace LOFit.Tools
         {
             if (gender == Plec.Kobieta.ToString()) return (int)Plec.Kobieta;
             if (gender == Plec.Mężczyzna.ToString()) return (int)Plec.Mężczyzna;
-            
+
             return (int)Plec.NiePodano;
         }
         public static int EntryCoach(string coach)
         {
             if (coach == TypTrenera.Trener.ToString()) return (int)TypTrenera.Trener;
             if (coach == TypTrenera.Dietetyk.ToString()) return (int)TypTrenera.Dietetyk;
-            
+
             return (int)TypTrenera.Oba;
         }
         public static DateTime ReturnFirstDayWeek(DateTime date)
@@ -128,6 +128,12 @@ namespace LOFit.Tools
             {
                 button.Background = MyColors.MyText;
             }
+        }
+        public static void ButtonNotClicked(Button button, Grid grid)
+        {
+            button.TextColor = MyColors.MyText;
+
+            grid.BackgroundColor = Colors.Transparent;
         }
         public static void ButtonNotClicked(List<Button> buttons, List<Grid> grids)
         {

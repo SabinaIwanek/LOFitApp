@@ -1,6 +1,6 @@
 using LOFit.DataServices.Login;
 using LOFit.DataServices.Registration;
-using LOFit.Models;
+using LOFit.Models.Accounts;
 using LOFit.Resources.Styles;
 using LOFit.Tools;
 

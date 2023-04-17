@@ -1,6 +1,7 @@
 using LOFit.DataServices.Certificate;
 using LOFit.DataServices.Coach;
-using LOFit.Models;
+using LOFit.Models.Accounts;
+using LOFit.Models.ProfileMenu;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
 

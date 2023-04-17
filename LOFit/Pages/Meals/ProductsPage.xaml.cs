@@ -1,6 +1,6 @@
 using LOFit.DataServices.Meals;
 using LOFit.DataServices.Product;
-using LOFit.Models;
+using LOFit.Models.Menu;
 
 namespace LOFit.Pages.Meals;
 

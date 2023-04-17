@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace LOFit.Models
+namespace LOFit.Models.Menu
 {
     public class WorkoutDayModel : INotifyPropertyChanged
     {
@@ -66,6 +66,19 @@ namespace LOFit.Models
 
                 _czas = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Czas"));
+            }
+        }
+
+        private int? _kcla;
+        public int? Kcla
+        {
+            get => _kcla;
+            set
+            {
+                if (_kcla == value) return;
+
+                _kcla = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Kcla"));
             }
         }
 

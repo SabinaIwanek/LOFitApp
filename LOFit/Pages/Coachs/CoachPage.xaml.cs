@@ -2,7 +2,8 @@ using LOFit.DataServices.Certificate;
 using LOFit.DataServices.Coach;
 using LOFit.DataServices.Connection;
 using LOFit.Enums;
-using LOFit.Models;
+using LOFit.Models.Accounts;
+using LOFit.Models.ProfileMenu;
 using LOFit.Pages.Menu;
 using LOFit.Resources.Styles;
 using LOFit.Tools;
@@ -55,7 +56,7 @@ public partial class CoachPage : ContentPage
                     ButtonSelect.IsVisible = false;
                     ButtonOpisEdit.IsVisible = true;
                 }
-                else if(Singleton.Instance.Type == TypKonta.Administrator)
+                else if (Singleton.Instance.Type == TypKonta.Administrator)
                 {
                     GridDodajOpinie.IsVisible = false;
                     ButtonAddCert.IsVisible = false;
@@ -122,7 +123,7 @@ public partial class CoachPage : ContentPage
         _dataService = dataService;
         _dataServiceCert = dataServiceCert;
         _dataServiceOpinion = dataServiceOpinion;
-        _dataServiceConn = dataServiceConn; 
+        _dataServiceConn = dataServiceConn;
 
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3 };
@@ -152,11 +153,12 @@ public partial class CoachPage : ContentPage
     #region Swipe
     async void OnRightSwiped()
     {
-        if(!_isUserProfile) await Shell.Current.GoToAsync(nameof(CoachsPage));
+        if (!_isUserProfile) await Shell.Current.GoToAsync(nameof(CoachsPage));
     }
     async void OnLeftSwiped()
     {
-        await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        if (Singleton.Instance.Type == TypKonta.Trener)
+            await Shell.Current.GoToAsync(nameof(ConnectionsPage));
     }
     #endregion
 
@@ -199,9 +201,9 @@ public partial class CoachPage : ContentPage
         {
             EntryOpisEdit.BackgroundColor = Colors.Transparent;
 
-            string answer =await _dataService.Update(CoachM);
+            string answer = await _dataService.Update(CoachM);
 
-            if(answer == "Ok") ButtonOpisEdit.Text = "Zmieñ opis";
+            if (answer == "Ok") ButtonOpisEdit.Text = "Zmieñ opis";
         }
         else
         {
@@ -226,7 +228,7 @@ public partial class CoachPage : ContentPage
             GridDodajOpinie.IsVisible = false;
             if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile) ButtonAddCert.IsVisible = true;
 
-                DataTools.ButtonClicked(_buttons[0]);
+            DataTools.ButtonClicked(_buttons[0]);
 
             ListLoadCertyf();
         }
@@ -334,9 +336,9 @@ public partial class CoachPage : ContentPage
     {
         bool result = await DisplayAlert($"{ButtonSelect.Text}", "Czy aby na pewno?", "Tak", "Nie");
 
-        if(result)
+        if (result)
         {
-            if(_type == 0)
+            if (_type == 0)
             {
                 List<ConnectionModel> connections = await _dataServiceConn.GetUserList(-1);
                 Dispatcher.Dispatch(() =>
@@ -355,7 +357,7 @@ public partial class CoachPage : ContentPage
                 {
                     if (!connections.Any()) return;
 
-                    ConnectionModel model = connections.Where(x => x.Id_trenera == CoachM.Id && x.Zatwierdzone == 1 && (x.Czas_do ==null || x.Czas_do >= DateTime.Now)).FirstOrDefault();
+                    ConnectionModel model = connections.Where(x => x.Id_trenera == CoachM.Id && x.Zatwierdzone == 1 && (x.Czas_do == null || x.Czas_do >= DateTime.Now)).FirstOrDefault();
                     if (model == null) return;
 
                     model.Czas_do = DateTime.Now;
@@ -382,7 +384,7 @@ public partial class CoachPage : ContentPage
     {
         _type = await _dataServiceConn.GetCoachState(CoachM.Id);
 
-        Dispatcher.Dispatch(()=>
+        Dispatcher.Dispatch(() =>
         {
             if (_type == 4) return;
             if (_type == 0) ButtonSelect.Text = "Cofnij proœbê";
