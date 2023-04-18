@@ -1,3 +1,4 @@
+using LOFit.DataServices.Coach;
 using LOFit.DataServices.Measurement;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
@@ -14,6 +15,7 @@ namespace LOFit.Pages.Measures;
 public partial class MeasurementPage : ContentPage
 {
     private readonly IMeasurementRestService _dataService;
+    private readonly ICoachRestService _dataServiceCoach;
     private bool _isNew;
     private List<Button> _buttons;
     private DateTime _firstDayWeek;
@@ -60,10 +62,11 @@ public partial class MeasurementPage : ContentPage
         }
     }
     #endregion
-    public MeasurementPage(IMeasurementRestService dataService)
+    public MeasurementPage(IMeasurementRestService dataService, ICoachRestService dataServiceCoach)
     {
         InitializeComponent();
         _dataService = dataService;
+        _dataServiceCoach = dataServiceCoach;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4, Button5, Button6, Button7 };
 
@@ -112,7 +115,11 @@ public partial class MeasurementPage : ContentPage
     #endregion
 
     #region Menu buttons
-    async void OnChangeThemeClicked(object sender, EventArgs e)
+    async void OnCoachsClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(CoachsPage));
+    }
+    void OnChangeThemeClicked(object sender, EventArgs e)
     {
         if (App.Current.UserAppTheme == AppTheme.Dark)
         {
@@ -123,17 +130,23 @@ public partial class MeasurementPage : ContentPage
             App.Current.UserAppTheme = AppTheme.Dark;
         }
     }
-    async void OnCoachsClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
-    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ProfilePage));
-    }
-    async void OnSettingsClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(SettingsUserPage));
+        if(Singleton.Instance.Type == TypKonta.Uzytkownik)
+            await Shell.Current.GoToAsync(nameof(ProfilePage));
+
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            CoachModel model = await _dataServiceCoach.GetOne(-1);
+            Singleton.Instance.IdTrenera = model.Id;
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
+        }
     }
     async void OnLogoutClicked(object sender, EventArgs e)
     {
@@ -149,7 +162,6 @@ public partial class MeasurementPage : ContentPage
         Singleton.Logout();
         await Shell.Current.GoToAsync("Login", navigationParameter);
     }
-
     #endregion
 
     #region Week buttons

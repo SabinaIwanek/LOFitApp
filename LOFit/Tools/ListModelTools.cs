@@ -37,7 +37,7 @@ namespace LOFit.Tools
             {
                 MealListModel model = new MealListModel();
 
-                model.Nazwa_dania = newList.Last().Nazwa_dania == meal.Nazwa_dania ? "" : meal.Nazwa_dania;
+                model.Nazwa_dania = newList.LastOrDefault()?.Nazwa_dania == meal.Nazwa_dania ? "" : meal.Nazwa_dania;
 
                 model.Meal = meal;
                 model.Kcla = meal.Kcla();
@@ -62,6 +62,26 @@ namespace LOFit.Tools
 
                 model.Opinion = opinion;
                 model.Imie = await opinion.Imie(dataService);
+
+                newList.Add(model);
+            }
+
+            return newList;
+        }
+
+
+        public static List<WorkoutDayListModel> ReturnWorkoutDayList(List<WorkoutDayModel> list)
+        {
+            List<WorkoutDayListModel> newList = new List<WorkoutDayListModel>();
+            if (list == null) return newList;
+
+            foreach (WorkoutDayModel workoutDay in list)
+            {
+                WorkoutDayListModel model = new WorkoutDayListModel();
+
+                model.WorkoutDay = workoutDay;
+                model.CzasString = workoutDay.CzasString();
+                model.OpisString = workoutDay.OpisString();
 
                 newList.Add(model);
             }

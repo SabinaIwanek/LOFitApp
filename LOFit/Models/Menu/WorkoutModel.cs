@@ -45,6 +45,19 @@ namespace LOFit.Models.Menu
             }
         }
 
+        private int? _kcla;
+        public int? Kcla
+        {
+            get => _kcla;
+            set
+            {
+                if (_kcla == value) return;
+
+                _kcla = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Kcla"));
+            }
+        }
+
         private string _opis;
         public string Opis
         {

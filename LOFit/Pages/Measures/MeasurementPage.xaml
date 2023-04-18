@@ -12,12 +12,13 @@
             <Setter Property="FontSize" Value="25" />
         </Style>
     </ContentPage.Resources>
-    
+
+    <!--Menu-->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
-        <ToolbarItem Text="Zmien tryb" Clicked="OnChangeThemeClicked" Order="Secondary" />
+        <ToolbarItem Text="Trenerzy" Clicked="OnCoachsClicked" Order="Primary"/>
+
         <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
-        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Tryb jasny/ciemny" Clicked="OnChangeThemeClicked" Order="Secondary" />
         <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
 

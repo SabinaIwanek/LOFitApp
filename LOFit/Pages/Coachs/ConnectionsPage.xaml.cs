@@ -1,10 +1,13 @@
 using LOFit.DataServices.Coach;
 using LOFit.DataServices.Connection;
+using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.ProfileMenu;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Internals;
 using System.Runtime.InteropServices;
 
 namespace LOFit.Pages.Coachs;
@@ -58,13 +61,34 @@ public partial class ConnectionsPage : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(CoachsPage));
     }
+    void OnChangeThemeClicked(object sender, EventArgs e)
+    {
+        if (App.Current.UserAppTheme == AppTheme.Dark)
+        {
+            App.Current.UserAppTheme = AppTheme.Light;
+        }
+        else
+        {
+            App.Current.UserAppTheme = AppTheme.Dark;
+        }
+    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ProfilePage));
-    }
-    async void OnSettingsClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(SettingsUserPage));
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+            await Shell.Current.GoToAsync(nameof(ProfilePage));
+
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            CoachModel model = await _dataServiceCoach.GetOne(-1);
+            Singleton.Instance.IdTrenera = model.Id;
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
+        }
     }
     async void OnLogoutClicked(object sender, EventArgs e)
     {
@@ -80,7 +104,6 @@ public partial class ConnectionsPage : ContentPage
         Singleton.Logout();
         await Shell.Current.GoToAsync("Login", navigationParameter);
     }
-
     #endregion
 
     #region List
@@ -88,18 +111,33 @@ public partial class ConnectionsPage : ContentPage
     {
         var list = await _dataService.GetCoachList(-1);
 
+        collectionViewNew.IsVisible = false;
+        collectionViewActual.IsVisible = false;
+        collectionViewHistory.IsVisible = false;
+
         Dispatcher.Dispatch(() =>
         {
+            if (type == 0)
+            {
+                collectionViewNew.ItemsSource = list.Where(x => x.Zatwierdzone == type);
+                collectionViewNew.IsVisible = true;
+            }
+            if (type == 1)
+            {
+                collectionViewActual.ItemsSource = list.Where(x => x.Zatwierdzone == type);
+                collectionViewActual.IsVisible = true;
+            }
             if (type == 3)
-                collectionView.ItemsSource = list;
-            else
-                collectionView.ItemsSource = list.Where(x => x.Zatwierdzone == type);
+            {
+                collectionViewHistory.ItemsSource = list;
+                collectionViewHistory.IsVisible = true;
+            }
         });
     }
 
     async void OnConnectionClicked(object sender, SelectionChangedEventArgs e)
     {
-        if(_type == 1)
+        if (_type == 1)
         {
             var model = e.CurrentSelection.FirstOrDefault() as ConnectionModel;
             Singleton.Instance.IdUsera = model.Id_usera;
@@ -119,6 +157,7 @@ public partial class ConnectionsPage : ContentPage
 
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[index], _grids[index]);
+
     }
     async void OnDecideOkClicked(object sender, EventArgs e)
     {

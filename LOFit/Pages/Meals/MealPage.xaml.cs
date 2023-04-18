@@ -1,5 +1,7 @@
+using LOFit.DataServices.Coach;
 using LOFit.DataServices.Meals;
 using LOFit.DataServices.Product;
+using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
@@ -16,6 +18,7 @@ public partial class MealPage : ContentPage
 {
     private readonly IMealRestService _dataService;
     private readonly IProductRestService _productDataService;
+    private readonly ICoachRestService _dataServiceCoach;
     private List<Button> _buttons;
     private List<Grid> _grids;
     private bool _isNew;
@@ -151,11 +154,12 @@ public partial class MealPage : ContentPage
     }
     #endregion
 
-    public MealPage(IMealRestService dataService, IProductRestService productDataService)
+    public MealPage(IMealRestService dataService, IProductRestService productDataService, ICoachRestService dataServiceCoach)
     {
         InitializeComponent();
         _dataService = dataService;
         _productDataService = productDataService;
+        _dataServiceCoach = dataServiceCoach;
         BindingContext = this;
         _buttons = new List<Button>() { ButtonAddProd, ButtonMyList, ButtonAppList };
         _grids = new List<Grid>() { BottomAddProd, BottomMyList, BottomAppList };
@@ -182,13 +186,34 @@ public partial class MealPage : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(CoachsPage));
     }
+    void OnChangeThemeClicked(object sender, EventArgs e)
+    {
+        if (App.Current.UserAppTheme == AppTheme.Dark)
+        {
+            App.Current.UserAppTheme = AppTheme.Light;
+        }
+        else
+        {
+            App.Current.UserAppTheme = AppTheme.Dark;
+        }
+    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ProfilePage));
-    }
-    async void OnSettingsClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(SettingsUserPage));
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+            await Shell.Current.GoToAsync(nameof(ProfilePage));
+
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            CoachModel model = await _dataServiceCoach.GetOne(-1);
+            Singleton.Instance.IdTrenera = model.Id;
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
+        }
     }
     async void OnLogoutClicked(object sender, EventArgs e)
     {
@@ -300,7 +325,12 @@ public partial class MealPage : ContentPage
         Model.Id_usera = Singleton.Instance.IdUsera;
 
         if (_isNew)
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                Model.Id_trenera = Singleton.Instance.IdTrenera;
+
             answer = await _dataService.Add(Model);
+        }
         else
             answer = await _dataService.Update(Model);
 

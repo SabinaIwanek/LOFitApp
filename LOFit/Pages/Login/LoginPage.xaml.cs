@@ -68,15 +68,7 @@ public partial class LoginPage : ContentPage
 
             if (Singleton.Instance.Type == TypKonta.Trener)
             {
-                CoachModel model = await _dataServiceCoach.GetOne(-1);
-                Singleton.Instance.IdTrenera = model.Id;
-
-                var navigationParameter = new Dictionary<string, object>
-                {
-                    { nameof(CoachModel), model}
-                };
-
-                await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
                 return;
             }
         }

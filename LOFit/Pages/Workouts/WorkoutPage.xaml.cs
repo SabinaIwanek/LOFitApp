@@ -1,5 +1,7 @@
+using LOFit.DataServices.Coach;
 using LOFit.DataServices.Workout;
 using LOFit.DataServices.Workouts;
+using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
@@ -16,6 +18,7 @@ public partial class WorkoutPage : ContentPage
 {
     private readonly IWorkoutRestService _workoutDataService;
     private readonly IWorkoutsRestService _dataService;
+    private readonly ICoachRestService _dataServiceCoach;
     private bool _isNew;
     private bool _isNewWorkout;
 
@@ -54,6 +57,7 @@ public partial class WorkoutPage : ContentPage
             }
         }
     }
+
     WorkoutModel _modelWorkout;
     public WorkoutModel ModelWorkout
     {
@@ -61,12 +65,20 @@ public partial class WorkoutPage : ContentPage
         set
         {
             _modelWorkout = value;
+
             if(_modelWorkout != null && _model != null && _model.Czas != null)
             {
                 DateTime dt = (DateTime)Model.Czas;
                 WorkoutingTime = dt.TimeOfDay;
             }
+            if (_modelWorkout != null && _modelWorkout.Czas != null)
+            {
+                DateTime dt = (DateTime)_modelWorkout.Czas;
+                WorkoutingTime = dt.TimeOfDay;
+            }
+
             OnPropertyChanged();
+
             _isNewWorkout = _modelWorkout.Id == 0;
         }
     }
@@ -94,11 +106,12 @@ public partial class WorkoutPage : ContentPage
     }
     #endregion
 
-    public WorkoutPage(IWorkoutsRestService dataService, IWorkoutRestService workoutDataService)
+    public WorkoutPage(IWorkoutsRestService dataService, IWorkoutRestService workoutDataService, ICoachRestService dataServiceCoach)
 	{
 		InitializeComponent();
         _dataService = dataService;
         _workoutDataService = workoutDataService;
+        _dataServiceCoach = dataServiceCoach;
         BindingContext = this;
 
         WorkoutTime = DateTime.Now.TimeOfDay;
@@ -127,13 +140,34 @@ public partial class WorkoutPage : ContentPage
     {
         await Shell.Current.GoToAsync(nameof(CoachsPage));
     }
+    void OnChangeThemeClicked(object sender, EventArgs e)
+    {
+        if (App.Current.UserAppTheme == AppTheme.Dark)
+        {
+            App.Current.UserAppTheme = AppTheme.Light;
+        }
+        else
+        {
+            App.Current.UserAppTheme = AppTheme.Dark;
+        }
+    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ProfilePage));
-    }
-    async void OnSettingsClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(SettingsUserPage));
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+            await Shell.Current.GoToAsync(nameof(ProfilePage));
+
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            CoachModel model = await _dataServiceCoach.GetOne(-1);
+            Singleton.Instance.IdTrenera = model.Id;
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
+        }
     }
     async void OnLogoutClicked(object sender, EventArgs e)
     {
@@ -149,7 +183,6 @@ public partial class WorkoutPage : ContentPage
         Singleton.Logout();
         await Shell.Current.GoToAsync("Login", navigationParameter);
     }
-
     #endregion
 
     #region Workout buttons
@@ -159,6 +192,7 @@ public partial class WorkoutPage : ContentPage
         DataTools.ButtonNotClicked(ButtonMyList, BottomMyList);
 
         IsNewWorkout(true);
+
         ModelWorkout = new WorkoutModel();
     }
     async void OnButtonMyListClicked(object sender, EventArgs e)
@@ -173,10 +207,7 @@ public partial class WorkoutPage : ContentPage
     private void IsNewWorkout(bool isNew)
     {
         EntryNazwa.IsReadOnly = !isNew;
-        EntryOpis.IsReadOnly = !isNew;
-
         EntryNazwa.BackgroundColor = isNew ? MyColors.MyEntryBg : MyColors.MyBg;
-        EntryOpis.BackgroundColor = isNew ? MyColors.MyEntryBg : MyColors.MyBg;
     }
     private void MyListClicked()
     {
@@ -195,22 +226,30 @@ public partial class WorkoutPage : ContentPage
 
         string answer;
 
-        if (_isNewWorkout)
-        {
-            //ModelWorkout.Czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, WorkoutingTime.Hours, WorkoutingTime.Minutes, WorkoutingTime.Seconds);
-
-            ModelWorkout.Id = await _workoutDataService.Add(ModelWorkout);
-        }
-        Model.Id_treningu = ModelWorkout.Id;
-
-        if (Model.Id_treningu == 0) return;
-
         Model.Data_czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, WorkoutTime.Hours, WorkoutTime.Minutes, WorkoutTime.Seconds);
         Model.Czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, WorkoutingTime.Hours, WorkoutingTime.Minutes, WorkoutingTime.Seconds);
         Model.Id_usera = Singleton.Instance.IdUsera;
 
+        if (_isNewWorkout)
+        {
+            ModelWorkout.Kcla = Model.Kcla;
+            ModelWorkout.Czas = Model.Czas;
+            ModelWorkout.Opis = Model.Opis;
+
+            ModelWorkout.Id = await _workoutDataService.Add(ModelWorkout);
+        }
+
+        Model.Id_treningu = ModelWorkout.Id;
+
+        if (Model.Id_treningu == 0) return;
+
         if (_isNew)
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                Model.Id_trenera = Singleton.Instance.IdTrenera;
+
             answer = await _dataService.Add(Model);
+        }
         else
             answer = await _dataService.Update(Model);
 

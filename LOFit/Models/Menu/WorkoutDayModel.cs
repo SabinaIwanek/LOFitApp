@@ -82,6 +82,19 @@ namespace LOFit.Models.Menu
             }
         }
 
+        private string _opis;
+        public string Opis
+        {
+            get => _opis;
+            set
+            {
+                if (_opis == value) return;
+
+                _opis = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Opis"));
+            }
+        }
+
         private DateTime _data_czas;
         public DateTime Data_czas
         {
@@ -109,6 +122,15 @@ namespace LOFit.Models.Menu
         }
 
         public WorkoutModel Trening { get; set; }
+
+        public string CzasString()
+        {
+            return $"{Czas.Value.Hour}:{(Czas.Value.Minute < 10 ? "0" : "")}{Czas.Value.Minute}";
+        }
+        public string OpisString()
+        {
+            return $" - {Opis}";
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

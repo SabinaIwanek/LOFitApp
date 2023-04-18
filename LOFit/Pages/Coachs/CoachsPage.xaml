@@ -5,10 +5,12 @@
              x:Class="LOFit.Pages.Coachs.CoachsPage"
              Title="Trenerzy">
 
+    <!--Menu-->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Wybierz trenera" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Trenerzy" Clicked="OnCoachsClicked" Order="Primary"/>
+
         <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
-        <ToolbarItem Text="Ustawienia" Clicked="OnSettingsClicked" Order="Secondary"/>
+        <ToolbarItem Text="Tryb jasny/ciemny" Clicked="OnChangeThemeClicked" Order="Secondary" />
         <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
 
