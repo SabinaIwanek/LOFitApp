@@ -125,6 +125,32 @@ namespace LOFit.Models.Menu
             }
         }
 
+        public int Kcla()
+        {
+            return (Gramy * Produkt.Kcla) / Produkt.Gramy;
+        }
+
+        public int? Bialko()
+        {
+            if (Produkt.Bialko == null) return null;
+
+            return (Gramy * (int)Produkt.Bialko) / Produkt.Gramy;
+        }
+
+        public int? Tluszcze()
+        {
+            if (Produkt.Tluszcze == null) return null;
+
+            return (Gramy * (int)Produkt.Tluszcze) / Produkt.Gramy;
+        }
+
+        public int? Wegle()
+        {
+            if (Produkt.Wegle == null) return null;
+
+            return (Gramy * (int)Produkt.Wegle) / Produkt.Gramy;
+        }
+
         public ProductModel Produkt { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

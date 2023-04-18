@@ -131,7 +131,7 @@ namespace LOFit.Models.Accounts
         // [ICommand]
         public string Wizytowka()
         {
-            return $"{Imie} {Nazwisko}  ({Miejscowosc})";
+            return $"{Imie} {Nazwisko} ({Miejscowosc})";
         }
         public string Ocena()
         {

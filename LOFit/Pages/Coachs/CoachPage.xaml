@@ -7,7 +7,7 @@
 
     <ContentPage.Resources>
         <Style TargetType="Label">
-            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontSize" Value="18" />
             <Setter Property="Margin" Value="0,5" />
         </Style>
     </ContentPage.Resources>
@@ -27,13 +27,14 @@
                 <!--Wizytówka-->
                 <Grid HorizontalOptions="Fill" VerticalOptions="Start">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="1" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -42,30 +43,51 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="6" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
+                    <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
 
-                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="40" Margin="0,0,0,5" />
+                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="25" FontAttributes="Bold" Margin="0,0,0,5" />
 
                     <Label Grid.Column="1" Grid.Row="1" Text="Ocena: " />
                     <Label Grid.Column="2" Grid.Row="1" Text="{Binding Ocena}"  />
 
-                    <Label Grid.Column="1" Grid.Row="2" Text="Typ trenera: " />
-                    <Label Grid.Column="2" Grid.Row="2" Text="{Binding TypTrenera}"  />
+                    <Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
 
-                    <Label Grid.Column="1" Grid.Row="3" Text="Cena usługi: " />
-                    <Label Grid.Column="2" Grid.Row="3" Text="{Binding CenaUslugi}"  />
+                    <Label Grid.Column="1" Grid.Row="3" Text="Typ trenera: " />
+                    <Label Grid.Column="2" Grid.Row="3" Text="{Binding TypTrenera}"  />
 
-                    <Label Grid.Column="1" Grid.Row="4" Text="Data urodzenia: " />
-                    <Label Grid.Column="2" Grid.Row="4" Text="{Binding Path=CoachM.Data_urodzenia}" />
+                    <Label Grid.Column="1" Grid.Row="4" Text="Cena usługi: " />
+                    <Label Grid.Column="2" Grid.Row="4" Text="{Binding CenaUslugi}"  />
 
-                    <Label Grid.Column="1" Grid.Row="5" Text="Numer telefonu: " />
-                    <Label Grid.Column="2" Grid.Row="5" Text="{Binding Path=CoachM.Nr_telefonu}" />
+                    <Label Grid.Column="1" Grid.Row="5" Text="Data ur: " />
+                    <Label Grid.Column="2" Grid.Row="5" Text="{Binding Path=CoachM.Data_urodzenia}" />
 
-                    <Entry x:Name="EntryOpisEdit" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" Text="{Binding Path=CoachM.Opis_profilu}" IsReadOnly="true"  BackgroundColor="Transparent" />
-                    <Button x:Name="ButtonOpisEdit" Grid.Column="2" Grid.Row="6" Clicked="OnEditCicked" Text="Edytuj opis" Margin="30" IsVisible="false"/>
+                    <Label Grid.Column="1" Grid.Row="6" Text="Telefon: " />
+                    <Label Grid.Column="2" Grid.Row="6" Text="{Binding Path=CoachM.Nr_telefonu}" />
+
+                    <Entry Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3" x:Name="EntryOpisEdit"  Text="{Binding Path=CoachM.Opis_profilu}" IsReadOnly="true"  BackgroundColor="Transparent" />
+                    <Button Grid.Column="2" Grid.Row="7" x:Name="ButtonOpisEdit" Clicked="OnEditCicked" Text="Edytuj opis" Margin="30" IsVisible="false"/>
 
                 </Grid>
 
+                <!-- Guziki-->
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="5" />
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" Text="Certyfikaty" Clicked="OnLoadListClicked" CommandParameter="Certyf" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="Small"/>
+                    <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" Text="Opinie" Clicked="OnLoadListClicked" CommandParameter="Opinie" BackgroundColor="Transparent"  TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Small"/>
+                    <!--<Button Grid.Column="2" Grid.Row="0" x:Name="Button3" Text="Kalendarz" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Kalend" BackgroundColor="{StaticResource MyText}"/>-->
+
+                    <Grid Grid.Column="0" Grid.Row="2"  x:Name="BottomButton1" BackgroundColor="{StaticResource Primary}"/>
+                    <Grid Grid.Column="1" Grid.Row="2" x:Name="BottomButton2" />
+                </Grid>
+                
                 <!--Listy działania-->
                 <Grid HorizontalOptions="Fill" VerticalOptions="Start">
                     <Grid.ColumnDefinitions>
@@ -77,51 +99,60 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" Text="Certyfikaty" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Certyf"/>
-                    <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" Text="Opinie" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Opinie" BackgroundColor="{StaticResource MyText}"/>
-                    <Button Grid.Column="2" Grid.Row="0" x:Name="Button3" Text="Kalendarz" HorizontalOptions="FillAndExpand" Clicked="OnLoadListClicked" CommandParameter="Kalend" BackgroundColor="{StaticResource MyText}"/>
+                    <!-- Dodaj Opinię-->
+                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsVisible="false">
+                        <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
 
-                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" IsVisible="false" >
-                        <HorizontalStackLayout>
-                            <Entry x:Name="EntryOcena" Text="{Binding Opinia.Ocena}" />
-                            <Entry x:Name="EntryOpis" Text="{Binding Opinia.Opis}" />
-                            <Button x:Name="ButtonSaveOpinion" Text="Zapisz" Clicked="OnSendOpinionClicked"/>
-                        </HorizontalStackLayout>
+                            <Entry Grid.Column="0" Grid.Row="0" x:Name="EntryOcena" Text="{Binding Opinia.Ocena}" />
+                            <Entry Grid.Column="1" Grid.Row="0" x:Name="EntryOpis" Text="{Binding Opinia.Opis}" WidthRequest="300"/>
+                            <Button Grid.Column="2" Grid.Row="0" x:Name="ButtonSaveOpinion" Text="Zapisz" Clicked="OnSendOpinionClicked"/>
+                            
+                        </Grid>
                     </Grid>
 
-                    <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
+                    <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
                         <!-- certyfikaty-->
                         <CollectionView x:Name="collectionViewCertyf" SelectionMode="Single"  SelectionChanged="OnCertClicked">
                             <CollectionView.ItemTemplate>
 
                                 <DataTemplate x:DataType="model:CertificateModel">
 
-                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" BackgroundColor="{StaticResource MyTextLight}" Margin="0,2">
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Margin="0,2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="1*" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
+                                            <RowDefinition Height="1" />
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="*" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
 
+                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20" FontAttributes="Bold" Text="{Binding Nazwa}" Margin="5,0"/>
 
-                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Nazwa}" Margin="0,1"/>
+                                        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
+                                        
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Organizacja: " Margin="5,0" FontSize="18"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Organizacja}"  Margin="0,1" FontSize="18"/>
 
-                                        <Label Grid.Column="0" Grid.Row="1" Text="Organizacja: " Margin="0,1" FontSize="18"/>
-                                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Organizacja}"  Margin="0,1" FontSize="18"/>
+                                        <Label Grid.Column="0" Grid.Row="3" Text="Data certyfikatu: "  Margin="5,0" FontSize="18"/>
+                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Data_certyfikatu}"  Margin="0,1" FontSize="18" />
 
-                                        <Label Grid.Column="0" Grid.Row="2" Text="Data certyfikatu: "  Margin="0,1" FontSize="18"/>
-                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Data_certyfikatu}"  Margin="0,1" FontSize="18" />
+                                        <Label Grid.Column="0" Grid.Row="4" Text="Kod certyfikatu: " Margin="5,0" FontSize="18" />
+                                        <Label Grid.Column="1" Grid.Row="4" Text="{Binding Kod_certyfikatu}"  Margin="0,1" FontSize="18" />
 
-                                        <Label Grid.Column="0" Grid.Row="3" Text="Kod certyfikatu: " Margin="0,1" FontSize="18" />
-                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Kod_certyfikatu}"  Margin="0,1" FontSize="18" />
                                     </Grid>
                                 </DataTemplate>
 
@@ -132,20 +163,26 @@
                         <CollectionView x:Name="collectionViewOpinie" SelectionMode="Single"  SelectionChanged="OnOpinionClicked">
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="model:OpinionModel">
+                                <DataTemplate x:DataType="model:OpinionListModel">
 
-                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" BackgroundColor="{StaticResource MyTextLight}" Margin="0,2">
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Margin="0,2">
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*" />
+                                            <RowDefinition Height="1" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
 
 
-                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Id_usera}" Margin="0,1"/>
-                                        <Label Grid.Column="0" Grid.Row="1" Text="{Binding Opis}"  Margin="0,1" FontSize="18" />
+                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Text="{Binding Imie}" FontAttributes="Bold" Margin="5,1"/>
+                                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding Opinion.Ocena}" FontAttributes="Bold" Margin="10,1" HorizontalTextAlignment="End"/>
+                                        
+                                        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
+                                        
+                                        <Label Grid.Column="0" Grid.Row="2" Text="{Binding Opinion.Opis}"  Margin="5,1" FontSize="18" />
 
                                     </Grid>
                                 </DataTemplate>
@@ -155,7 +192,7 @@
                         </CollectionView>
                     </Grid>
 
-                    <Button x:Name="ButtonAddCert" Grid.Column="2" Grid.Row="3" Clicked="OnAddCertClcked" Text="Dodaj" Margin="30" IsVisible="false"/>
+                    <Button x:Name="ButtonAddCert" Grid.Column="2" Grid.Row="2" Clicked="OnAddCertClcked" Text="Dodaj" Margin="30" IsVisible="false"/>
 
                 </Grid>
 

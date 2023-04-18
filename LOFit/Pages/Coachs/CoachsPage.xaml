@@ -14,54 +14,74 @@
 
     <StackLayout>
 
-        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" x:Name="Header1" IsVisible="false">
-            <Label Text="Moi trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30"/>
-        </HorizontalStackLayout>
-        
+        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header1" IsVisible="true">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="Moi trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
+            <Grid Grid.Row="1" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
+        </Grid>
+
         <CollectionView x:Name="collectionViewMyCoach" SelectionMode="Single" SelectionChanged="OnCoachClicked" SelectionChangedCommandParameter="My">
 
-        <CollectionView.ItemTemplate>
+            <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="model:CoachListModel">
+                <DataTemplate x:DataType="model:CoachListModel">
 
-                <Grid HorizontalOptions="Fill" VerticalOptions="Start" BackgroundColor="{StaticResource Primary}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="2" />
-                    </Grid.RowDefinitions>
+                    <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
+                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
 
-                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="40" Margin="0,0,0,5" />
+                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}"  FontSize="20" FontAttributes="Bold" Margin="0,0,0,5" />
 
-                    <Label Grid.Column="1" Grid.Row="1" Text="Ocena: " />
-                    <Label Grid.Column="2" Grid.Row="1" Text="{Binding Ocena}"  />
+                        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
 
-                    <Label Grid.Column="1" Grid.Row="2" Text="Typ trenera: " />
-                    <Label Grid.Column="2" Grid.Row="2" Text="{Binding TypTrenera}"  />
+                        <Label Grid.Column="1" Grid.Row="2" Text="Ocena: " />
+                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding Ocena}"  />
 
-                    <Label Grid.Column="1" Grid.Row="3" Text="Cena usługi: " />
-                    <Label Grid.Column="2" Grid.Row="3" Text="{Binding CenaUslugi}"   />
+                        <Label Grid.Column="1" Grid.Row="3" Text="Typ trenera: " />
+                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding TypTrenera}"  />
 
+                        <Label Grid.Column="1" Grid.Row="4" Text="Cena usługi: " />
+                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding CenaUslugi}"   />
 
-                </Grid>
-            </DataTemplate>
+                    </Grid>
+                </DataTemplate>
 
-        </CollectionView.ItemTemplate>
+            </CollectionView.ItemTemplate>
 
-    </CollectionView>
+        </CollectionView>
 
-        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" x:Name="Header2" IsVisible="false">
-            <Label Text="Inni trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30"/>
-        </HorizontalStackLayout>
+        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="1" Grid.Column="0" Text="Inni trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
+            <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
+        </Grid>
 
         <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnCoachClicked"  SelectionChangedCommandParameter="Other">
 
@@ -77,25 +97,26 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="1" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="2" />
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="4" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
+                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
 
-                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="40" Margin="0,0,0,5" />
+                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="20" FontAttributes="Bold" Margin="0,0,0,5" />
 
-                        <Label Grid.Column="1" Grid.Row="1" Text="Ocena: " />
-                        <Label Grid.Column="2" Grid.Row="1" Text="{Binding Ocena}"  />
+                        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
+                        
+                        <Label Grid.Column="1" Grid.Row="2" Text="Ocena: " />
+                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding Ocena}"  />
 
-                        <Label Grid.Column="1" Grid.Row="2" Text="Typ trenera: " />
-                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding TypTrenera}"  />
+                        <Label Grid.Column="1" Grid.Row="3" Text="Typ trenera: " />
+                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding TypTrenera}"  />
 
-                        <Label Grid.Column="1" Grid.Row="3" Text="Cena usługi: " />
-                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding CenaUslugi}"   />
-
+                        <Label Grid.Column="1" Grid.Row="4" Text="Cena usługi: " />
+                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding CenaUslugi}"   />
 
                     </Grid>
                 </DataTemplate>
@@ -103,6 +124,6 @@
             </CollectionView.ItemTemplate>
 
         </CollectionView>
-    
-</StackLayout>
+
+    </StackLayout>
 </ContentPage>

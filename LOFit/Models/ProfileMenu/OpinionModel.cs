@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using LOFit.DataServices.User;
+using System.ComponentModel;
 
 namespace LOFit.Models.ProfileMenu
 {
@@ -47,6 +48,11 @@ namespace LOFit.Models.ProfileMenu
             }
         }
         public int Zgloszona { get; set; } //status weryfikacji
+
+        public async Task<string> Imie(IUserRestService dataService)
+        {
+            return await dataService.GetName(Id_usera);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

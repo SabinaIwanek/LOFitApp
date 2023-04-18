@@ -24,9 +24,9 @@ namespace LOFit.Models.Menu
 
         public string Nazwa_dania { get; set; }
         public int Kcla { get; set; }
-        public int Bialko { get; set; }
-        public int Tluszcze { get; set; }
-        public int Wegle { get; set; }
+        public int? Bialko { get; set; }
+        public int? Tluszcze { get; set; }
+        public int? Wegle { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

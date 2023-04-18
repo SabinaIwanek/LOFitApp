@@ -1,5 +1,7 @@
-﻿using LOFit.Models.Accounts;
+﻿using LOFit.DataServices.User;
+using LOFit.Models.Accounts;
 using LOFit.Models.Menu;
+using LOFit.Models.ProfileMenu;
 
 namespace LOFit.Tools
 {
@@ -35,14 +37,31 @@ namespace LOFit.Tools
             {
                 MealListModel model = new MealListModel();
 
-                model.Nazwa_dania = newList.Any(x => x.Nazwa_dania == meal.Nazwa_dania) ? "" : meal.Nazwa_dania;
-                model.Kcla = (meal.Gramy * meal.Produkt.Kcla) / meal.Produkt.Gramy;
-
-                if (meal.Produkt.Bialko != null) model.Bialko = (meal.Gramy * (int)meal.Produkt.Bialko) / meal.Produkt.Gramy;
-                if (meal.Produkt.Tluszcze != null) model.Tluszcze = (meal.Gramy * (int)meal.Produkt.Tluszcze) / meal.Produkt.Gramy;
-                if (meal.Produkt.Wegle != null) model.Wegle = (meal.Gramy * (int)meal.Produkt.Wegle) / meal.Produkt.Gramy;
+                model.Nazwa_dania = newList.Last().Nazwa_dania == meal.Nazwa_dania ? "" : meal.Nazwa_dania;
 
                 model.Meal = meal;
+                model.Kcla = meal.Kcla();
+                model.Bialko = meal.Bialko();
+                model.Tluszcze = meal.Tluszcze();
+                model.Wegle = meal.Wegle();
+
+                newList.Add(model);
+            }
+
+            return newList;
+        }
+
+        public async static Task<List<OpinionListModel>> ReturnOpinionList(List<OpinionModel> list, IUserRestService dataService)
+        {
+            List<OpinionListModel> newList = new List<OpinionListModel>();
+            if (list == null) return newList;
+
+            foreach (OpinionModel opinion in list)
+            {
+                OpinionListModel model = new OpinionListModel();
+
+                model.Opinion = opinion;
+                model.Imie = await opinion.Imie(dataService);
 
                 newList.Add(model);
             }

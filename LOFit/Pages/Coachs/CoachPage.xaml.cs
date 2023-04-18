@@ -1,6 +1,7 @@
 using LOFit.DataServices.Certificate;
 using LOFit.DataServices.Coach;
 using LOFit.DataServices.Connection;
+using LOFit.DataServices.User;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.ProfileMenu;
@@ -17,7 +18,9 @@ public partial class CoachPage : ContentPage
     private readonly ICertificateRestService _dataServiceCert;
     private readonly IOpinionRestService _dataServiceOpinion;
     private readonly IConnectionRestService _dataServiceConn;
+    private readonly IUserRestService _dataServiceUser;
     private List<Button> _buttons;
+    private List<Grid> _grids;
     private int _type;
     private bool _isUserProfile;
 
@@ -44,7 +47,7 @@ public partial class CoachPage : ContentPage
                 {
                     LoadMyOpinion();
                     LoadOnSelectButtonClickedText();
-                    GridDodajOpinie.IsVisible = true;
+                    GridDodajOpinie.IsVisible = false;
                     ButtonAddCert.IsVisible = false;
                     ButtonSelect.IsVisible = true;
                     ButtonOpisEdit.IsVisible = false;
@@ -117,16 +120,18 @@ public partial class CoachPage : ContentPage
     }
     #endregion
 
-    public CoachPage(ICoachRestService dataService, ICertificateRestService dataServiceCert, IOpinionRestService dataServiceOpinion, IConnectionRestService dataServiceConn)
+    public CoachPage(ICoachRestService dataService, ICertificateRestService dataServiceCert, IOpinionRestService dataServiceOpinion, IConnectionRestService dataServiceConn, IUserRestService dataServiceUser)
     {
         InitializeComponent();
         _dataService = dataService;
         _dataServiceCert = dataServiceCert;
         _dataServiceOpinion = dataServiceOpinion;
         _dataServiceConn = dataServiceConn;
+        _dataServiceUser = dataServiceUser;
 
         BindingContext = this;
-        _buttons = new List<Button>() { Button1, Button2, Button3 };
+        _buttons = new List<Button>() { Button1, Button2 };
+        _grids = new List<Grid>() { BottomButton1, BottomButton2 };
 
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
@@ -216,7 +221,7 @@ public partial class CoachPage : ContentPage
     #region Lists
     void OnLoadListClicked(object sender, EventArgs e)
     {
-        DataTools.ButtonNotClicked(_buttons);
+        DataTools.ButtonNotClicked(_buttons, _grids);
 
         var button = (Button)sender;
         var property = button.CommandParameter.ToString();
@@ -228,7 +233,7 @@ public partial class CoachPage : ContentPage
             GridDodajOpinie.IsVisible = false;
             if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile) ButtonAddCert.IsVisible = true;
 
-            DataTools.ButtonClicked(_buttons[0]);
+            DataTools.ButtonClicked(_buttons[0], _grids[0]);
 
             ListLoadCertyf();
         }
@@ -239,19 +244,19 @@ public partial class CoachPage : ContentPage
             if (Singleton.Instance.Type == TypKonta.Uzytkownik) GridDodajOpinie.IsVisible = true;
             ButtonAddCert.IsVisible = false;
 
-            DataTools.ButtonClicked(_buttons[1]);
+            DataTools.ButtonClicked(_buttons[1], _grids[1]);
 
             ListLoadOpinie();
         }
-        if (property == "Kalend")
+        /*if (property == "Kalend")
         {
             collectionViewOpinie.IsVisible = false;
             collectionViewCertyf.IsVisible = false;
             GridDodajOpinie.IsVisible = false;
             ButtonAddCert.IsVisible = false;
 
-            DataTools.ButtonClicked(_buttons[2]);
-        }
+            DataTools.ButtonClicked(_buttons[3], _grids[3]);
+        }*/
     }
 
     #region Certyfikaty
@@ -292,7 +297,7 @@ public partial class CoachPage : ContentPage
     #region Opinie
     async void ListLoadOpinie()
     {
-        collectionViewOpinie.ItemsSource = await _dataServiceOpinion.GetCoachList(CoachM.Id);
+        collectionViewOpinie.ItemsSource = await ListModelTools.ReturnOpinionList( await _dataServiceOpinion.GetCoachList(CoachM.Id), _dataServiceUser);
     }
     async void LoadMyOpinion()
     {
@@ -320,7 +325,8 @@ public partial class CoachPage : ContentPage
 
             if (result)
             {
-                OpinionModel model = e.CurrentSelection.FirstOrDefault() as OpinionModel;
+                OpinionListModel listModel = e.CurrentSelection.FirstOrDefault() as OpinionListModel;
+                OpinionModel model = listModel.Opinion;
                 model.Zgloszona = 1;
                 await _dataServiceOpinion.Update(model);
             }
