@@ -96,9 +96,24 @@ public partial class ProductsPage : ContentPage
     }
     #endregion
 
+    #region Lists
     async void ListLoad()
     {
-        collectionView.ItemsSource = MyList? await _dataService.GetUserList() : await _dataService.GetAppList();
+        if (MyList)
+        {
+            collectionViewMy.ItemsSource = await _dataService.GetUserList();
+
+            collectionViewMy.IsVisible = true;
+            collectionView.IsVisible = false;
+        }
+        else
+        {
+            collectionView.ItemsSource = await _dataService.GetAppList();
+
+            collectionViewMy.IsVisible = false;
+            collectionView.IsVisible = true;
+        }
+        
     }
 
     async void OnProductClicked(object sender, SelectionChangedEventArgs e)
@@ -114,4 +129,16 @@ public partial class ProductsPage : ContentPage
 
         await Shell.Current.GoToAsync(nameof(MealPage), navigationParameter);
     }
+    async void OnDeleteProductClicked(object sender, EventArgs e)
+    {
+
+        var button = (Button)sender;
+        var id = Int32.Parse(button.CommandParameter.ToString());
+
+        await _dataService.Delete(id);
+
+        ListLoad();
+
+    }
+    #endregion
 }

@@ -6,6 +6,7 @@ using LOFit.Models.Menu;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.Workouts;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Meals;
@@ -15,10 +16,6 @@ public partial class MealsPage : ContentPage
     private readonly IMealRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
     private List<Button> _buttons;
-    private Button _lastButtonClicked;
-    private DateTime _firstDayWeek;
-    private List<DateTime> _weekDates;
-    private bool _buttonsWorking = true;
 
     #region Binding prop
     DateTime _data;
@@ -27,26 +24,15 @@ public partial class MealsPage : ContentPage
         get { return _data; }
         set
         {
-            if (_firstDayWeek.Year == 1 || value == _data)
-                return;
+            if (value.Year == 1900) return;
 
             _data = value;
 
             Singleton.Instance.DateToShow = _data;
 
-            if (_data < _firstDayWeek || _data > _firstDayWeek.AddDays(6))
-            {
-                EntryWeekDates(_data);
-            }
-            else
-            {
-                int buttonIndex = DataTools.ButtonClicked(_data.DayOfWeek, _buttons);
-                _lastButtonClicked = _buttons[buttonIndex];
-            }
-
-            ListLoad(_data);
-
             OnPropertyChanged();
+            ListLoad();
+            EntryDate();
         }
     }
     #endregion
@@ -57,11 +43,10 @@ public partial class MealsPage : ContentPage
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
         BindingContext = this;
-        _buttons = new List<Button>() { Button1, Button2, Button3, Button4, Button5, Button6, Button7 };
+        _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
 
         if (Singleton.Instance.DateToShow.Year != 1)
         {
-            EntryWeekDates(Singleton.Instance.DateToShow);
             DateCalendar = Singleton.Instance.DateToShow;
         }
 
@@ -133,94 +118,27 @@ public partial class MealsPage : ContentPage
     }
     #endregion
 
-    #region Week buttons
-    private void EntryWeekDates(DateTime date)
+    #region Date buttons
+    void OnButtonDateClicked(object sender, EventArgs e)
     {
-        _firstDayWeek = DataTools.ReturnFirstDayWeek(date);
-        _weekDates = new List<DateTime>();
+        var button = (Button)sender;
+        var value = Int32.Parse((string)button.CommandParameter);
 
-        _buttonsWorking = false;
-
-        int buttonIndex = DataTools.ButtonClicked(date.DayOfWeek, _buttons);
-        _lastButtonClicked = _buttons[buttonIndex];
-
-        for (int i = 0; i < 7; i++)
-        {
-            _weekDates.Add(_firstDayWeek.AddDays(i));
-            _buttons[i].Text = _weekDates.Last().ToString("dd.MM");
-        }
-
-        _buttonsWorking = true;
+        DateCalendar = DateCalendar.AddDays(value);
     }
-    async void OnButton1Clicked(object sender, EventArgs e)
+    void EntryDate()
     {
-        if (!_buttonsWorking) return;
-
-        DateCalendar = _weekDates[0];
-
-        DataTools.ButtonSwitch(Button1, _lastButtonClicked);
-        _lastButtonClicked = Button1;
-    }
-    async void OnButton2Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        DateCalendar = _weekDates[1];
-
-        DataTools.ButtonSwitch(Button2, _lastButtonClicked);
-        _lastButtonClicked = Button2;
-    }
-    async void OnButton3Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        DateCalendar = _weekDates[2];
-
-        DataTools.ButtonSwitch(Button3, _lastButtonClicked);
-        _lastButtonClicked = Button3;
-    }
-    async void OnButton4Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        DateCalendar = _weekDates[3];
-
-        DataTools.ButtonSwitch(Button4, _lastButtonClicked);
-        _lastButtonClicked = Button4;
-    }
-    async void OnButton5Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        DateCalendar = _weekDates[4];
-
-        DataTools.ButtonSwitch(Button5, _lastButtonClicked);
-        _lastButtonClicked = Button5;
-    }
-    async void OnButton6Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        DateCalendar = _weekDates[5];
-
-        DataTools.ButtonSwitch(Button6, _lastButtonClicked);
-        _lastButtonClicked = Button6;
-    }
-    async void OnButton7Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        DateCalendar = _weekDates[6];
-
-        DataTools.ButtonSwitch(Button7, _lastButtonClicked);
-        _lastButtonClicked = Button7;
+        _buttons[0].Text = DateCalendar.AddDays(-2).ToString("dd");
+        _buttons[1].Text = DateCalendar.AddDays(-1).ToString("dd");
+        _buttons[2].Text = DateCalendar.AddDays(1).ToString("dd");
+        _buttons[3].Text = DateCalendar.AddDays(2).ToString("dd");
     }
     #endregion
 
     #region List
-    async void ListLoad(DateTime date)
+    async void ListLoad()
     {
-        var list = await _dataService.GetUserList(date, Singleton.Instance.IdUsera);
+        var list = await _dataService.GetUserList(DateCalendar, Singleton.Instance.IdUsera);
 
         Dispatcher.Dispatch(() =>
         {
@@ -256,6 +174,21 @@ public partial class MealsPage : ContentPage
             await Shell.Current.GoToAsync(nameof(MealPage), navigationParameter);
         }
     }
+    async void OnDeleteMealClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+        {
+            var button = (Button)sender;
+            var id = Int32.Parse(button.CommandParameter.ToString());
+
+            await _dataService.Delete(id);
+
+            Dispatcher.Dispatch(() =>
+            {
+                DateCalendar = DateCalendar;
+            });
+        }
+    }
     async void OnCoachMealClicked(object sender, SelectionChangedEventArgs e)
     {
         MealListModel listModel = e.CurrentSelection.FirstOrDefault() as MealListModel;
@@ -270,7 +203,21 @@ public partial class MealsPage : ContentPage
 
         await Shell.Current.GoToAsync(nameof(MealPage), navigationParameter);
     }
+    async void OnDeleteCoachMealClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            var button = (Button)sender;
+            var id = Int32.Parse(button.CommandParameter.ToString());
 
+            await _dataService.Delete(id);
+
+            Dispatcher.Dispatch(() =>
+            {
+                DateCalendar = DateCalendar;
+            });
+        }
+    }
     #endregion
 
     #region Bottom buttons
@@ -285,6 +232,28 @@ public partial class MealsPage : ContentPage
         };
 
         await Shell.Current.GoToAsync(nameof(MealPage), navigationParameter);
+    }
+    async void OnBottomMenuClicked(object sender, EventArgs e)
+    {
+        var button = (ImageButton)sender;
+        var parameter = (string)button.CommandParameter;
+
+        if (parameter == "meals")
+        {
+            await Shell.Current.GoToAsync(nameof(MealsPage));
+        }
+        else if (parameter == "measure")
+        {
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        }
+        else if (parameter == "workout")
+        {
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        else if (parameter == "coachs")
+        {
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
     }
     #endregion
 }

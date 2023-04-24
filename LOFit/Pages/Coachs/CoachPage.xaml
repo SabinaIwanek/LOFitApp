@@ -27,7 +27,7 @@
             <StackLayout>
 
                 <!--Wizytówka-->
-                <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="40" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="2*" />
@@ -43,11 +43,12 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="2" />
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
+                    <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="5"/>
 
-                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="25" FontAttributes="Bold" Margin="0,0,0,5" />
+                    <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="25" FontAttributes="Bold"  />
 
                     <Label Grid.Column="1" Grid.Row="1" Text="Ocena: " />
                     <Label Grid.Column="2" Grid.Row="1" Text="{Binding Ocena}"  />
@@ -67,12 +68,12 @@
                     <Label Grid.Column="2" Grid.Row="6" Text="{Binding Path=CoachM.Nr_telefonu}" />
 
                     <Entry Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="3" x:Name="EntryOpisEdit"  Text="{Binding Path=CoachM.Opis_profilu}" IsReadOnly="true"  BackgroundColor="Transparent" />
-                    <Button Grid.Column="2" Grid.Row="7" x:Name="ButtonOpisEdit" Clicked="OnEditCicked" Text="Edytuj opis" Margin="30" IsVisible="false"/>
+                    <Button Grid.Column="2" Grid.Row="7" x:Name="ButtonOpisEdit" Clicked="OnEditCicked" Text="Edytuj opis" Padding="30" IsVisible="false"/>
 
                 </Grid>
 
                 <!-- Guziki-->
-                <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*" />
@@ -104,7 +105,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Dodaj Opinię-->
-                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsVisible="false">
+                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsVisible="false"  Padding="30,30,30,0" >
                         <Grid HorizontalOptions="Fill" VerticalOptions="Start">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40"/>
@@ -129,7 +130,7 @@
 
                                 <DataTemplate x:DataType="model:CertificateModel">
 
-                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Margin="0,2">
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="30">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="1*" />
@@ -142,18 +143,18 @@
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
 
-                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20" FontAttributes="Bold" Text="{Binding Nazwa}" Margin="5,0"/>
+                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" FontSize="20" FontAttributes="Bold" Text="{Binding Nazwa}" />
 
                                         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
                                         
-                                        <Label Grid.Column="0" Grid.Row="2" Text="Organizacja: " Margin="5,0" FontSize="18"/>
-                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Organizacja}"  Margin="0,1" FontSize="18"/>
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Organizacja: "  FontSize="18"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Organizacja}"  FontSize="18"/>
 
-                                        <Label Grid.Column="0" Grid.Row="3" Text="Data certyfikatu: "  Margin="5,0" FontSize="18"/>
-                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Data_certyfikatu}"  Margin="0,1" FontSize="18" />
+                                        <Label Grid.Column="0" Grid.Row="3" Text="Data certyfikatu: "  FontSize="18"/>
+                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Data_certyfikatu}"  FontSize="18" />
 
-                                        <Label Grid.Column="0" Grid.Row="4" Text="Kod certyfikatu: " Margin="5,0" FontSize="18" />
-                                        <Label Grid.Column="1" Grid.Row="4" Text="{Binding Kod_certyfikatu}"  Margin="0,1" FontSize="18" />
+                                        <Label Grid.Column="0" Grid.Row="4" Text="Kod certyfikatu: " FontSize="18" />
+                                        <Label Grid.Column="1" Grid.Row="4" Text="{Binding Kod_certyfikatu}"  FontSize="18" />
 
                                     </Grid>
                                 </DataTemplate>
@@ -167,7 +168,7 @@
 
                                 <DataTemplate x:DataType="model:OpinionListModel">
 
-                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Margin="0,2">
+                                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="30">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="1*"/>
@@ -179,12 +180,12 @@
                                         </Grid.RowDefinitions>
 
 
-                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Text="{Binding Imie}" FontAttributes="Bold" Margin="5,1"/>
-                                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding Opinion.Ocena}" FontAttributes="Bold" Margin="10,1" HorizontalTextAlignment="End"/>
+                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Text="{Binding Imie}" FontAttributes="Bold" />
+                                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding Opinion.Ocena}" FontAttributes="Bold"  HorizontalTextAlignment="End"/>
                                         
                                         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
                                         
-                                        <Label Grid.Column="0" Grid.Row="2" Text="{Binding Opinion.Opis}"  Margin="5,1" FontSize="18" />
+                                        <Label Grid.Column="0" Grid.Row="2" Text="{Binding Opinion.Opis}"  FontSize="18" />
 
                                     </Grid>
                                 </DataTemplate>
@@ -194,7 +195,7 @@
                         </CollectionView>
                     </Grid>
 
-                    <Button x:Name="ButtonAddCert" Grid.Column="2" Grid.Row="2" Clicked="OnAddCertClcked" Text="Dodaj" Margin="30" IsVisible="false"/>
+                    <Button x:Name="ButtonAddCert" Grid.Column="2" Grid.Row="2" Clicked="OnAddCertClcked" Text="Dodaj" Padding="30" IsVisible="false"/>
 
                 </Grid>
 

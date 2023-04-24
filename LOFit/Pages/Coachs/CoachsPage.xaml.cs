@@ -1,8 +1,10 @@
 using LOFit.DataServices.Coach;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
+using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.Workouts;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Coachs;
@@ -130,6 +132,31 @@ public partial class CoachsPage : ContentPage
         };
 
         await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
+    }
+    #endregion
+
+    #region Bottom menu
+    async void OnBottomMenuClicked(object sender, EventArgs e)
+    {
+        var button = (ImageButton)sender;
+        var parameter = (string)button.CommandParameter;
+
+        if (parameter == "meals")
+        {
+            await Shell.Current.GoToAsync(nameof(MealsPage));
+        }
+        else if (parameter == "measure")
+        {
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        }
+        else if (parameter == "workout")
+        {
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        else if (parameter == "coachs")
+        {
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
     }
     #endregion
 }

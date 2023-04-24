@@ -237,6 +237,7 @@ public partial class MealPage : ContentPage
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(ButtonAddProd, BottomAddProd);
 
+        ButtonClicked = 0;
         IsNewProd(true);
         ModelProd = new ProductModel();
     }
@@ -263,6 +264,8 @@ public partial class MealPage : ContentPage
 
     private void IsNewProd(bool isNew)
     {
+        checkBoxGrid.IsVisible = isNew;
+
         EntryNazwa.IsReadOnly = !isNew;
         EntryEan.IsReadOnly = !isNew;
         EntryKcla.IsReadOnly = !isNew;
@@ -314,6 +317,9 @@ public partial class MealPage : ContentPage
 
         if (_isNewProd)
         {
+            if (checkBox.IsChecked) ModelProd.Id_konta = -1;
+            else ModelProd.Id_konta = 0;
+
             ModelProd.Gramy = Model.Gramy;
             ModelProd.Id = await _productDataService.Add(ModelProd);
         }

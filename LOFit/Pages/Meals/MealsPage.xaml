@@ -16,34 +16,59 @@
 
     <StackLayout>
 
-        <StackLayout Orientation="Horizontal">
-            <Button x:Name="Button1" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton1Clicked" BackgroundColor="{StaticResource MyText}"/>
-            <Button x:Name="Button2" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton2Clicked" BackgroundColor="{StaticResource MyText}"/>
-            <Button x:Name="Button3" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton3Clicked" BackgroundColor="{StaticResource MyText}"/>
-            <Button x:Name="Button4" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton4Clicked" BackgroundColor="{StaticResource MyText}"/>
-            <Button x:Name="Button5" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton5Clicked" BackgroundColor="{StaticResource MyText}"/>
-            <Button x:Name="Button6" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton6Clicked" BackgroundColor="{StaticResource MyText}"/>
-            <Button x:Name="Button7" Text="|" HorizontalOptions="FillAndExpand" Clicked="OnButton7Clicked" BackgroundColor="{StaticResource MyText}"/>
-        </StackLayout>
+        <!--Data-->
+        <Grid HorizontalOptions="Fill" VerticalOptions="Start" BackgroundColor="{StaticResource MyEntryBg}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+            </Grid.RowDefinitions>
 
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-            <DatePicker Date="{Binding DateCalendar}" FontSize="30" Margin="0,0,0,20"/>
-        </StackLayout>
+            <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" Clicked="OnButtonDateClicked" CommandParameter="-2" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
+            <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" Clicked="OnButtonDateClicked" CommandParameter="-1"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
+            <DatePicker Grid.Column="2" Grid.Row="0" Date="{Binding DateCalendar}" FontSize="21" FontAttributes="Bold" HorizontalOptions="Center" Format="dd/MM"/>
+            <Button Grid.Column="3" Grid.Row="0" x:Name="Button3" Clicked="OnButtonDateClicked" CommandParameter="1"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
+            <Button Grid.Column="4" Grid.Row="0" x:Name="Button4" Clicked="OnButtonDateClicked" CommandParameter="2"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
 
+        </Grid>
+        <Grid HorizontalOptions="Fill" VerticalOptions="Start" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Column="2" Grid.Row="0" BackgroundColor="{StaticResource Primary}"/>
+
+        </Grid>
+
+        <!--Zawatrosć-->
         <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <StackLayout>
+
                 <!-- Coach header-->
-                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header1" IsVisible="true">
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header1" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="2" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="3" />
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="1" />
                     </Grid.RowDefinitions>
 
+                    <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                     <Label Grid.Row="1" Grid.Column="0" Text="Od trenera" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
                     <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                 </Grid>
@@ -53,51 +78,55 @@
                     <CollectionView.ItemTemplate>
 
                         <DataTemplate x:DataType="model:MealListModel">
-                            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                            <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="30,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="1" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="15" />
                                 </Grid.RowDefinitions>
 
-                                <Label Grid.Column="0" Grid.Row="0" Text="{Binding Nazwa_dania}" FontSize="20" Margin="10,0,0,0" />
-                                <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Meal.Produkt.Nazwa}" FontSize="20" />
+                                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Text="{Binding Nazwa_dania}" FontSize="20" IsVisible="{Binding Nazwa_dania_visible}" BackgroundColor="{StaticResource MyEntryBg}" VerticalTextAlignment="End" HorizontalTextAlignment="Center" Margin="0,20" />
+                                <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Text="{Binding Meal.Produkt.Nazwa}" FontSize="16" VerticalTextAlignment="End" />
+                                <Button Grid.Column="4" Grid.Row="1" Text="X" Clicked="OnDeleteCoachMealClicked"  CommandParameter="{Binding Meal.Id}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
 
-                                <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Background="{StaticResource Primary}" />
 
-                                <Grid Grid.Column="0" Grid.Row="2">
+                                <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" Background="{StaticResource Primary}" />
+
+                                <Grid Grid.Column="0" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Białko: " Margin="10,0,0,0"/>
+                                        <Label TextColor="{StaticResource MyText2}" Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Białko: " />
                                         <Label  Text="{Binding Bialko}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Grid Grid.Column="1" Grid.Row="2">
+                                <Grid Grid.Column="1" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Tłuszcze: " />
-                                        <Label  Text="{Binding Tluszcze}" />
+                                        <Label TextColor="{StaticResource MyText2}" Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Tłuszcze: "  />
+                                        <Label Text="{Binding Tluszcze}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Grid Grid.Column="2" Grid.Row="2">
+                                <Grid Grid.Column="2" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Węgle: " />
+                                        <Label TextColor="{StaticResource MyText2}" Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Węgle: " />
                                         <Label  Text="{Binding Wegle}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
 
-                                <Grid Grid.Column="3" Grid.Row="2">
+                                <Grid Grid.Column="3" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Kcla: " />
-                                        <Label  Text="{Binding Kcla}" />
+                                        <Label Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Kcla: " />
+                                        <Label FontAttributes="Bold" Text="{Binding Kcla}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
@@ -108,71 +137,75 @@
                 </CollectionView>
 
                 <!-- User header-->
-                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true">
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,70,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="2" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="3" />
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="1" />
                     </Grid.RowDefinitions>
 
+                    <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                     <Label Grid.Row="1" Grid.Column="0" Text="Moje" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
                     <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                 </Grid>
-                
+
                 <!-- User List-->
                 <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnMealClicked">
                     <CollectionView.ItemTemplate>
 
                         <DataTemplate x:DataType="model:MealListModel">
-                            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                            <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="30,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="1" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="15" />
                                 </Grid.RowDefinitions>
 
-                                <Label Grid.Column="0" Grid.Row="0" Text="{Binding Nazwa_dania}" FontSize="20" Margin="10,0,0,0" />
-                                <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Meal.Produkt.Nazwa}" FontSize="20" />
+                                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Text="{Binding Nazwa_dania}" FontSize="20" IsVisible="{Binding Nazwa_dania_visible}" BackgroundColor="{StaticResource MyEntryBg}" VerticalTextAlignment="End" HorizontalTextAlignment="Center" Margin="0,20" />
+                                <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Text="{Binding Meal.Produkt.Nazwa}" FontSize="16" VerticalTextAlignment="End" />
+                                <Button Grid.Column="4" Grid.Row="1" Text="X" FontSize="16"  Clicked="OnDeleteMealClicked" CommandParameter="{Binding Meal.Id}" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
 
-                                <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Background="{StaticResource Primary}" />
 
-                                <Grid Grid.Column="0" Grid.Row="2">
+                                <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" Background="{StaticResource Primary}" />
+
+                                <Grid Grid.Column="0" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Białko: " Margin="10,0,0,0"/>
+                                        <Label TextColor="{StaticResource MyText2}" Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Białko: " />
                                         <Label  Text="{Binding Bialko}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Grid Grid.Column="1" Grid.Row="2">
+                                <Grid Grid.Column="1" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Tłuszcze: " />
-                                        <Label  Text="{Binding Tluszcze}" />
+                                        <Label TextColor="{StaticResource MyText2}" Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Tłuszcze: "  />
+                                        <Label Text="{Binding Tluszcze}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Grid Grid.Column="2" Grid.Row="2">
+                                <Grid Grid.Column="2" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Węgle: " />
+                                        <Label TextColor="{StaticResource MyText2}" Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Węgle: " />
                                         <Label  Text="{Binding Wegle}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
 
-                                <Grid Grid.Column="3" Grid.Row="2">
+                                <Grid Grid.Column="3" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Kcla: " />
-                                        <Label  Text="{Binding Kcla}" />
+                                        <Label Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Kcla: " />
+                                        <Label FontAttributes="Bold" Text="{Binding Kcla}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
@@ -186,9 +219,27 @@
         </ScrollView>
 
         <StackLayout Orientation="Horizontal">
-            <Button Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand"/>
+            <Button Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium" />
         </StackLayout>
 
+        <!--Bottom menu-->
+        <Grid HorizontalOptions="Fill" VerticalOptions="End" Padding="0,5" BackgroundColor="{StaticResource MyEntryBg}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55" />
+            </Grid.RowDefinitions>
+
+            <ImageButton Grid.Column="0" Grid.Row="0" Source="meal.png" Clicked="OnBottomMenuClicked" CommandParameter="meals" Margin="10,0" Padding="5"  CornerRadius="30"  BackgroundColor="{StaticResource Primary}"/>
+            <ImageButton Grid.Column="1" Grid.Row="0" Source="measure.png" Clicked="OnBottomMenuClicked" CommandParameter="measure" Margin="10,0" Padding="5"  CornerRadius="30" />
+            <ImageButton Grid.Column="2" Grid.Row="0" Source="workout.png" Clicked="OnBottomMenuClicked" CommandParameter="workout"  Margin="10,0" Padding="5"  CornerRadius="30" />
+            <ImageButton Grid.Column="3" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30"/>
+
+        </Grid>
     </StackLayout>
 
 </ContentPage>

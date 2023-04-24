@@ -32,10 +32,11 @@
     <Color x:Key="MyBgDark">#101010</Color>
 
     <Color x:Key="MyText">#505050</Color>
+    <Color x:Key="MyText2">#87868C</Color>
+    <Color x:Key="MyText3">#F5F5F5</Color>
     <Color x:Key="MyTextLight">#A6A6A6</Color>
-    <!--<Color x:Key="MyBg">#FAEBD7</Color>-->
     <Color x:Key="MyBg">#FFFFFF</Color>
-    <Color x:Key="MyEntryBg">#F2E4D0</Color>
+    <Color x:Key="MyEntryBg">#ebebeb</Color>
 
     <Color x:Key="Primary">#8BC34A</Color>
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>

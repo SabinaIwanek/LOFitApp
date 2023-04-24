@@ -22,6 +22,7 @@ namespace LOFit.Models.Menu
             }
         }
 
+        public bool Nazwa_dania_visible { get; set; }
         public string Nazwa_dania { get; set; }
         public int Kcla { get; set; }
         public int? Bialko { get; set; }

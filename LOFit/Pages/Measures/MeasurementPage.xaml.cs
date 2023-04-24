@@ -16,11 +16,8 @@ public partial class MeasurementPage : ContentPage
 {
     private readonly IMeasurementRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
-    private bool _isNew;
     private List<Button> _buttons;
-    private DateTime _firstDayWeek;
-    private List<MeasurementModel> _weekModels;
-    private bool _buttonsWorking = true;
+    private bool _isNew;
 
     #region Binding prop
     MeasurementModel _model;
@@ -42,23 +39,13 @@ public partial class MeasurementPage : ContentPage
         get { return _data; }
         set
         {
-            if (_firstDayWeek.Year == 1)
-                return;
-
+            if (value.Year == 1900) return;
             _data = value;
 
             Singleton.Instance.DateToShow = _data;
 
-            if (_data < _firstDayWeek || _data > _firstDayWeek.AddDays(6) || _weekModels == null)
-            {
-                EntryWeekButtons(_data);
-            }
-            else
-            {
-                DataTools.ButtonClicked(_data.DayOfWeek, _buttons);
-            }
-
             OnPropertyChanged();
+            EntryData();
         }
     }
     #endregion
@@ -68,18 +55,10 @@ public partial class MeasurementPage : ContentPage
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
         BindingContext = this;
-        _buttons = new List<Button>() { Button1, Button2, Button3, Button4, Button5, Button6, Button7 };
+        _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
 
-        if (Singleton.Instance.DateToShow.Year != 1)
-        {
-            EntryWeekButtons(Singleton.Instance.DateToShow);
-            DateCalendar = Singleton.Instance.DateToShow;
-        }
-        else
-        {
-            EntryWeekButtons(DateTime.Today);
-            DateCalendar = DateTime.Today;
-        }
+        if (Singleton.Instance.DateToShow.Year != 1) DateCalendar = Singleton.Instance.DateToShow;
+        else DateCalendar = DateTime.Today;
 
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
@@ -164,75 +143,22 @@ public partial class MeasurementPage : ContentPage
     }
     #endregion
 
-    #region Week buttons
-    async void OnButton1Clicked(object sender, EventArgs e)
+    #region Date buttons
+    void OnButtonDateClicked(object sender, EventArgs e)
     {
-        if (!_buttonsWorking) return;
+        var button = (Button)sender;
+        var value = Int32.Parse((string)button.CommandParameter);
 
-        Model = new MeasurementModel(_weekModels[0]);
-        DateCalendar = Model.Data_pomiaru;
+        DateCalendar = DateCalendar.AddDays(value);
     }
-    async void OnButton2Clicked(object sender, EventArgs e)
+    async void EntryData()
     {
-        if (!_buttonsWorking) return;
+        _buttons[0].Text = DateCalendar.AddDays(-2).ToString("dd");
+        _buttons[1].Text = DateCalendar.AddDays(-1).ToString("dd");
+        _buttons[2].Text = DateCalendar.AddDays(1).ToString("dd");
+        _buttons[3].Text = DateCalendar.AddDays(2).ToString("dd");
 
-        Model = new MeasurementModel(_weekModels[1]);
-        DateCalendar = Model.Data_pomiaru;
-    }
-    async void OnButton3Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        Model = new MeasurementModel(_weekModels[2]);
-        DateCalendar = Model.Data_pomiaru;
-    }
-    async void OnButton4Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        Model = new MeasurementModel(_weekModels[3]);
-        DateCalendar = Model.Data_pomiaru;
-    }
-    async void OnButton5Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        Model = new MeasurementModel(_weekModels[4]);
-        DateCalendar = Model.Data_pomiaru;
-    }
-    async void OnButton6Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        Model = new MeasurementModel(_weekModels[5]);
-        DateCalendar = Model.Data_pomiaru;
-    }
-    async void OnButton7Clicked(object sender, EventArgs e)
-    {
-        if (!_buttonsWorking) return;
-
-        Model = new MeasurementModel(_weekModels[6]);
-        DateCalendar = Model.Data_pomiaru;
-    }
-
-    private async void EntryWeekButtons(DateTime date)
-    {
-        _firstDayWeek = DataTools.ReturnFirstDayWeek(date);
-        _weekModels = new List<MeasurementModel>();
-
-        _buttonsWorking = false;
-
-        int buttonIndex = DataTools.ButtonClicked(date.DayOfWeek, _buttons);
-        _weekModels = await _dataService.GetWeek(_firstDayWeek, Singleton.Instance.IdUsera);
-
-        Model = await Task.Run(() => new MeasurementModel(_weekModels[buttonIndex]));
-
-        for (int i = 0; i < 7; i++)
-        {
-            _buttons[i].Text = _firstDayWeek.AddDays(i).ToString("dd.MM");
-        }
-
-        _buttonsWorking = true;
+        Model = await _dataService.Get(DateCalendar);
     }
     #endregion
 
@@ -279,11 +205,30 @@ public partial class MeasurementPage : ContentPage
             }
             else await _dataService.Update(Model);
 
-            // Odœwie¿anie
             Model = Model;
-            EntryWeekButtons(Model.Data_pomiaru);
+        }
+    }
+    async void OnBottomMenuClicked(object sender, EventArgs e)
+    {
+        var button = (ImageButton)sender;
+        var parameter = (string)button.CommandParameter;
+
+        if (parameter == "meals") 
+        {
+            await Shell.Current.GoToAsync(nameof(MealsPage));
+        }
+        else if (parameter == "measure") 
+        {
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        }
+        else if (parameter == "workout") 
+        {
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        else if (parameter == "coachs") 
+        {
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
         }
     }
     #endregion
-
 }

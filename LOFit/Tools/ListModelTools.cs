@@ -39,7 +39,7 @@ namespace LOFit.Tools
                 MealListModel model = new MealListModel();
 
                 model.Nazwa_dania = newList.LastOrDefault()?.Nazwa_dania == meal.Nazwa_dania ? "" : meal.Nazwa_dania;
-
+                model.Nazwa_dania_visible = model.Nazwa_dania != "";
                 model.Meal = meal;
                 model.Kcla = meal.Kcla();
                 model.Bialko = meal.Bialko();
