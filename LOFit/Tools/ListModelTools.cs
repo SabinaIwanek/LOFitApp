@@ -1,4 +1,5 @@
-﻿using LOFit.DataServices.User;
+﻿using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
 using LOFit.Models.Accounts;
 using LOFit.Models.Menu;
 using LOFit.Models.ProfileMenu;
@@ -69,6 +70,26 @@ namespace LOFit.Tools
             return newList;
         }
 
+        public async static Task<List<ConnectionListModel>> ReturnConnectionList(List<ConnectionModel> list, IUserRestService dataServiceUser, ICoachRestService dataServiceCoach)
+        {
+            List<ConnectionListModel> newList = new List<ConnectionListModel>();
+            if (list == null) return newList;
+
+            foreach (ConnectionModel connection in list)
+            {
+                ConnectionListModel model = new ConnectionListModel();
+
+                model.Connection = connection;
+                model.NazwaUser = await connection.NazwaUser(dataServiceUser);
+                model.NazwaTrener = await connection.NazwaTrener(dataServiceCoach);
+                model.CzasTrwania = connection.CzasTrwania();
+                model.Status = connection.Status();
+
+                newList.Add(model);
+            }
+
+            return newList;
+        }
 
         public static List<WorkoutDayListModel> ReturnWorkoutDayList(List<WorkoutDayModel> list)
         {

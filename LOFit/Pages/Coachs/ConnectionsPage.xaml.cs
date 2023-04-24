@@ -1,14 +1,12 @@
 using LOFit.DataServices.Coach;
 using LOFit.DataServices.Connection;
+using LOFit.DataServices.User;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.ProfileMenu;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Internals;
-using System.Runtime.InteropServices;
 
 namespace LOFit.Pages.Coachs;
 
@@ -16,15 +14,17 @@ public partial class ConnectionsPage : ContentPage
 {
     private readonly IConnectionRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
+    private readonly IUserRestService _dataServiceUser;
     private List<Button> _buttons;
     private List<Grid> _grids;
     private int _type;
 
-    public ConnectionsPage(IConnectionRestService dataService, ICoachRestService dataServiceCoach)
+    public ConnectionsPage(IConnectionRestService dataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
     {
         InitializeComponent();
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
+        _dataServiceUser = dataServiceUser;
         _buttons = new List<Button>() { NewButton, ActiveButton, HistoryButton };
         _grids = new List<Grid>() { BottomNewButton, BottomActiveButton, BottomHistoryButton };
         ListLoad(0);
@@ -53,7 +53,6 @@ public partial class ConnectionsPage : ContentPage
 
         await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
     }
-
     #endregion
 
     #region Menu buttons
@@ -115,21 +114,21 @@ public partial class ConnectionsPage : ContentPage
         collectionViewActual.IsVisible = false;
         collectionViewHistory.IsVisible = false;
 
-        Dispatcher.Dispatch(() =>
+        Dispatcher.Dispatch(async () =>
         {
             if (type == 0)
             {
-                collectionViewNew.ItemsSource = list.Where(x => x.Zatwierdzone == type);
+                collectionViewNew.ItemsSource = await ListModelTools.ReturnConnectionList(list.Where(x => x.Zatwierdzone == type).ToList(), _dataServiceUser, _dataServiceCoach);
                 collectionViewNew.IsVisible = true;
             }
             if (type == 1)
             {
-                collectionViewActual.ItemsSource = list.Where(x => x.Zatwierdzone == type);
+                collectionViewActual.ItemsSource = await ListModelTools.ReturnConnectionList(list.Where(x => x.Zatwierdzone == type).ToList(), _dataServiceUser, _dataServiceCoach);
                 collectionViewActual.IsVisible = true;
             }
             if (type == 3)
             {
-                collectionViewHistory.ItemsSource = list;
+                collectionViewHistory.ItemsSource = await ListModelTools.ReturnConnectionList(list, _dataServiceUser, _dataServiceCoach);
                 collectionViewHistory.IsVisible = true;
             }
         });
@@ -139,8 +138,8 @@ public partial class ConnectionsPage : ContentPage
     {
         if (_type == 1)
         {
-            var model = e.CurrentSelection.FirstOrDefault() as ConnectionModel;
-            Singleton.Instance.IdUsera = model.Id_usera;
+            var model = e.CurrentSelection.FirstOrDefault() as ConnectionListModel;
+            Singleton.Instance.IdUsera = model.Connection.Id_usera;
 
             await Shell.Current.GoToAsync(nameof(MeasurementPage));
         }

@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
+using LOFit.Models.Accounts;
+using System.ComponentModel;
 
 namespace LOFit.Models.ProfileMenu
 {
@@ -25,9 +28,36 @@ namespace LOFit.Models.ProfileMenu
             }
         }
 
-        public void OK()
+        public async Task<string> NazwaUser(IUserRestService dataService)
         {
+            UserModel model = await dataService.GetOne(Id_usera);
+            return $"{model.Imie} {model.Nazwisko}";
+        }
+        public async Task<string> NazwaTrener(ICoachRestService dataService)
+        {
+            CoachModel model = await dataService.GetOne(Id_trenera);
+            return $"{model.Imie} {model.Nazwisko}";
+        }
+        public string CzasTrwania()
+        {
+            string wynik = string.Empty;
 
+            if (Czas_do == null)
+                return $"od {Czas_od}";
+
+            return $"od {Czas_od} do {Czas_do}";
+        }
+        public string Status()
+        {
+            if (Zatwierdzone == 0) return "Nowe";
+            if (Zatwierdzone == 1) 
+            {
+                if(Czas_do == null || Czas_do > DateTime.Now) return "Aktualne";
+                else return "Zakończone";
+            } 
+            if (Zatwierdzone == 2) return "Odrzucone";
+
+            return string.Empty;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

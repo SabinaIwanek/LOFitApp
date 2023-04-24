@@ -12,8 +12,8 @@ public partial class CoachsPage : ContentPage
 
     private readonly ICoachRestService _dataService;
     public CoachsPage(ICoachRestService dataService)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _dataService = dataService;
         ListLoad();
 
@@ -37,10 +37,6 @@ public partial class CoachsPage : ContentPage
             await Shell.Current.GoToAsync(nameof(MeasurementPage));
         }
     }
-    /*async void OnSwipeLeft()
-    {
-
-    }*/
     #endregion
 
     #region Menu buttons
@@ -96,7 +92,9 @@ public partial class CoachsPage : ContentPage
     #region Lists
     async void ListLoad()
     {
-        List<CoachListModel> myList = ListModelTools.ReturnCoachList(await _dataService.GetMy(1));
+        List<CoachListModel> myList = new List<CoachListModel>();
+
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik) myList = ListModelTools.ReturnCoachList(await _dataService.GetMy(1));
         List<CoachListModel> list = ListModelTools.ReturnCoachList(await _dataService.GetAll());
 
         foreach (var myCoach in myList)
