@@ -90,6 +90,17 @@ public partial class WorkoutPage : ContentPage
         set
         {
             _workoutingTime = value;
+
+            if (ModelWorkout != null && ModelWorkout.Czas != null && ModelWorkout.Kcla != null)
+            {
+                DateTime czas = (DateTime)ModelWorkout.Czas;
+                int minuty = czas.Hour * 60 + czas.Minute;
+
+                int minuty2 = value.Hours * 60 + value.Minutes;
+
+                Model.Kcla = minuty2 * ModelWorkout.Kcla / minuty;
+            }
+
             OnPropertyChanged();
         }
     }
@@ -206,6 +217,7 @@ public partial class WorkoutPage : ContentPage
     }
     private void IsNewWorkout(bool isNew)
     {
+        checkBoxGrid.IsVisible = isNew;
         EntryNazwa.IsReadOnly = !isNew;
         EntryNazwa.BackgroundColor = isNew ? MyColors.MyEntryBg : MyColors.MyBg;
     }
@@ -235,6 +247,9 @@ public partial class WorkoutPage : ContentPage
             ModelWorkout.Kcla = Model.Kcla;
             ModelWorkout.Czas = Model.Czas;
             ModelWorkout.Opis = Model.Opis;
+
+            if (checkBox.IsChecked) ModelWorkout.Id_konta = -1;
+            else ModelWorkout.Id_konta = 0;
 
             ModelWorkout.Id = await _workoutDataService.Add(ModelWorkout);
         }

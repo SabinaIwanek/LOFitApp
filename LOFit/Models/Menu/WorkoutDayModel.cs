@@ -65,6 +65,7 @@ namespace LOFit.Models.Menu
                 if (_czas == value) return;
 
                 _czas = value;
+
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Czas"));
             }
         }
@@ -125,6 +126,8 @@ namespace LOFit.Models.Menu
 
         public string CzasString()
         {
+            if (Czas == null) return "";
+
             return $"{Czas.Value.Hour}:{(Czas.Value.Minute < 10 ? "0" : "")}{Czas.Value.Minute}";
         }
         public string OpisString()

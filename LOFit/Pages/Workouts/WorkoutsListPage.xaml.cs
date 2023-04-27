@@ -88,12 +88,13 @@ public partial class WorkoutsListPage : ContentPage
     #region Lists
     async void ListLoad()
     {
-        collectionView.ItemsSource = await _dataService.GetUserList();
+        collectionView.ItemsSource = ListModelTools.ReturnWorkoutList(await _dataService.GetUserList());
     }
 
     async void OnWorkoutClicked(object sender, SelectionChangedEventArgs e)
     {
-        WorkoutModel model = e.CurrentSelection.FirstOrDefault() as WorkoutModel;
+        WorkoutListModel modelList = e.CurrentSelection.FirstOrDefault() as WorkoutListModel;
+        WorkoutModel model = modelList.Workout;
 
         var navigationParameter = new Dictionary<string, object>
         {
@@ -103,6 +104,18 @@ public partial class WorkoutsListPage : ContentPage
         };
 
         await Shell.Current.GoToAsync(nameof(WorkoutPage), navigationParameter);
+    }
+
+    async void OnDeleteWorkoutClicked(object sender, EventArgs e)
+    {
+
+        var button = (Button)sender;
+        var id = Int32.Parse(button.CommandParameter.ToString());
+
+        await _dataService.Delete(id);
+
+        ListLoad();
+
     }
     #endregion
 }

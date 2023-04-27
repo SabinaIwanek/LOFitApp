@@ -109,5 +109,23 @@ namespace LOFit.Tools
 
             return newList;
         }
+        public static List<WorkoutListModel> ReturnWorkoutList(List<WorkoutModel> list)
+        {
+            List<WorkoutListModel> newList = new List<WorkoutListModel>();
+            if (list == null) return newList;
+
+            foreach (WorkoutModel workout in list)
+            {
+                WorkoutListModel model = new WorkoutListModel();
+
+                model.Workout = workout;
+                model.CzasString = workout.CzasString();
+                model.OpisString = workout.OpisString();
+
+                newList.Add(model);
+            }
+
+            return newList;
+        }
     }
 }

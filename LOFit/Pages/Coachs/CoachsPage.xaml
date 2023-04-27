@@ -16,19 +16,23 @@
 
     <StackLayout>
 
-        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header1" IsVisible="true">
+        <!-- My coach header-->
+        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header1" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,0,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
                 <RowDefinition Height="2" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Text="Moi trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
-            <Grid Grid.Row="1" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
+            <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
+            <Label Grid.Row="1" Grid.Column="0" Text="Moj trener" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
+            <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
         </Grid>
 
+        <!-- My coach list-->
         <CollectionView x:Name="collectionViewMyCoach" SelectionMode="Single" SelectionChanged="OnCoachClicked" SelectionChangedCommandParameter="My">
 
             <CollectionView.ItemTemplate>
@@ -71,20 +75,23 @@
 
         </CollectionView>
 
-        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true">
+        <!-- coach header-->
+        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,70,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="5" />
-                <RowDefinition Height="*" />
                 <RowDefinition Height="2" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
             </Grid.RowDefinitions>
 
+            <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
             <Label Grid.Row="1" Grid.Column="0" Text="Inni trenerzy" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
             <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
         </Grid>
 
+        <!-- coach list-->
         <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnCoachClicked"  SelectionChangedCommandParameter="Other">
 
             <CollectionView.ItemTemplate>
@@ -110,7 +117,7 @@
                         <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="20" FontAttributes="Bold" Margin="0,0,0,5" />
 
                         <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
-                        
+
                         <Label Grid.Column="1" Grid.Row="2" Text="Ocena: " />
                         <Label Grid.Column="2" Grid.Row="2" Text="{Binding Ocena}"  />
 
@@ -145,6 +152,6 @@
             <ImageButton Grid.Column="3" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30" BackgroundColor="{StaticResource Primary}"/>
 
         </Grid>
-        
+
     </StackLayout>
 </ContentPage>

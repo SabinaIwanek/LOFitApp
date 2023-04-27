@@ -68,6 +68,7 @@
                     <Grid Grid.Column="1" Grid.Row="2" x:Name="BottomMyList" />
                     <Grid Grid.Column="2" Grid.Row="2" x:Name="BottomAppList" />
                 </Grid>
+                
                 <!-- Posilek-->
                 <Grid Padding="40">
                     <Grid.ColumnDefinitions>

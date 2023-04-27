@@ -6,16 +6,16 @@ namespace LOFit.Models.Menu
     {
         public int Id { get; set; }
 
-        private int _id_usera;
-        public int Id_usera
+        private int _id_konta;
+        public int Id_konta
         {
-            get => _id_usera;
+            get => _id_konta;
             set
             {
-                if (_id_usera == value) return;
+                if (_id_konta == value) return;
 
-                _id_usera = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Id_usera"));
+                _id_konta = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Id_konta"));
             }
         }
 
@@ -82,6 +82,16 @@ namespace LOFit.Models.Menu
                 _w_bazie_usera = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("W_bazie_usera"));
             }
+        }
+        public string CzasString()
+        {
+            if (Czas == null) return "";
+
+            return $"{Czas.Value.Hour}:{(Czas.Value.Minute < 10 ? "0" : "")}{Czas.Value.Minute}";
+        }
+        public string OpisString()
+        {
+            return $" - {Opis}";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

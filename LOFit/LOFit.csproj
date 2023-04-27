@@ -50,10 +50,13 @@
 
 	<ItemGroup>
 	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
-	  <None Remove="Resources\Images\bin.png" />
+	  <None Remove="Resources\Images\birthday.png" />
 	  <None Remove="Resources\Images\coachs.png" />
+	  <None Remove="Resources\Images\localizer.png" />
 	  <None Remove="Resources\Images\meal.png" />
 	  <None Remove="Resources\Images\measure.png" />
+	  <None Remove="Resources\Images\money.png" />
+	  <None Remove="Resources\Images\phone.png" />
 	  <None Remove="Resources\Images\workout.png" />
 	</ItemGroup>
 

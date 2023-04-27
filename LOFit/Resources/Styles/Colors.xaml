@@ -39,6 +39,7 @@
     <Color x:Key="MyEntryBg">#ebebeb</Color>
 
     <Color x:Key="Primary">#8BC34A</Color>
+    <Color x:Key="Primary2">#F0FFF0</Color>
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
 
 </ResourceDictionary>

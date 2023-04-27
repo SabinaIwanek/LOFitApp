@@ -46,9 +46,10 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Column="2" Grid.Row="1" BackgroundColor="{StaticResource Primary}"/>
+            <Grid Grid.Column="2" Grid.Row="0" BackgroundColor="{StaticResource Primary}"/>
 
         </Grid>
 
@@ -56,17 +57,17 @@
             <StackLayout>
 
                 <!-- Coach header-->
-                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header1" IsVisible="true">
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header1" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,0,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="2" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="3" />
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="1" />
                     </Grid.RowDefinitions>
 
+                    <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                     <Label Grid.Row="1" Grid.Column="0" Text="Od trenera" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
                     <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                 </Grid>
@@ -76,39 +77,40 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:WorkoutDayListModel">
-                            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                            <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="30,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="1" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="15" />
                                 </Grid.RowDefinitions>
 
-                                <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" >
-                                    <HorizontalStackLayout>
-                                        <Label Text="{Binding WorkoutDay.Trening.Nazwa}" FontSize="20" FontAttributes="Bold" />
-                                        <Label Text="{Binding OpisString}" FontSize="20" />
-                                    </HorizontalStackLayout>
-                                </Grid>
 
-                                <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Background="{StaticResource Primary}" />
+                                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding WorkoutDay.Trening.Nazwa}" FontSize="20"  BackgroundColor="{StaticResource MyEntryBg}" VerticalTextAlignment="End" HorizontalTextAlignment="Center" Margin="0,20" />
+                                <Label Grid.Column="0" Grid.Row="1" Text="{Binding WorkoutDay.Opis}"  FontSize="16" VerticalTextAlignment="End" />
+                                <Button Grid.Column="4" Grid.Row="1" Text="X" FontSize="16"  Clicked="OnDeleteCoachWorkoutClicked" CommandParameter="{Binding WorkoutDay.Id}" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
 
-                                <Grid Grid.Column="1" Grid.Row="2">
+
+                                <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Background="{StaticResource Primary}" />
+
+                                <Grid Grid.Column="1" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Czas: " />
+                                        <Label  Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Czas: " />
                                         <Label  Text="{Binding CzasString}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Grid Grid.Column="2" Grid.Row="2">
+                                <Grid Grid.Column="2" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Kcla: " />
-                                        <Label  Text="{Binding WorkoutDay.Kcla}" />
+                                        <Label  Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Kcla: " />
+                                        <Label  FontAttributes="Bold" Text="{Binding WorkoutDay.Kcla}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
@@ -118,59 +120,60 @@
                 </CollectionView>
 
                 <!-- User header-->
-                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true">
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,70,0,20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="2" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="3" />
-                        <RowDefinition Height="5" />
+                        <RowDefinition Height="1" />
                     </Grid.RowDefinitions>
 
+                    <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                     <Label Grid.Row="1" Grid.Column="0" Text="Moje" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
                     <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                 </Grid>
-
+               
                 <!-- User List-->
                 <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnWorkoutClicked">
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:WorkoutDayListModel">
-                            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                            <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="30,5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="1" />
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="15" />
                                 </Grid.RowDefinitions>
 
-                                <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" >
-                                    <HorizontalStackLayout>
-                                        <Label Text="{Binding WorkoutDay.Trening.Nazwa}" FontSize="20" FontAttributes="Bold" />
-                                        <Label Text="{Binding OpisString}" FontSize="20" />
-                                    </HorizontalStackLayout>
-                                </Grid>
-                                
-                                <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Background="{StaticResource Primary}" />
 
-                                <Grid Grid.Column="1" Grid.Row="2">
+                                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding WorkoutDay.Trening.Nazwa}" FontSize="20"  BackgroundColor="{StaticResource MyEntryBg}" VerticalTextAlignment="End" HorizontalTextAlignment="Center" Margin="0,20" />
+                                <Label Grid.Column="0" Grid.Row="1" Text="{Binding WorkoutDay.Opis}"  FontSize="16" VerticalTextAlignment="End" />
+                                <Button Grid.Column="4" Grid.Row="1" Text="X" FontSize="16"  Clicked="OnDeleteWorkoutClicked" CommandParameter="{Binding WorkoutDay.Id}" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
+
+
+                                <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Background="{StaticResource Primary}" />
+
+                                <Grid Grid.Column="1" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Czas: " />
+                                        <Label  Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Czas: " />
                                         <Label  Text="{Binding CzasString}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
-                                <Grid Grid.Column="2" Grid.Row="2">
+                                <Grid Grid.Column="2" Grid.Row="3">
                                     <HorizontalStackLayout>
-                                        <Label  Text="Kcla: " />
-                                        <Label  Text="{Binding WorkoutDay.Kcla}" />
+                                        <Label  Margin="2,0" FontSize="12" VerticalTextAlignment="Center" Text="Kcla: " />
+                                        <Label  FontAttributes="Bold" Text="{Binding WorkoutDay.Kcla}" />
                                     </HorizontalStackLayout>
                                 </Grid>
 
@@ -183,7 +186,7 @@
         </ScrollView>
 
         <StackLayout Orientation="Horizontal">
-            <Button Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand"/>
+            <Button Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium"/>
         </StackLayout>
 
         <!--Bottom menu-->
@@ -204,7 +207,7 @@
             <ImageButton Grid.Column="3" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30"/>
 
         </Grid>
-        
+
     </StackLayout>
 
 </ContentPage>

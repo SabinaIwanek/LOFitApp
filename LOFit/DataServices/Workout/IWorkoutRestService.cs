@@ -6,6 +6,7 @@ namespace LOFit.DataServices.Workout
     { 
         Task<int> Add(WorkoutModel form);
         Task<string> Update(WorkoutModel form);
+        Task<string> Delete(int id);
         Task<WorkoutModel> GetOne(int id);
         Task<List<WorkoutModel>> GetUserList();
         Task<List<WorkoutModel>> GetAppList();

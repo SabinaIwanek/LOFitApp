@@ -51,12 +51,23 @@ public partial class WorkoutsPage : ContentPage
         DateCalendar = Singleton.Instance.DateToShow;
 
         #region Swipe right
-        SwipeGestureRecognizer swipeGestureLeft = new SwipeGestureRecognizer
+        SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
         {
             Direction = SwipeDirection.Right
         };
 
-        swipeGestureLeft.Swiped += (s, e) => OnRightSwiped();
+        swipeGestureRight.Swiped += (s, e) => OnRightSwiped();
+
+        Content.GestureRecognizers.Add(swipeGestureRight);
+        #endregion
+
+        #region Swipe left
+        SwipeGestureRecognizer swipeGestureLeft = new SwipeGestureRecognizer
+        {
+            Direction = SwipeDirection.Left
+        };
+
+        swipeGestureLeft.Swiped += (s, e) => OnLeftSwiped();
 
         Content.GestureRecognizers.Add(swipeGestureLeft);
         #endregion
@@ -66,6 +77,10 @@ public partial class WorkoutsPage : ContentPage
     async void OnRightSwiped()
     {
         await Shell.Current.GoToAsync(nameof(MeasurementPage));
+    }
+    async void OnLeftSwiped()
+    {
+        await Shell.Current.GoToAsync(nameof(CoachsPage));
     }
     #endregion
 
@@ -175,6 +190,21 @@ public partial class WorkoutsPage : ContentPage
             await Shell.Current.GoToAsync(nameof(WorkoutPage), navigationParameter);
         }
     }
+    async void OnDeleteWorkoutClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+        {
+            var button = (Button)sender;
+            var id = Int32.Parse(button.CommandParameter.ToString());
+
+            await _dataService.Delete(id);
+
+            Dispatcher.Dispatch(() =>
+            {
+                DateCalendar = DateCalendar;
+            });
+        }
+    }
 
     async void OnCoachWorkoutClicked(object sender, SelectionChangedEventArgs e)
     {
@@ -190,7 +220,21 @@ public partial class WorkoutsPage : ContentPage
 
         await Shell.Current.GoToAsync(nameof(WorkoutPage), navigationParameter);
     }
+    async void OnDeleteCoachWorkoutClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            var button = (Button)sender;
+            var id = Int32.Parse(button.CommandParameter.ToString());
 
+            await _dataService.Delete(id);
+
+            Dispatcher.Dispatch(() =>
+            {
+                DateCalendar = DateCalendar;
+            });
+        }
+    }
     #endregion
 
     #region Bottom Button

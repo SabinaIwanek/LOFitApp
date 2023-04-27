@@ -91,6 +91,35 @@ namespace LOFit.DataServices.Workout
                 return null;
             }
         }
+        public async Task<string> Delete(int id)
+        {
+            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            {
+                return "Brak połączenia z internetem...";
+            }
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{_url}/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Ok";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<WorkoutModel> GetOne(int id)
         {
             WorkoutModel model = new WorkoutModel();
