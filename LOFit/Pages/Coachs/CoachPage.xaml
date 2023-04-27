@@ -29,7 +29,7 @@
                 <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="40" BackgroundColor="{StaticResource Primary2}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -37,10 +37,10 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="1" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -52,19 +52,20 @@
                     
                     <Label Grid.Column="1" Grid.Row="2" Text="Ocena: " />
                     <Label Grid.Column="2" Grid.Row="2" Text="{Binding Ocena}"  />
+                    
 
                     <Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}" />
 
-                    <Image Grid.Column="1" Grid.Row="4" Source="localizer.png" />
+                    <Image Grid.Column="1" Grid.Row="4" Source="localizer.png" Margin="2"/>
                     <Label Grid.Column="2" Grid.Row="4" Text="{Binding CoachM.Miejscowosc}"  />
 
-                    <Label Grid.Column="1" Grid.Row="5" Text="Cena usługi: " />
+                    <Image Grid.Column="1" Grid.Row="5" Source="money.png"  Margin="2"/>
                     <Label Grid.Column="2" Grid.Row="5" Text="{Binding CenaUslugi}"  />
 
-                    <Label Grid.Column="1" Grid.Row="6" Text="Data ur: " />
+                    <Image Grid.Column="1" Grid.Row="6" Source="birthday.png" Margin="2"/>
                     <Label Grid.Column="2" Grid.Row="6" Text="{Binding Path=CoachM.Data_urodzenia}" />
 
-                    <Label Grid.Column="1" Grid.Row="7" Text="Telefon: " />
+                    <Image Grid.Column="1" Grid.Row="7" Source="phone.png" Margin="2"/>
                     <Label Grid.Column="2" Grid.Row="7" Text="{Binding Path=CoachM.Nr_telefonu}" />
 
                     <Entry Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="3" x:Name="EntryOpisEdit"  Text="{Binding Path=CoachM.Opis_profilu}" IsReadOnly="true"  BackgroundColor="Transparent" />
