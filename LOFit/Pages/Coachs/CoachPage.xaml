@@ -117,15 +117,16 @@
                     </Grid.RowDefinitions>
 
                     <!-- Dodaj Opinię-->
-                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsVisible="false"  Padding="30,30,30,0" >
+                    <Grid x:Name="GridDodajOpinie" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" IsVisible="false"  Padding="30,30,30,0" BackgroundColor="{StaticResource MyText3}">
                         <Grid HorizontalOptions="Fill" VerticalOptions="Start">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="50" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="25" />
                                 <RowDefinition Height="40" />
+                                <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Column="0" Grid.Row="0">
@@ -138,7 +139,7 @@
                                 </HorizontalStackLayout>
                             </Grid>
 
-                            <Entry Grid.Column="0" Grid.Row="1" x:Name="EntryOpis" Text="{Binding Opinia.Opis}" WidthRequest="300"/>
+                            <Entry Grid.Column="0" Grid.Row="1" x:Name="EntryOpis" Text="{Binding Opinia.Opis}" />
                             <Button Grid.Column="1" Grid.Row="1" x:Name="ButtonSaveOpinion" Text="Zapisz" Clicked="OnSendOpinionClicked" HorizontalOptions="End"/>
 
                         </Grid>
@@ -195,18 +196,24 @@
                                             <ColumnDefinition Width="1*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="30" />
                                             <RowDefinition Height="1" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
 
 
-                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Text="{Binding Imie}" FontAttributes="Bold" />
-                                        <Label Grid.Column="2" Grid.Row="0" Text="{Binding Opinion.Ocena}" FontAttributes="Bold"  HorizontalTextAlignment="End"/>
+                                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Text="{Binding Imie}" FontAttributes="Bold" FontSize="20" />
 
+                                        <Grid  Grid.Column="2" Grid.Row="0" HorizontalOptions="End">
+                                            <HorizontalStackLayout>
+                                                <Image Source="star.png" Margin="3"/>
+                                                <Label Text="{Binding Opinion.Ocena}" FontAttributes="Bold" FontSize="20" />
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                        
                                         <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
 
-                                        <Label Grid.Column="0" Grid.Row="2" Text="{Binding Opinion.Opis}"  FontSize="18" />
+                                        <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Opinion.Opis}"  FontSize="15" />
 
                                     </Grid>
                                 </DataTemplate>
