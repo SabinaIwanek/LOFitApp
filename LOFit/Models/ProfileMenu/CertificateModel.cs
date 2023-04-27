@@ -61,6 +61,11 @@ namespace LOFit.Models.ProfileMenu
 
         public int Zatwierdzony { get; set; } //status weryfikacji
 
+        public string DataCert()
+        {
+            return Data_certyfikatu.ToString("dd.MM.yyyy");
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

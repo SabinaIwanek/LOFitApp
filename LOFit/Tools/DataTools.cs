@@ -147,14 +147,31 @@ namespace LOFit.Tools
                 grid.BackgroundColor = Colors.Transparent;
             }
         }
-
-        public static void ButtonSwitch(Button buttonPress, Button buttonUp)
+        public static void StarsImage(List<Image> stars, double rate)
         {
-            if (buttonPress == buttonUp)
-                return;
+            foreach (var star in stars)
+            {
+                star.Source = "star_empty.png";
+            }
 
-            ButtonClicked(buttonPress);
-            ButtonNotClicked(buttonUp);
+            if(rate >= 4.5 ) stars[4].Source = "star.png";
+            if(rate >= 3.5 ) stars[3].Source = "star.png";
+            if(rate >= 2.5 ) stars[2].Source = "star.png";
+            if(rate >= 1.5 ) stars[1].Source = "star.png";
+            if(rate != 0 ) stars[0].Source = "star.png";
+        }
+        public static void StarsImageButton(List<ImageButton> stars, int rate)
+        {
+            foreach (var star in stars)
+            {
+                star.Source = "star_empty.png";
+            }
+
+            if (rate > 4) stars[4].Source = "star.png";
+            if (rate > 3) stars[3].Source = "star.png";
+            if (rate > 2) stars[2].Source = "star.png";
+            if (rate > 1) stars[1].Source = "star.png";
+            stars[0].Source = "star.png";
         }
     }
 }

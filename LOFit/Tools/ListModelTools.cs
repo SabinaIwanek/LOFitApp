@@ -1,4 +1,5 @@
-﻿using LOFit.DataServices.Coach;
+﻿using LOFit.DataServices.Certificate;
+using LOFit.DataServices.Coach;
 using LOFit.DataServices.User;
 using LOFit.Models.Accounts;
 using LOFit.Models.Menu;
@@ -8,7 +9,7 @@ namespace LOFit.Tools
 {
     public static class ListModelTools
     {
-        public static List<CoachListModel> ReturnCoachList(List<CoachModel> list)
+        public async static Task<List<CoachListModel>> ReturnCoachList(List<CoachModel> list, IOpinionRestService dataService)
         {
             List<CoachListModel> newList= new List<CoachListModel>();
             if(list == null) return newList;
@@ -19,9 +20,12 @@ namespace LOFit.Tools
                 
                 model.Coach = coach;
                 model.Wizytowka = coach.Wizytowka();
-                model.Ocena = coach.Ocena();
+                (double, string) ocena = await coach.Ocena(dataService);
+                model.Ocena = ocena.Item1;
+                model.OcenaString = ocena.Item2;
                 model.TypTrenera = coach.TypTrenera();
                 model.CenaUslugi = coach.CenaUslugi();
+                model.DataUr = coach.DataUr();
 
                 newList.Add(model);
             }
@@ -121,6 +125,23 @@ namespace LOFit.Tools
                 model.Workout = workout;
                 model.CzasString = workout.CzasString();
                 model.OpisString = workout.OpisString();
+
+                newList.Add(model);
+            }
+
+            return newList;
+        }
+        public static List<CertificateListModel> ReturnCertificateList(List<CertificateModel> list)
+        {
+            List<CertificateListModel> newList = new List<CertificateListModel>();
+            if (list == null) return newList;
+
+            foreach (CertificateModel certificate in list)
+            {
+                CertificateListModel model = new CertificateListModel();
+
+                model.Certyfikat = certificate;
+                model.DataCert = certificate.DataCert();
 
                 newList.Add(model);
             }

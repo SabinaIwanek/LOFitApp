@@ -57,6 +57,8 @@
 	  <None Remove="Resources\Images\measure.png" />
 	  <None Remove="Resources\Images\money.png" />
 	  <None Remove="Resources\Images\phone.png" />
+	  <None Remove="Resources\Images\star.png" />
+	  <None Remove="Resources\Images\star_empty.png" />
 	  <None Remove="Resources\Images\workout.png" />
 	</ItemGroup>
 

@@ -30,8 +30,8 @@ namespace LOFit.Models.Accounts
             }
         }
 
-        private string _ocena;
-        public string Ocena
+        private double _ocena;
+        public double Ocena
         {
             get => _ocena;
             set
@@ -40,6 +40,18 @@ namespace LOFit.Models.Accounts
 
                 _ocena = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Ocena"));
+            }
+        }
+        private string _ocenaString;
+        public string OcenaString
+        {
+            get => _ocenaString;
+            set
+            {
+                if (_ocenaString == value) return;
+
+                _ocenaString = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("OcenaString"));
             }
         }
 
@@ -66,6 +78,19 @@ namespace LOFit.Models.Accounts
 
                 _cenaUslugi = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CenaUslugi"));
+            }
+        }
+
+        private string _dataUr;
+        public string DataUr
+        {
+            get => _dataUr;
+            set
+            {
+                if (_dataUr == value) return;
+
+                _dataUr = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DataUr"));
             }
         }
 

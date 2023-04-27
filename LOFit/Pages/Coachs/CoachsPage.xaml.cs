@@ -1,3 +1,4 @@
+using LOFit.DataServices.Certificate;
 using LOFit.DataServices.Coach;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
@@ -13,10 +14,12 @@ public partial class CoachsPage : ContentPage
 {
 
     private readonly ICoachRestService _dataService;
-    public CoachsPage(ICoachRestService dataService)
+    private readonly IOpinionRestService _dataServiceOpinion;
+    public CoachsPage(ICoachRestService dataService, IOpinionRestService dataServiceOpinion)
     {
         InitializeComponent();
         _dataService = dataService;
+        _dataServiceOpinion = dataServiceOpinion;
         ListLoad();
 
         #region Swipe right
@@ -36,7 +39,7 @@ public partial class CoachsPage : ContentPage
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
         {
-            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
         }
     }
     #endregion
@@ -96,8 +99,8 @@ public partial class CoachsPage : ContentPage
     {
         List<CoachListModel> myList = new List<CoachListModel>();
 
-        if (Singleton.Instance.Type == TypKonta.Uzytkownik) myList = ListModelTools.ReturnCoachList(await _dataService.GetMy(1));
-        List<CoachListModel> list = ListModelTools.ReturnCoachList(await _dataService.GetAll());
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik) myList = await ListModelTools.ReturnCoachList(await _dataService.GetMy(1), _dataServiceOpinion);
+        List<CoachListModel> list = await ListModelTools.ReturnCoachList(await _dataService.GetAll(), _dataServiceOpinion);
 
         foreach (var myCoach in myList)
         {

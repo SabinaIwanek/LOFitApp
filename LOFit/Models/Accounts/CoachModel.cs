@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using LOFit.DataServices.Certificate;
+using LOFit.Models.ProfileMenu;
+using System.ComponentModel;
 
 namespace LOFit.Models.Accounts
 {
@@ -133,9 +135,17 @@ namespace LOFit.Models.Accounts
         {
             return $"{Imie} {Nazwisko}";
         }
-        public string Ocena()
+        public async Task<(double,string)> Ocena(IOpinionRestService dataService)
         {
-            return $" 5.0 (123 opinie)";
+            List<OpinionModel> opinie = await dataService.GetCoachList(Id);
+
+            if (!opinie.Any()) return (0, "Brak opinii");
+
+            double ilosc = (double)opinie.Count;
+            double srednia = Math.Round(opinie.Sum(x => x.Ocena) / ilosc, 1);
+
+
+            return (srednia, $" {srednia} ({ilosc} opinie)");
         }
 
         public string TypTrenera()
@@ -158,6 +168,13 @@ namespace LOFit.Models.Accounts
                 return $"{Cena_treningu} zł, za {Czas_treningu} minut";
 
             return "Brak danych";
+        }
+        public string DataUr()
+        {
+            if (Data_urodzenia == null)
+                return "Brak danych";
+
+            return ((DateTime)Data_urodzenia).ToString("dd.MM.yyyy");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

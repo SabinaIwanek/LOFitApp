@@ -21,8 +21,22 @@ public partial class CoachPage : ContentPage
     private readonly IUserRestService _dataServiceUser;
     private List<Button> _buttons;
     private List<Grid> _grids;
+    private List<Image> _stars;
+    private List<ImageButton> _starsButton;
     private int _type;
     private bool _isUserProfile;
+
+    #region Binding function pom
+    async void ReturnOpinion()
+    {
+        (double, string) ocena = await _model.Ocena(_dataServiceOpinion);
+
+        Ocena = ocena.Item1;
+        OcenaString = ocena.Item2;
+
+        DataTools.StarsImage(_stars, Ocena);
+    }
+    #endregion
 
     #region Binding prop
 
@@ -38,9 +52,10 @@ public partial class CoachPage : ContentPage
                 _isUserProfile = _model.Id == Singleton.Instance.IdTrenera;
 
                 Wizytowka = _model.Wizytowka();
-                Ocena = _model.Ocena();
+                ReturnOpinion();
                 TypTrenera = _model.TypTrenera();
                 CenaUslugi = _model.CenaUslugi();
+                DataUr = _model.DataUr();
                 ListLoadCertyf();
 
                 if (Singleton.Instance.Type == TypKonta.Uzytkownik)
@@ -98,11 +113,18 @@ public partial class CoachPage : ContentPage
         set { _wizytowka = value; OnPropertyChanged(); }
     }
 
-    string _ocena;
-    public string Ocena
+    double _ocena;
+    public double Ocena
     {
         get { return _ocena; }
         set { _ocena = value; OnPropertyChanged(); }
+    }
+
+    string _ocenaString;
+    public string OcenaString
+    {
+        get { return _ocenaString; }
+        set { _ocenaString = value; OnPropertyChanged(); }
     }
 
     string _typTrenera;
@@ -118,6 +140,12 @@ public partial class CoachPage : ContentPage
         get { return _cenaUslugi; }
         set { _cenaUslugi = value; OnPropertyChanged(); }
     }
+    string _dataUr;
+    public string DataUr
+    {
+        get { return _dataUr; }
+        set { _dataUr = value; OnPropertyChanged(); }
+    }
     #endregion
 
     public CoachPage(ICoachRestService dataService, ICertificateRestService dataServiceCert, IOpinionRestService dataServiceOpinion, IConnectionRestService dataServiceConn, IUserRestService dataServiceUser)
@@ -132,6 +160,8 @@ public partial class CoachPage : ContentPage
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2 };
         _grids = new List<Grid>() { BottomButton1, BottomButton2 };
+        _stars = new List<Image>() { Star1, Star2, Star3, Star4, Star5 };
+        _starsButton = new List<ImageButton>() { StarIB1, StarIB2, StarIB3, StarIB4, StarIB5 };
 
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
@@ -283,7 +313,7 @@ public partial class CoachPage : ContentPage
     #region Certyfikaty
     async void ListLoadCertyf()
     {
-        collectionViewCertyf.ItemsSource = await _dataServiceCert.GetCoachList(CoachM.Id);
+        collectionViewCertyf.ItemsSource = ListModelTools.ReturnCertificateList( await _dataServiceCert.GetCoachList(CoachM.Id));
     }
 
     // Trenerzy
@@ -323,9 +353,19 @@ public partial class CoachPage : ContentPage
     async void LoadMyOpinion()
     {
         Opinia = await _dataServiceOpinion.GetMyOpinion(CoachM.Id);
+        
+        DataTools.StarsImageButton(_starsButton, Opinia.Ocena);
     }
 
     // Users
+    void OnStarClicked(object sender, EventArgs e)
+    {
+        ImageButton button = (ImageButton)sender;
+        int parametr = Int32.Parse((string)button.CommandParameter);
+
+        Opinia.Ocena = parametr;
+        DataTools.StarsImageButton(_starsButton, parametr);
+    }
     async void OnSendOpinionClicked(object sender, EventArgs e)
     {
         Opinia.Id_trenera = CoachM.Id;
@@ -334,6 +374,7 @@ public partial class CoachPage : ContentPage
         if (Opinia.Id == 0) await _dataServiceOpinion.Add(Opinia);
         else await _dataServiceOpinion.Update(Opinia);
 
+        ReturnOpinion();
         LoadMyOpinion();
         ListLoadOpinie();
     }

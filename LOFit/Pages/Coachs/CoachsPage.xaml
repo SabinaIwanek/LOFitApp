@@ -39,34 +39,48 @@
 
                 <DataTemplate x:DataType="model:CoachListModel">
 
-                    <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="5" BackgroundColor="{StaticResource Primary2}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="18" />
                             <RowDefinition Height="1" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
+                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="9" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,5,20,5"/>
 
-                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}"  FontSize="20" FontAttributes="Bold" Margin="0,0,0,5" />
+                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="20" FontAttributes="Bold"  />
 
-                        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
+                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TypTrenera}" FontSize="16" />
 
-                        <Label Grid.Column="1" Grid.Row="2" Text="Ocena: " />
-                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding Ocena}"  />
+                        <Grid Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2" >
+                            <HorizontalStackLayout>
+                                <Image x:Name="Star1" Source="star.png" Margin="2" />
+                                <Image x:Name="Star2" Source="star.png" Margin="2" />
+                                <Image x:Name="Star3" Source="star.png" Margin="2" />
+                                <Image x:Name="Star4" Source="star.png" Margin="2" />
+                                <Image x:Name="Star5" Source="star.png" Margin="2" />
 
-                        <Label Grid.Column="1" Grid.Row="3" Text="Typ trenera: " />
-                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding TypTrenera}"  />
+                                <Label Text="{Binding OcenaString}" FontSize="14" />
+                            </HorizontalStackLayout>
+                        </Grid>
 
-                        <Label Grid.Column="1" Grid.Row="4" Text="Cena usługi: " />
-                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding CenaUslugi}"   />
+
+                        <Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}" />
+
+                        <Image Grid.Column="1" Grid.Row="5" Source="localizer.png" Margin="0,2,2,2"/>
+                        <Label Grid.Column="2" Grid.Row="5" Text="{Binding Coach.Miejscowosc}" Margin="3,2" FontSize="14"/>
+
+                        <Image Grid.Column="1" Grid.Row="6" Source="money.png"  Margin="0,2,2,2"/>
+                        <Label Grid.Column="2" Grid.Row="6" Text="{Binding CenaUslugi}" Margin="3,2" FontSize="14"/>
 
                     </Grid>
                 </DataTemplate>
@@ -76,7 +90,7 @@
         </CollectionView>
 
         <!-- coach header-->
-        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,70,0,20">
+        <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,50,0,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
@@ -98,34 +112,48 @@
 
                 <DataTemplate x:DataType="model:CoachListModel">
 
-                    <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="5" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="18" />
                             <RowDefinition Height="1" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,0,5,0"/>
+                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="9" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,5,20,5"/>
 
-                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="20" FontAttributes="Bold" Margin="0,0,0,5" />
+                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="20" FontAttributes="Bold"  />
 
-                        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}"/>
+                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TypTrenera}" FontSize="16" />
 
-                        <Label Grid.Column="1" Grid.Row="2" Text="Ocena: " />
-                        <Label Grid.Column="2" Grid.Row="2" Text="{Binding Ocena}"  />
+                        <Grid Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2" >
+                            <HorizontalStackLayout>
+                                <Image x:Name="Star1" Source="star.png" Margin="2" />
+                                <Image x:Name="Star2" Source="star.png" Margin="2" />
+                                <Image x:Name="Star3" Source="star.png" Margin="2" />
+                                <Image x:Name="Star4" Source="star.png" Margin="2" />
+                                <Image x:Name="Star5" Source="star.png" Margin="2" />
 
-                        <Label Grid.Column="1" Grid.Row="3" Text="Typ trenera: " />
-                        <Label Grid.Column="2" Grid.Row="3" Text="{Binding TypTrenera}"  />
+                                <Label Text="{Binding OcenaString}" FontSize="14" />
+                            </HorizontalStackLayout>
+                        </Grid>
 
-                        <Label Grid.Column="1" Grid.Row="4" Text="Cena usługi: " />
-                        <Label Grid.Column="2" Grid.Row="4" Text="{Binding CenaUslugi}"   />
+
+                        <Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}" />
+
+                        <Image Grid.Column="1" Grid.Row="5" Source="localizer.png" Margin="0,2,2,2"/>
+                        <Label Grid.Column="2" Grid.Row="5" Text="{Binding Coach.Miejscowosc}" Margin="3,2" FontSize="14"/>
+
+                        <Image Grid.Column="1" Grid.Row="6" Source="money.png"  Margin="0,2,2,2"/>
+                        <Label Grid.Column="2" Grid.Row="6" Text="{Binding CenaUslugi}" Margin="3,2" FontSize="14"/>
 
                     </Grid>
                 </DataTemplate>
