@@ -23,6 +23,7 @@ namespace LOFit.Models.ProfileMenu
         }
 
         public string Imie { get; set; }
+        public bool ZgloszonaBool { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

@@ -66,6 +66,11 @@ namespace LOFit.Models.ProfileMenu
             return Data_certyfikatu.ToString("dd.MM.yyyy");
         }
 
+        public bool ZatwierdzonyBool()
+        {
+            return Zatwierdzony == 1;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

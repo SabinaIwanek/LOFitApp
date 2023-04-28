@@ -67,6 +67,7 @@ namespace LOFit.Tools
 
                 model.Opinion = opinion;
                 model.Imie = await opinion.Imie(dataService);
+                model.ZgloszonaBool = opinion.ZgloszonaBool();
 
                 newList.Add(model);
             }
@@ -142,6 +143,7 @@ namespace LOFit.Tools
 
                 model.Certyfikat = certificate;
                 model.DataCert = certificate.DataCert();
+                model.ZatwierdzonyBool = certificate.ZatwierdzonyBool();
 
                 newList.Add(model);
             }

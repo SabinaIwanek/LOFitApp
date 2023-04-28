@@ -53,6 +53,10 @@ namespace LOFit.Models.ProfileMenu
         {
             return await dataService.GetName(Id_usera);
         }
+        public bool ZgloszonaBool()
+        {
+            return Zgloszona == 1;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

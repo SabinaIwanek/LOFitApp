@@ -65,18 +65,28 @@ public partial class CoachPage : ContentPage
                     GridDodajOpinie.IsVisible = false;
                     ButtonAddCert.IsVisible = false;
                     ButtonSelect.IsVisible = true;
+                    ButtonEdit.IsVisible = false;
                 }
                 else if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
                 {
                     GridDodajOpinie.IsVisible = false;
-                    ButtonAddCert.IsVisible = true;
                     ButtonSelect.IsVisible = false;
+                    ButtonAddCert.IsVisible = true;
+                    ButtonEdit.IsVisible = true;
+                }
+                else if (Singleton.Instance.Type == TypKonta.Trener)
+                {
+                    GridDodajOpinie.IsVisible = false;
+                    ButtonSelect.IsVisible = false;
+                    ButtonAddCert.IsVisible = false;
+                    ButtonEdit.IsVisible = false;
                 }
                 else if (Singleton.Instance.Type == TypKonta.Administrator)
                 {
                     GridDodajOpinie.IsVisible = false;
                     ButtonAddCert.IsVisible = false;
                     ButtonSelect.IsVisible = false;
+                    ButtonEdit.IsVisible = false;
                 }
 
                 OnPropertyChanged();
@@ -242,6 +252,22 @@ public partial class CoachPage : ContentPage
     }
     #endregion
 
+    #region Coach Info
+    async void OnEditButtonClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), CoachM} ,
+                    { nameof(UserModel), new UserModel()}
+                };
+
+            await Shell.Current.GoToAsync(nameof(EditProfilePage), navigationParameter);
+        }
+    }
+    #endregion
+
     #region Lists
     void OnLoadListClicked(object sender, EventArgs e)
     {
@@ -272,15 +298,6 @@ public partial class CoachPage : ContentPage
 
             ListLoadOpinie();
         }
-        /*if (property == "Kalend")
-        {
-            collectionViewOpinie.IsVisible = false;
-            collectionViewCertyf.IsVisible = false;
-            GridDodajOpinie.IsVisible = false;
-            ButtonAddCert.IsVisible = false;
-
-            DataTools.ButtonClicked(_buttons[3], _grids[3]);
-        }*/
     }
 
     #region Certyfikaty

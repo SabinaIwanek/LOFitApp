@@ -18,6 +18,7 @@ namespace LOFit.Models.ProfileMenu
         }
 
         public string DataCert { get; set; }
+        public bool ZatwierdzonyBool { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }
