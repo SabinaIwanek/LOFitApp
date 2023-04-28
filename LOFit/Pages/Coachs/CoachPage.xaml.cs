@@ -198,20 +198,9 @@ public partial class CoachPage : ContentPage
     #endregion
 
     #region Menu buttons
-    async void OnCoachsClicked(object sender, EventArgs e)
+    async void OnBackClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(CoachsPage));
-    }
-    void OnChangeThemeClicked(object sender, EventArgs e)
-    {
-        if (App.Current.UserAppTheme == AppTheme.Dark)
-        {
-            App.Current.UserAppTheme = AppTheme.Light;
-        }
-        else
-        {
-            App.Current.UserAppTheme = AppTheme.Dark;
-        }
     }
     async void OnProfileClicked(object sender, EventArgs e)
     {
@@ -221,7 +210,6 @@ public partial class CoachPage : ContentPage
         if (Singleton.Instance.Type == TypKonta.Trener)
         {
             CoachModel model = await _dataService.GetOne(-1);
-            Singleton.Instance.IdTrenera = model.Id;
 
             var navigationParameter = new Dictionary<string, object>
                 {
@@ -252,6 +240,8 @@ public partial class CoachPage : ContentPage
     async void OnEditCicked(object sender, EventArgs e)
     {
         EntryOpisEdit.IsReadOnly = !EntryOpisEdit.IsReadOnly;
+        LabelOpis.IsVisible = EntryOpisEdit.IsReadOnly;
+        EntryOpisEdit.IsVisible = !EntryOpisEdit.IsReadOnly;
 
         if (EntryOpisEdit.IsReadOnly)
         {

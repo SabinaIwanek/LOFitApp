@@ -147,20 +147,10 @@ public partial class WorkoutPage : ContentPage
     #endregion
 
     #region Menu buttons
-    async void OnCoachsClicked(object sender, EventArgs e)
+    async void OnBackClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
-    }
-    void OnChangeThemeClicked(object sender, EventArgs e)
-    {
-        if (App.Current.UserAppTheme == AppTheme.Dark)
-        {
-            App.Current.UserAppTheme = AppTheme.Light;
-        }
-        else
-        {
-            App.Current.UserAppTheme = AppTheme.Dark;
-        }
+        Singleton.Instance.DateToShow = Model.Data_czas;
+        await Shell.Current.GoToAsync(nameof(WorkoutsPage));
     }
     async void OnProfileClicked(object sender, EventArgs e)
     {

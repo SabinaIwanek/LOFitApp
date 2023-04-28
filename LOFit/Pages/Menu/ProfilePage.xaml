@@ -1,23 +1,79 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LOFit.Pages.Menu.ProfilePage"
-             Title="Mój profil">
-
+             x:Class="LOFit.Pages.Menu.ProfilePage">
+    
+    <!-- Tittle -->
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Label Text="Mój profil" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+    
     <!--Menu-->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Trenerzy" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Back" Clicked="OnBackClicked" Order="Primary" IconImageSource="back.png"/>
 
         <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
-        <ToolbarItem Text="Tryb jasny/ciemny" Clicked="OnChangeThemeClicked" Order="Secondary" />
         <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
-    
+    <StackLayout>
+
+        <ScrollView HorizontalOptions="Fill" VerticalOptions="StartAndExpand">
+            <StackLayout>
+
+                 <!--Wizytówka-->
+                <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="40" BackgroundColor="{StaticResource Primary2}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="15" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="25" FontAttributes="Bold"  />
+
+                    <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding PlecString}" FontSize="20" />
+
+
+                    <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}" />
+
+                    
+                    <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
+                        <HorizontalStackLayout>
+                            <Image Source="localizer.png" Margin="0,2,8,2"/>
+                            <Label Text="{Binding UserM.Miejscowosc}" Margin="3,2"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <Grid Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2">
+                        <HorizontalStackLayout>
+                            <Image Source="birthday.png" Margin="0,2,8,2"/>
+                            <Label Text="{Binding DataUr}" Margin="3,2"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <Grid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2">
+                        <HorizontalStackLayout>
+                            <Image Source="phone.png" Margin="0,2,8,2"/>
+                            <Label Text="{Binding Path=UserM.Nr_telefonu}" Margin="3,2"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+
+
+                </Grid>
+
+            </StackLayout>
+        </ScrollView>
+
+    </StackLayout>
+
 </ContentPage>

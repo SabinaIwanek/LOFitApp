@@ -3,42 +3,91 @@ using LOFit.Tools;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Pages.Coachs;
+using LOFit.Pages.Measures;
+using LOFit.DataServices.User;
 
 namespace LOFit.Pages.Menu;
 
+[QueryProperty(nameof(UserM), "UserModel")]
 public partial class ProfilePage : ContentPage
 {
+    private readonly IUserRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
-    public ProfilePage(ICoachRestService dataServiceCoach)
-	{
-		InitializeComponent();
+
+    #region Binding prop
+
+    UserModel _model;
+    public UserModel UserM
+    {
+        get { return _model; }
+        set
+        {
+            _model = value;
+            if (_model != null)
+            {
+                Wizytowka = _model.Wizytowka();
+                DataUr = _model.DataUr();
+                PlecString = _model.PlecString();
+
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    string _wizytowka;
+    public string Wizytowka
+    {
+        get { return _wizytowka; }
+        set { _wizytowka = value; OnPropertyChanged(); }
+    }
+
+    string _dataUr;
+    public string DataUr
+    {
+        get { return _dataUr; }
+        set { _dataUr = value; OnPropertyChanged(); }
+    }
+
+    string _plecString;
+    public string PlecString
+    {
+        get { return _plecString; }
+        set { _plecString = value; OnPropertyChanged(); }
+    }
+    #endregion
+    public ProfilePage(IUserRestService dataService, ICoachRestService dataServiceCoach)
+    {
+        InitializeComponent();
+        _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
+
+        BindingContext = this;
     }
     #region Menu buttons
-    async void OnCoachsClicked(object sender, EventArgs e)
+    async void OnBackClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
-    }
-    void OnChangeThemeClicked(object sender, EventArgs e)
-    {
-        if (App.Current.UserAppTheme == AppTheme.Dark)
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
         {
-            App.Current.UserAppTheme = AppTheme.Light;
-        }
-        else
-        {
-            App.Current.UserAppTheme = AppTheme.Dark;
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
         }
     }
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataService.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {
             CoachModel model = await _dataServiceCoach.GetOne(-1);
-            Singleton.Instance.IdTrenera = model.Id;
 
             var navigationParameter = new Dictionary<string, object>
                 {

@@ -47,20 +47,9 @@ public partial class ProductsPage : ContentPage
         _dataServiceCoach = dataServiceCoach;
     }
     #region Menu buttons
-    async void OnCoachsClicked(object sender, EventArgs e)
+    async void OnBackClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
-    }
-    void OnChangeThemeClicked(object sender, EventArgs e)
-    {
-        if (App.Current.UserAppTheme == AppTheme.Dark)
-        {
-            App.Current.UserAppTheme = AppTheme.Light;
-        }
-        else
-        {
-            App.Current.UserAppTheme = AppTheme.Dark;
-        }
+        await Shell.Current.GoToAsync(nameof(MealsPage));
     }
     async void OnProfileClicked(object sender, EventArgs e)
     {

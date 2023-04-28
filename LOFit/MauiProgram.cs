@@ -56,7 +56,6 @@ public static class MauiProgram
         builder.Services.AddTransient<RegistrationPage>();
 
         // Menu
-        builder.Services.AddTransient<SettingsUserPage>();
         builder.Services.AddTransient<ProfilePage>();
 
         // Users

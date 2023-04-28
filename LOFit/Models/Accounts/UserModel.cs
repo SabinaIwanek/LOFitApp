@@ -62,6 +62,25 @@ namespace LOFit.Models.Accounts
             }
         }
 
+        public string Wizytowka()
+        {
+            return $"{Imie} {Nazwisko}";
+        }
+
+        public string DataUr()
+        {
+            if (Data_urodzenia == null)
+                return "Brak danych";
+
+            return ((DateTime)Data_urodzenia).ToString("dd.MM.yyyy");
+        }
+        public string PlecString()
+        {
+            Enums.Plec plec = (Enums.Plec)Plec;
+
+            return plec.ToString();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

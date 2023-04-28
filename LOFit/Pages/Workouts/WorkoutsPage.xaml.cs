@@ -85,21 +85,6 @@ public partial class WorkoutsPage : ContentPage
     #endregion
 
     #region Menu buttons
-    async void OnCoachsClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
-    }
-    void OnChangeThemeClicked(object sender, EventArgs e)
-    {
-        if (App.Current.UserAppTheme == AppTheme.Dark)
-        {
-            App.Current.UserAppTheme = AppTheme.Light;
-        }
-        else
-        {
-            App.Current.UserAppTheme = AppTheme.Dark;
-        }
-    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)

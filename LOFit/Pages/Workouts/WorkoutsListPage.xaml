@@ -2,15 +2,21 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:LOFit.Models.Menu"
-             x:Class="LOFit.Pages.Workouts.WorkoutsListPage"
-             Title="Lista treningów">
+             x:Class="LOFit.Pages.Workouts.WorkoutsListPage">
+
+
+    <!-- Tittle -->
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Label Text="Lista treningów" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
     
     <!--Menu-->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Trenerzy" Clicked="OnCoachsClicked" Order="Primary"/>
+        <ToolbarItem Text="Back" Clicked="OnBackClicked" Order="Primary" IconImageSource="back.png"/>
 
         <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
-        <ToolbarItem Text="Tryb jasny/ciemny" Clicked="OnChangeThemeClicked" Order="Secondary" />
         <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
     

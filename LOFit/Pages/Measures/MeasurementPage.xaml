@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LOFit.Pages.Measures.MeasurementPage"
-             Title="Pomiary">
+             x:Class="LOFit.Pages.Measures.MeasurementPage">
 
     <ContentPage.Resources>
         <Style TargetType="Entry">
@@ -12,13 +11,17 @@
             <Setter Property="FontSize" Value="25" />
         </Style>
     </ContentPage.Resources>
+    
+    <!-- Tittle -->
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Label Text="Pomiary" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
 
     <!--Menu-->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Trenerzy" Clicked="OnCoachsClicked" Order="Primary"/>
-
         <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
-        <ToolbarItem Text="Tryb jasny/ciemny" Clicked="OnChangeThemeClicked" Order="Secondary" />
         <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
 
@@ -37,11 +40,11 @@
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
 
-            <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" Clicked="OnButtonDateClicked" CommandParameter="-2" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
-            <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" Clicked="OnButtonDateClicked" CommandParameter="-1"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
+            <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" Clicked="OnButtonDateClicked" CommandParameter="-2" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" CornerRadius="0"/>
+            <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" Clicked="OnButtonDateClicked" CommandParameter="-1"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" CornerRadius="0" />
             <DatePicker Grid.Column="2" Grid.Row="0" Date="{Binding DateCalendar}" FontSize="21" FontAttributes="Bold" HorizontalOptions="Center" Format="dd/MM"/>
-            <Button Grid.Column="3" Grid.Row="0" x:Name="Button3" Clicked="OnButtonDateClicked" CommandParameter="1"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
-            <Button Grid.Column="4" Grid.Row="0" x:Name="Button4" Clicked="OnButtonDateClicked" CommandParameter="2"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17" FontAutoScalingEnabled="True"/>
+            <Button Grid.Column="3" Grid.Row="0" x:Name="Button3" Clicked="OnButtonDateClicked" CommandParameter="1"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17"  CornerRadius="0"/>
+            <Button Grid.Column="4" Grid.Row="0" x:Name="Button4" Clicked="OnButtonDateClicked" CommandParameter="2"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="17"  CornerRadius="0"/>
 
         </Grid>
         <Grid HorizontalOptions="Fill" VerticalOptions="Start" >
@@ -64,7 +67,7 @@
         <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
             <VerticalStackLayout HorizontalOptions="FillAndExpand">
-
+                
                 <Label Text="Waga" VerticalOptions="Center" HorizontalOptions="Center"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Button x:Name="ButtonWaga1" Text="-" CommandParameter="Waga" Clicked="OnButtonMinusClicked" BackgroundColor="{StaticResource MyText}" Padding="25,0"/>

@@ -17,7 +17,7 @@ public partial class RegistrationPage : ContentPage
         set
         {
             _selectedGender = value;
-             UserM.Plec = DataTools.EntryGender(value);
+            UserM.Plec = DataTools.EntryGender(value);
             OnPropertyChanged();
         }
     }
@@ -29,7 +29,7 @@ public partial class RegistrationPage : ContentPage
         set
         {
             _selectedCoach = value;
-             UserM.Typ_trenera = DataTools.EntryCoach(value);
+            UserM.Typ_trenera = DataTools.EntryCoach(value);
             OnPropertyChanged();
         }
     }
@@ -56,7 +56,7 @@ public partial class RegistrationPage : ContentPage
             if (!char.IsDigit(phone.Last()))
             {
                 OnPropertyChanged();
-                return; 
+                return;
             }
 
             if (phone.Any(x => !Char.IsDigit(x)))
@@ -106,6 +106,19 @@ public partial class RegistrationPage : ContentPage
         BindingContext = this;
         UserM = new RegistrationModel();
     }
+
+    #region Menu buttons
+    async void OnBackClicked(object sender, EventArgs e)
+    {
+        var navigationParameter = new Dictionary<string, object>
+        {
+            {nameof(LoginModel), new LoginModel(false)}
+        };
+
+        Singleton.Logout();
+        await Shell.Current.GoToAsync("Login", navigationParameter);
+    }
+    #endregion
 
     #region Choice Buttons
     async void OnUserButtonClicked(object sender, EventArgs e)

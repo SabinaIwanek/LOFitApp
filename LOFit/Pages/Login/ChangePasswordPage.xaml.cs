@@ -1,11 +1,13 @@
 using LOFit.DataServices.Login;
 using LOFit.Models.Accounts;
+using LOFit.Tools;
 
 namespace LOFit.Pages.Login;
 
 [QueryProperty(nameof(LoginM), "LoginModel")]
 public partial class ChangePasswordPage : ContentPage
 {
+    #region Binding prop
     private string _password2;
     public string Password2
     {
@@ -29,6 +31,7 @@ public partial class ChangePasswordPage : ContentPage
             OnPropertyChanged();
         }
     }
+    #endregion
 
     public ChangePasswordPage(ILoginRestService dataService)
     {
@@ -39,6 +42,19 @@ public partial class ChangePasswordPage : ContentPage
         Password2 = string.Empty;
         LoginM = new LoginModel(true);
     }
+
+    #region Menu buttons
+    async void OnBackClicked(object sender, EventArgs e)
+    {
+        var navigationParameter = new Dictionary<string, object>
+        {
+            {nameof(LoginModel), new LoginModel(false)}
+        };
+
+        Singleton.Logout();
+        await Shell.Current.GoToAsync("Login", navigationParameter);
+    }
+    #endregion
 
     async void OnSendCodeButtonClicked(object sender, EventArgs e)
     {

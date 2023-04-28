@@ -2,9 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:LOFit.Models.ProfileMenu"
-             x:Class="LOFit.Pages.Coachs.ConnectionsPage"
-             Title="Klienci">
+             x:Class="LOFit.Pages.Coachs.ConnectionsPage">
 
+
+    <!-- Tittle -->
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Label Text="Klienci" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+    
     <!--Menu-->
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Trenerzy" Clicked="OnCoachsClicked" Order="Primary"/>
