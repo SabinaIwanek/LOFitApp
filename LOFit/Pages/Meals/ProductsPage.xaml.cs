@@ -1,4 +1,5 @@
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
 using LOFit.DataServices.Meals;
 using LOFit.DataServices.Product;
 using LOFit.Enums;
@@ -40,11 +41,13 @@ public partial class ProductsPage : ContentPage
 
     private readonly IProductRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
-    public ProductsPage(IProductRestService dataService, ICoachRestService dataServiceCoach)
+    private readonly IUserRestService _dataServiceUser;
+    public ProductsPage(IProductRestService dataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
     {
         InitializeComponent();
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
+        _dataServiceUser = dataServiceUser;
     }
     #region Menu buttons
     async void OnBackClicked(object sender, EventArgs e)
@@ -54,7 +57,16 @@ public partial class ProductsPage : ContentPage
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {

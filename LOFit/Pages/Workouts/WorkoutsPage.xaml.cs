@@ -1,5 +1,6 @@
 using LOFit.DataServices.Coach;
 using LOFit.DataServices.Measurement;
+using LOFit.DataServices.User;
 using LOFit.DataServices.Workouts;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
@@ -17,6 +18,7 @@ public partial class WorkoutsPage : ContentPage
     private readonly IWorkoutsRestService _dataService;
     private readonly IMeasurementRestService _dataServiceMeasurement;
     private readonly ICoachRestService _dataServiceCoach;
+    private readonly IUserRestService _dataServiceUser;
     private List<Button> _buttons;
 
     #region Binding prop
@@ -39,12 +41,13 @@ public partial class WorkoutsPage : ContentPage
     }
     #endregion
 
-    public WorkoutsPage(IWorkoutsRestService dataService, IMeasurementRestService dataServiceMeasurement, ICoachRestService dataServiceCoach)
+    public WorkoutsPage(IWorkoutsRestService dataService, IMeasurementRestService dataServiceMeasurement, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
     {
         InitializeComponent();
         _dataService = dataService;
         _dataServiceMeasurement = dataServiceMeasurement;
         _dataServiceCoach = dataServiceCoach;
+        _dataServiceUser = dataServiceUser;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
 
@@ -88,7 +91,16 @@ public partial class WorkoutsPage : ContentPage
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {

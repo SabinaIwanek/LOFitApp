@@ -1,4 +1,5 @@
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
 using LOFit.DataServices.Meals;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
@@ -15,6 +16,7 @@ public partial class MealsPage : ContentPage
 {
     private readonly IMealRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
+    private readonly IUserRestService _dataServiceUser;
     private List<Button> _buttons;
 
     #region Binding prop
@@ -37,11 +39,12 @@ public partial class MealsPage : ContentPage
     }
     #endregion
 
-    public MealsPage(IMealRestService dataService, ICoachRestService dataServiceCoach)
+    public MealsPage(IMealRestService dataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
     {
         InitializeComponent();
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
+        _dataServiceUser = dataServiceUser;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
 
@@ -72,7 +75,16 @@ public partial class MealsPage : ContentPage
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {

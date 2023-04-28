@@ -6,6 +6,7 @@ using LOFit.Pages.Coachs;
 using LOFit.Pages.Menu;
 using LOFit.Tools;
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
 
 namespace LOFit.Pages.Workouts;
 
@@ -28,11 +29,13 @@ public partial class WorkoutsListPage : ContentPage
 
     private readonly IWorkoutRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
-    public WorkoutsListPage(IWorkoutRestService dataService, ICoachRestService dataServiceCoach)
+    private readonly IUserRestService _dataServiceUser;
+    public WorkoutsListPage(IWorkoutRestService dataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
 	{
 		InitializeComponent();
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
+        _dataServiceUser = dataServiceUser;
     }
 
     #region Menu buttons
@@ -43,7 +46,16 @@ public partial class WorkoutsListPage : ContentPage
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {

@@ -1,4 +1,5 @@
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
 using LOFit.DataServices.Workout;
 using LOFit.DataServices.Workouts;
 using LOFit.Enums;
@@ -19,6 +20,7 @@ public partial class WorkoutPage : ContentPage
     private readonly IWorkoutRestService _workoutDataService;
     private readonly IWorkoutsRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
+    private readonly IUserRestService _dataServiceUser;
     private bool _isNew;
     private bool _isNewWorkout;
 
@@ -117,12 +119,13 @@ public partial class WorkoutPage : ContentPage
     }
     #endregion
 
-    public WorkoutPage(IWorkoutsRestService dataService, IWorkoutRestService workoutDataService, ICoachRestService dataServiceCoach)
+    public WorkoutPage(IWorkoutsRestService dataService, IWorkoutRestService workoutDataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
 	{
 		InitializeComponent();
         _dataService = dataService;
         _workoutDataService = workoutDataService;
         _dataServiceCoach = dataServiceCoach;
+        _dataServiceUser = dataServiceUser;
         BindingContext = this;
 
         WorkoutTime = DateTime.Now.TimeOfDay;
@@ -155,7 +158,16 @@ public partial class WorkoutPage : ContentPage
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {

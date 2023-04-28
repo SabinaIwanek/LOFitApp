@@ -65,21 +65,18 @@ public partial class CoachPage : ContentPage
                     GridDodajOpinie.IsVisible = false;
                     ButtonAddCert.IsVisible = false;
                     ButtonSelect.IsVisible = true;
-                    ButtonOpisEdit.IsVisible = false;
                 }
                 else if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
                 {
                     GridDodajOpinie.IsVisible = false;
                     ButtonAddCert.IsVisible = true;
                     ButtonSelect.IsVisible = false;
-                    ButtonOpisEdit.IsVisible = true;
                 }
                 else if (Singleton.Instance.Type == TypKonta.Administrator)
                 {
                     GridDodajOpinie.IsVisible = false;
                     ButtonAddCert.IsVisible = false;
                     ButtonSelect.IsVisible = false;
-                    ButtonOpisEdit.IsVisible = false;
                 }
 
                 OnPropertyChanged();
@@ -205,11 +202,21 @@ public partial class CoachPage : ContentPage
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {
             CoachModel model = await _dataService.GetOne(-1);
+            Singleton.Instance.IdTrenera = model.Id;
 
             var navigationParameter = new Dictionary<string, object>
                 {
@@ -232,30 +239,6 @@ public partial class CoachPage : ContentPage
 
         Singleton.Logout();
         await Shell.Current.GoToAsync("Login", navigationParameter);
-    }
-    #endregion
-
-    #region Coach Info
-
-    async void OnEditCicked(object sender, EventArgs e)
-    {
-        EntryOpisEdit.IsReadOnly = !EntryOpisEdit.IsReadOnly;
-        LabelOpis.IsVisible = EntryOpisEdit.IsReadOnly;
-        EntryOpisEdit.IsVisible = !EntryOpisEdit.IsReadOnly;
-
-        if (EntryOpisEdit.IsReadOnly)
-        {
-            EntryOpisEdit.BackgroundColor = Colors.Transparent;
-
-            string answer = await _dataService.Update(CoachM);
-
-            if (answer == "Ok") ButtonOpisEdit.Text = "Zmieñ opis";
-        }
-        else
-        {
-            EntryOpisEdit.BackgroundColor = MyColors.MyEntryBg;
-            ButtonOpisEdit.Text = "Zapisz";
-        }
     }
     #endregion
 

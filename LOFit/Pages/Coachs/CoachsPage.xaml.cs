@@ -1,5 +1,6 @@
 using LOFit.DataServices.Certificate;
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Pages.Meals;
@@ -15,11 +16,13 @@ public partial class CoachsPage : ContentPage
 
     private readonly ICoachRestService _dataService;
     private readonly IOpinionRestService _dataServiceOpinion;
-    public CoachsPage(ICoachRestService dataService, IOpinionRestService dataServiceOpinion)
+    private readonly IUserRestService _dataServiceUser;
+    public CoachsPage(ICoachRestService dataService, IOpinionRestService dataServiceOpinion, IUserRestService dataServiceUser)
     {
         InitializeComponent();
         _dataService = dataService;
         _dataServiceOpinion = dataServiceOpinion;
+        _dataServiceUser = dataServiceUser;
         ListLoad();
 
         #region Swipe right
@@ -48,7 +51,16 @@ public partial class CoachsPage : ContentPage
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {

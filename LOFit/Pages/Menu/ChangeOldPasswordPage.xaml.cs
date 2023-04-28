@@ -125,7 +125,7 @@ public partial class ChangeOldPasswordPage : ContentPage
             return;
         }
 
-        if (NewPassword1 != OldPass)
+        if (NewPassword1 == OldPass)
         {
             await DisplayAlert("Zmiana has³a", $"Próba zmiany has³a na starsze.", "OK");
             return;
