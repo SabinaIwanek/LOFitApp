@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LOFit.Pages.Menu.EditProfilePage">
+
+
+    <ContentPage.Resources>
+        <Style TargetType="Entry">
+            <Setter Property="Margin" Value="0,10" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0,10" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+    </ContentPage.Resources>
+    
+    <!-- Tittle -->
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Label Text="Edytuj dane" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+
+    <!--Menu-->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Back" Clicked="OnBackClicked" Order="Primary" IconImageSource="back.png"/>
+
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <!-- Zawartosc-->
+    <StackLayout>
+
+        <ScrollView HorizontalOptions="Fill" VerticalOptions="StartAndExpand">
+
+            <VerticalStackLayout MaximumWidthRequest="600" MinimumWidthRequest="200" >
+
+                <StackLayout>
+                    
+                    <Grid HorizontalOptions="Fill" Padding="30,40">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Text="Imie: "/>
+                        <Entry Grid.Row="0" Grid.Column="1" Text="{Binding Path=UserM.Imie}"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="Nazwisko: "/>
+                        <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Path=UserM.Nazwisko}"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="Płeć: "/>
+                        <Picker Grid.Row="2" Grid.Column="1"  x:Name="GenderPicker" SelectedItem="{Binding SelectedGender}" WidthRequest="150" HorizontalOptions="Start">
+                            <Picker.Items>
+                                <x:String>Kobieta</x:String>
+                                <x:String>Mężczyzna</x:String>
+                                <x:String>Nie podano</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+                        <Label Grid.Row="3" Grid.Column="0" Text="Data urodzenia: "/>
+                        <DatePicker Grid.Row="3" Grid.Column="1" Date="{Binding Path=UserM.Data_urodzenia}"/>
+
+                        <Label Grid.Row="4" Grid.Column="0" Text="Numer telefonu: "/>
+                        <Entry Grid.Row="4" Grid.Column="1" Text="{Binding Phone}"/>
+
+                        
+                    </Grid>
+                </StackLayout>
+
+                <StackLayout Padding="30,0">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnChangePasswordClicked" />
+                    </StackLayout.GestureRecognizers>
+                    <Label Text="Zmień hasło" TextColor="{StaticResource MyText2}" TextDecorations="Underline" FontSize="14" HorizontalTextAlignment="Start"/>
+                </StackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <StackLayout Orientation="Horizontal" VerticalOptions="End">
+            <Button x:Name="SendButton" Text="Zapisz" Clicked="OnSendButtonClicked" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+
+
+    </StackLayout>
+
+</ContentPage>

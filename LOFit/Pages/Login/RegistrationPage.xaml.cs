@@ -121,7 +121,7 @@ public partial class RegistrationPage : ContentPage
     #endregion
 
     #region Choice Buttons
-    async void OnUserButtonClicked(object sender, EventArgs e)
+    void OnUserButtonClicked(object sender, EventArgs e)
     {
         MiejscowoscLabel.IsVisible = false;
         MiejscowoscEntry.IsVisible = false;
@@ -136,7 +136,7 @@ public partial class RegistrationPage : ContentPage
         CoachButton.TextColor = MyColors.MyText;
         BottomCoachButton.BackgroundColor = Colors.Transparent;
     }
-    async void OnCoachButtonClicked(object sender, EventArgs e)
+    void OnCoachButtonClicked(object sender, EventArgs e)
     {
         MiejscowoscLabel.IsVisible = true;
         MiejscowoscEntry.IsVisible = true;

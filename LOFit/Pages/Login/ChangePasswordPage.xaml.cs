@@ -7,6 +7,8 @@ namespace LOFit.Pages.Login;
 [QueryProperty(nameof(LoginM), "LoginModel")]
 public partial class ChangePasswordPage : ContentPage
 {
+    private readonly ILoginRestService _dataService;
+
     #region Binding prop
     private string _password2;
     public string Password2
@@ -18,8 +20,6 @@ public partial class ChangePasswordPage : ContentPage
             OnPropertyChanged();
         }
     }
-
-    private readonly ILoginRestService _dataService;
 
     private LoginModel _loginModel;
     public LoginModel LoginM

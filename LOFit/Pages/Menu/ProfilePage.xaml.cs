@@ -5,6 +5,7 @@ using LOFit.Models.Accounts;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
 using LOFit.DataServices.User;
+using LOFit.Resources.Styles;
 
 namespace LOFit.Pages.Menu;
 
@@ -28,6 +29,7 @@ public partial class ProfilePage : ContentPage
                 Wizytowka = _model.Wizytowka();
                 DataUr = _model.DataUr();
                 PlecString = _model.PlecString();
+                Telefon = _model.Telefon();
 
                 OnPropertyChanged();
             }
@@ -53,6 +55,13 @@ public partial class ProfilePage : ContentPage
     {
         get { return _plecString; }
         set { _plecString = value; OnPropertyChanged(); }
+    }
+
+    string _telefon;
+    public string Telefon
+    {
+        get { return _telefon; }
+        set { _telefon = value; OnPropertyChanged(); }
     }
     #endregion
     public ProfilePage(IUserRestService dataService, ICoachRestService dataServiceCoach)
@@ -110,6 +119,22 @@ public partial class ProfilePage : ContentPage
 
         Singleton.Logout();
         await Shell.Current.GoToAsync("Login", navigationParameter);
+    }
+    #endregion
+
+    #region User Info
+    async void OnEditClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+        {
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), new CoachModel()},
+                    { nameof(UserModel), UserM}
+                };
+
+            await Shell.Current.GoToAsync(nameof(EditProfilePage), navigationParameter);
+        }
     }
     #endregion
 }

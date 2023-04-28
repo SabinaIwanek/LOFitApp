@@ -53,12 +53,14 @@ public static class MauiProgram
         // Login
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<ChangePasswordPage>();
+        builder.Services.AddTransient<ChangeOldPasswordPage>();
         builder.Services.AddTransient<RegistrationPage>();
 
         // Menu
         builder.Services.AddTransient<ProfilePage>();
+        builder.Services.AddTransient<EditProfilePage>();
 
-        // Users
+        // Coach
         builder.Services.AddTransient<CoachsPage>();
         builder.Services.AddTransient<CoachPage>();
         builder.Services.AddTransient<CertificatePage>();

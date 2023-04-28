@@ -25,6 +25,7 @@
         <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
 
+    <!-- Zawartosc-->
     <StackLayout>
 
         <ScrollView HorizontalOptions="Fill" VerticalOptions="StartAndExpand">

@@ -80,6 +80,12 @@ namespace LOFit.Models.Accounts
 
             return plec.ToString();
         }
+        public string Telefon()
+        {
+            if (Nr_telefonu == null) return "";
+
+            return ((int)Nr_telefonu).ToString("### ### ###");
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

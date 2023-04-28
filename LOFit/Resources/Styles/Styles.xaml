@@ -112,7 +112,6 @@
     </Style>
 
     <Style TargetType="Picker">
-        <Setter Property="WidthRequest" Value="300"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MyText}, Dark={StaticResource MyText}}" />
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource MyText}, Dark={StaticResource MyText}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource MyEntryBg}, Dark={StaticResource MyEntryBg}}" />

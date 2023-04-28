@@ -11,5 +11,6 @@ namespace LOFit.DataServices.Login
     {
         Task<string> Login(LoginModel model);
         Task<string> SendMail(string email);
+        Task<string> ChangePassword(ChangePasswordModel form);
     }
 }

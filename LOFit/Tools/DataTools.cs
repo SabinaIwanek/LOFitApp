@@ -32,6 +32,12 @@ namespace LOFit.Tools
 
             return (int)Plec.NiePodano;
         }
+        public static string ReturnGender(int gender)
+        {
+            if (gender == 0) return "Nie podano";
+
+            return ((Plec)gender).ToString();
+        }
         public static int EntryCoach(string coach)
         {
             if (coach == TypTrenera.Trener.ToString()) return (int)TypTrenera.Trener;

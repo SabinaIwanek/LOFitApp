@@ -22,16 +22,17 @@
         <ToolbarItem Text="Back" Clicked="OnBackClicked" Order="Primary" IconImageSource="back.png"/>
     </ContentPage.ToolbarItems>
 
+    <!-- Zawartosc-->
     <StackLayout>
         <ScrollView VerticalOptions="StartAndExpand">
 
-            <VerticalStackLayout WidthRequest="300" >
+            <VerticalStackLayout MaximumWidthRequest="600" MinimumWidthRequest="100" Padding="30,40">
 
                 <StackLayout Margin="0,20,0,10">
                     <Grid HorizontalOptions="Fill">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
