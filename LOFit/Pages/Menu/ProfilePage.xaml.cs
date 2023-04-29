@@ -70,14 +70,21 @@ public partial class ProfilePage : ContentPage
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
 
+        EditImageButton.IsVisible = Singleton.Instance.Type == TypKonta.Uzytkownik;
+
         BindingContext = this;
     }
+
     #region Menu buttons
     async void OnBackClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
         {
             await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        }
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            await Shell.Current.GoToAsync(nameof(ConnectionsPage));
         }
     }
     async void OnProfileClicked(object sender, EventArgs e)

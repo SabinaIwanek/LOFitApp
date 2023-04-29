@@ -84,7 +84,7 @@
                     <Label Grid.Column="2" Grid.Row="7" Text="{Binding DataUr}" Margin="3,2"/>
 
                     <Image Grid.Column="1" Grid.Row="8" Source="phone.png" Margin="0,2,2,2"/>
-                    <Label Grid.Column="2" Grid.Row="8" Text="{Binding Path=CoachM.Nr_telefonu}" Margin="3,2"/>
+                    <Label Grid.Column="2" Grid.Row="8" Text="{Binding TelefonString}" Margin="3,2"/>
 
                     <Label Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="3" x:Name="LabelOpis"  Text="{Binding Path=CoachM.Opis_profilu}"/>
 
@@ -246,9 +246,31 @@
             </StackLayout>
         </ScrollView>
 
+        <!--Bottom menu user-->
         <StackLayout Orientation="Horizontal" VerticalOptions="End">
             <Button x:Name="ButtonSelect" Text="Wybierz trenera" Clicked="OnSelectButtonClicked" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
         </StackLayout>
+
+        <!--Bottom menu coach-->
+        <Grid x:Name="CoachBottomMenu" HorizontalOptions="Fill" VerticalOptions="End" Padding="0,5" BackgroundColor="{StaticResource MyEntryBg}" IsVisible="false" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55" />
+            </Grid.RowDefinitions>
+
+            <ImageButton Grid.Column="0" Grid.Row="0" Source="calendar.png" Clicked="OnBottomMenuClicked" CommandParameter="calendar" Margin="10,0" Padding="5"  CornerRadius="30"/>
+            <ImageButton Grid.Column="1" Grid.Row="0" Source="plan.png" Clicked="OnBottomMenuClicked" CommandParameter="plans" Margin="10,0" Padding="5"  CornerRadius="30" />
+            <ImageButton Grid.Column="2" Grid.Row="0" Source="connection.png" Clicked="OnBottomMenuClicked" CommandParameter="connections"  Margin="10,0" Padding="5"  CornerRadius="30" />
+            <ImageButton x:Name="ImageButtonProfile" Grid.Column="3" Grid.Row="0" Source="user.png" Clicked="OnBottomMenuClicked" CommandParameter="coachsProfile"  Margin="10,0" Padding="5"  CornerRadius="30"/>
+            <ImageButton Grid.Column="4" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30"/>
+
+        </Grid>
 
     </StackLayout>
 

@@ -150,6 +150,12 @@ namespace LOFit.Models.Accounts
 
             return ((DateTime)Data_urodzenia).ToString("dd.MM.yyyy");
         }
+        public string TelefonString()
+        {
+            if (Nr_telefonu == null) return "";
+
+            return ((int)Nr_telefonu).ToString("### ### ###");
+        }
         public string StatusTrenera()
         {
             if (Zatwierdzony_trener == 0) return "W trakcie weryfikacji";

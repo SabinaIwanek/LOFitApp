@@ -4,8 +4,10 @@ using LOFit.DataServices.User;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.ProfileMenu;
+using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.Workouts;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Coachs;
@@ -29,6 +31,9 @@ public partial class ConnectionsPage : ContentPage
         _grids = new List<Grid>() { BottomNewButton, BottomActiveButton, BottomHistoryButton };
         ListLoad(0);
 
+        if (Singleton.Instance.Type == TypKonta.Trener)
+            Singleton.Instance.IdUsera = 0;
+
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
         {
@@ -39,10 +44,25 @@ public partial class ConnectionsPage : ContentPage
 
         Content.GestureRecognizers.Add(swipeGestureRight);
         #endregion
+
+        #region Swipe Left
+        SwipeGestureRecognizer swipeGestureLeft = new SwipeGestureRecognizer
+        {
+            Direction = SwipeDirection.Left
+        };
+
+        swipeGestureLeft.Swiped += (s, e) => OnSwipeLeft();
+
+        Content.GestureRecognizers.Add(swipeGestureLeft);
+        #endregion
     }
 
     #region Swiped
     async void OnSwipeRight()
+    {
+        
+    }
+    async void OnSwipeLeft()
     {
         CoachModel model = await _dataServiceCoach.GetOne(-1);
 
@@ -56,14 +76,19 @@ public partial class ConnectionsPage : ContentPage
     #endregion
 
     #region Menu buttons
-    async void OnCoachsClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
-    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            await Shell.Current.GoToAsync(nameof(ProfilePage));
+        {
+            UserModel model = await _dataServiceUser.GetOne(-1);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
 
         if (Singleton.Instance.Type == TypKonta.Trener)
         {
@@ -125,7 +150,21 @@ public partial class ConnectionsPage : ContentPage
 
     async void OnConnectionClicked(object sender, SelectionChangedEventArgs e)
     {
-        if (_type == 1)
+        if (_type == 0)
+        {
+            var model = e.CurrentSelection.FirstOrDefault() as ConnectionListModel;
+            Singleton.Instance.IdUsera = model.Connection.Id_usera;
+
+            UserModel user = await _dataServiceUser.GetOne(model.Connection.Id_usera);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), user}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
+        else if (_type == 1)
         {
             var model = e.CurrentSelection.FirstOrDefault() as ConnectionListModel;
             Singleton.Instance.IdUsera = model.Connection.Id_usera;
@@ -149,7 +188,7 @@ public partial class ConnectionsPage : ContentPage
     }
     async void OnDecideOkClicked(object sender, EventArgs e)
     {
-        var button = (Button)sender;
+        var button = (ImageButton)sender;
         var id = (int)button.CommandParameter;
 
         await _dataService.UpdateStateOk(id);
@@ -157,11 +196,51 @@ public partial class ConnectionsPage : ContentPage
     }
     async void OnDecideNoClicked(object sender, EventArgs e)
     {
-        var button = (Button)sender;
+        var button = (ImageButton)sender;
         var id = (int)button.CommandParameter;
 
         await _dataService.UpdateStateNo(id);
         ListLoad(_type);
+    }
+    #endregion
+
+    #region Bottom menu
+    async void OnBottomMenuClicked(object sender, EventArgs e)
+    {
+        var button = (ImageButton)sender;
+        var parameter = (string)button.CommandParameter;
+
+        if (parameter == "meals")
+        {
+            await Shell.Current.GoToAsync(nameof(MealsPage));
+        }
+        else if (parameter == "measure")
+        {
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        }
+        else if (parameter == "workout")
+        {
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        else if (parameter == "coachs")
+        {
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
+        else if (parameter == "coachsProfile")
+        {
+            OnProfileClicked(sender, e);
+        }
+        else if (parameter == "connections")
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+        else if (parameter == "plans")
+        {
+        }
+        else if (parameter == "calendar")
+        {
+        }
     }
     #endregion
 }

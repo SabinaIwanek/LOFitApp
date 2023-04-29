@@ -5,7 +5,10 @@ using LOFit.DataServices.User;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.ProfileMenu;
+using LOFit.Pages.Meals;
+using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.Workouts;
 using LOFit.Resources.Styles;
 using LOFit.Tools;
 
@@ -56,6 +59,7 @@ public partial class CoachPage : ContentPage
                 TypTrenera = _model.TypTrenera();
                 CenaUslugi = _model.CenaUslugi();
                 DataUr = _model.DataUr();
+                TelefonString = _model.TelefonString();
                 ListLoadCertyf();
 
                 if (Singleton.Instance.Type == TypKonta.Uzytkownik)
@@ -66,6 +70,7 @@ public partial class CoachPage : ContentPage
                     ButtonAddCert.IsVisible = false;
                     ButtonSelect.IsVisible = true;
                     ButtonEdit.IsVisible = false;
+                    CoachBottomMenu.IsVisible = false;
                 }
                 else if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
                 {
@@ -73,6 +78,8 @@ public partial class CoachPage : ContentPage
                     ButtonSelect.IsVisible = false;
                     ButtonAddCert.IsVisible = true;
                     ButtonEdit.IsVisible = true;
+                    CoachBottomMenu.IsVisible = true;
+                    ImageButtonProfile.BackgroundColor = MyColors.Primary;
                 }
                 else if (Singleton.Instance.Type == TypKonta.Trener)
                 {
@@ -80,6 +87,8 @@ public partial class CoachPage : ContentPage
                     ButtonSelect.IsVisible = false;
                     ButtonAddCert.IsVisible = false;
                     ButtonEdit.IsVisible = false;
+                    CoachBottomMenu.IsVisible = true;
+
                 }
                 else if (Singleton.Instance.Type == TypKonta.Administrator)
                 {
@@ -87,6 +96,7 @@ public partial class CoachPage : ContentPage
                     ButtonAddCert.IsVisible = false;
                     ButtonSelect.IsVisible = false;
                     ButtonEdit.IsVisible = false;
+                    CoachBottomMenu.IsVisible = false;
                 }
 
                 OnPropertyChanged();
@@ -153,6 +163,12 @@ public partial class CoachPage : ContentPage
         get { return _dataUr; }
         set { _dataUr = value; OnPropertyChanged(); }
     }
+    string _telefonString;
+    public string TelefonString
+    {
+        get { return _telefonString; }
+        set { _telefonString = value; OnPropertyChanged(); }
+    }
     #endregion
 
     public CoachPage(ICoachRestService dataService, ICertificateRestService dataServiceCert, IOpinionRestService dataServiceOpinion, IConnectionRestService dataServiceConn, IUserRestService dataServiceUser)
@@ -196,11 +212,16 @@ public partial class CoachPage : ContentPage
     async void OnRightSwiped()
     {
         if (!_isUserProfile) await Shell.Current.GoToAsync(nameof(CoachsPage));
+        else
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
     }
     async void OnLeftSwiped()
     {
         if (Singleton.Instance.Type == TypKonta.Trener)
-            await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
     }
     #endregion
 
@@ -303,7 +324,7 @@ public partial class CoachPage : ContentPage
     #region Certyfikaty
     async void ListLoadCertyf()
     {
-        collectionViewCertyf.ItemsSource = ListModelTools.ReturnCertificateList( await _dataServiceCert.GetCoachList(CoachM.Id));
+        collectionViewCertyf.ItemsSource = ListModelTools.ReturnCertificateList(await _dataServiceCert.GetCoachList(CoachM.Id));
     }
 
     // Trenerzy
@@ -338,12 +359,12 @@ public partial class CoachPage : ContentPage
     #region Opinie
     async void ListLoadOpinie()
     {
-        collectionViewOpinie.ItemsSource = await ListModelTools.ReturnOpinionList( await _dataServiceOpinion.GetCoachList(CoachM.Id), _dataServiceUser);
+        collectionViewOpinie.ItemsSource = await ListModelTools.ReturnOpinionList(await _dataServiceOpinion.GetCoachList(CoachM.Id), _dataServiceUser);
     }
     async void LoadMyOpinion()
     {
         Opinia = await _dataServiceOpinion.GetMyOpinion(CoachM.Id);
-        
+
         DataTools.StarsImageButton(_starsButton, Opinia.Ocena);
     }
 
@@ -360,6 +381,8 @@ public partial class CoachPage : ContentPage
     {
         Opinia.Id_trenera = CoachM.Id;
         if (Opinia.Opis_zgloszenia == null) Opinia.Opis_zgloszenia = "";
+
+        if (Opinia.Ocena == 0) Opinia.Ocena = 1;
 
         if (Opinia.Id == 0) await _dataServiceOpinion.Add(Opinia);
         else await _dataServiceOpinion.Update(Opinia);
@@ -390,6 +413,48 @@ public partial class CoachPage : ContentPage
     #endregion
 
     #region Bottom button
+
+    #region Trener
+    async void OnBottomMenuClicked(object sender, EventArgs e)
+    {
+        var button = (ImageButton)sender;
+        var parameter = (string)button.CommandParameter;
+
+        if (parameter == "meals")
+        {
+            await Shell.Current.GoToAsync(nameof(MealsPage));
+        }
+        else if (parameter == "measure")
+        {
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        }
+        else if (parameter == "workout")
+        {
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        else if (parameter == "coachs")
+        {
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
+        else if (parameter == "coachsProfile")
+        {
+            OnProfileClicked(sender, e);
+        }
+        else if (parameter == "connections")
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+        else if (parameter == "plans")
+        {
+        }
+        else if (parameter == "calendar")
+        {
+        }
+    }
+    #endregion
+
+    #region User
     async void OnSelectButtonClicked(object sender, EventArgs e)
     {
         bool result = await DisplayAlert($"{ButtonSelect.Text}", "Czy aby na pewno?", "Tak", "Nie");
@@ -451,5 +516,7 @@ public partial class CoachPage : ContentPage
             if (_type == 3) ButtonSelect.Text = "Wybierz trenera";
         });
     }
+    #endregion
+
     #endregion
 }

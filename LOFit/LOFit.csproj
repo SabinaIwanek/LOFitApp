@@ -54,7 +54,9 @@
 	  <None Remove="Resources\Images\add.png" />
 	  <None Remove="Resources\Images\back.png" />
 	  <None Remove="Resources\Images\birthday.png" />
+	  <None Remove="Resources\Images\calendar.png" />
 	  <None Remove="Resources\Images\coachs.png" />
+	  <None Remove="Resources\Images\connection.png" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\localizer.png" />
 	  <None Remove="Resources\Images\logo.png" />
@@ -62,10 +64,14 @@
 	  <None Remove="Resources\Images\meal.png" />
 	  <None Remove="Resources\Images\measure.png" />
 	  <None Remove="Resources\Images\money.png" />
+	  <None Remove="Resources\Images\no.png" />
+	  <None Remove="Resources\Images\ok.png" />
 	  <None Remove="Resources\Images\phone.png" />
+	  <None Remove="Resources\Images\plan.png" />
 	  <None Remove="Resources\Images\report.png" />
 	  <None Remove="Resources\Images\star.png" />
 	  <None Remove="Resources\Images\star_empty.png" />
+	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Resources\Images\workout.png" />
 	</ItemGroup>
 

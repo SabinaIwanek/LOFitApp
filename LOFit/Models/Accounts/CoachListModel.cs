@@ -93,6 +93,18 @@ namespace LOFit.Models.Accounts
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DataUr"));
             }
         }
+        private string _telefonString;
+        public string TelefonString
+        {
+            get => _telefonString;
+            set
+            {
+                if (_telefonString == value) return;
+
+                _telefonString = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TelefonString"));
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

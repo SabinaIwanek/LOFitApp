@@ -33,11 +33,17 @@ namespace LOFit.Models.ProfileMenu
             UserModel model = await dataService.GetOne(Id_usera);
             return $"{model.Imie} {model.Nazwisko}";
         }
+        public async Task<string> TelefonUser(IUserRestService dataService)
+        {
+            UserModel model = await dataService.GetOne(Id_usera);
+            return ((int)model.Nr_telefonu).ToString("### ### ###");
+        }
         public async Task<string> NazwaTrener(ICoachRestService dataService)
         {
             CoachModel model = await dataService.GetOne(Id_trenera);
             return $"{model.Imie} {model.Nazwisko}";
         }
+
         public string CzasTrwania()
         {
             string wynik = string.Empty;
@@ -45,7 +51,14 @@ namespace LOFit.Models.ProfileMenu
             if (Czas_do == null)
                 return $"od {Czas_od}";
 
-            return $"od {Czas_od} do {Czas_do}";
+            return $"od {Czas_od.ToString("dd.MM.yyyy")} do {((DateTime)Czas_do).ToString("dd.MM.yyyy")}";
+        }
+
+        public string PodgladDanych()
+        {
+            if (Podglad_od_daty == null) return "całkowity";
+
+            return $"od dnia {((DateTime)Podglad_od_daty).ToString("dd.MM.yyyy")}";
         }
         public string Status()
         {

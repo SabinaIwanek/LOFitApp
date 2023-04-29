@@ -44,7 +44,7 @@
 
                 <DataTemplate x:DataType="model:CoachListModel">
 
-                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="5" BackgroundColor="{StaticResource Primary2}">
+                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="20" BackgroundColor="{StaticResource Primary2}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="30" />
@@ -113,7 +113,7 @@
 
                 <DataTemplate x:DataType="model:CoachListModel">
 
-                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="5" >
+                    <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="20" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="30" />
@@ -159,8 +159,8 @@
 
         </CollectionView>
 
-        <!--Bottom menu-->
-        <Grid HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="0,5" BackgroundColor="{StaticResource MyEntryBg}">
+        <!--Bottom menu user-->
+        <Grid x:Name="UserBottomMenu" HorizontalOptions="Fill" VerticalOptions="EndAndExpand" Padding="0,5" BackgroundColor="{StaticResource MyEntryBg}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
@@ -175,6 +175,27 @@
             <ImageButton Grid.Column="1" Grid.Row="0" Source="measure.png" Clicked="OnBottomMenuClicked" CommandParameter="measure" Margin="10,0" Padding="5"  CornerRadius="30"/>
             <ImageButton Grid.Column="2" Grid.Row="0" Source="workout.png" Clicked="OnBottomMenuClicked" CommandParameter="workout"  Margin="10,0" Padding="5"  CornerRadius="30" />
             <ImageButton Grid.Column="3" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30" BackgroundColor="{StaticResource Primary}"/>
+
+        </Grid>
+
+        <!--Bottom menu coach-->
+        <Grid x:Name="CoachBottomMenu" HorizontalOptions="Fill" VerticalOptions="End" Padding="0,5" BackgroundColor="{StaticResource MyEntryBg}" IsVisible="false" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55" />
+            </Grid.RowDefinitions>
+
+            <ImageButton Grid.Column="0" Grid.Row="0" Source="calendar.png" Clicked="OnBottomMenuClicked" CommandParameter="calendar" Margin="10,0" Padding="5"  CornerRadius="30"/>
+            <ImageButton Grid.Column="1" Grid.Row="0" Source="plan.png" Clicked="OnBottomMenuClicked" CommandParameter="plans" Margin="10,0" Padding="5"  CornerRadius="30" />
+            <ImageButton Grid.Column="2" Grid.Row="0" Source="connection.png" Clicked="OnBottomMenuClicked" CommandParameter="connections"  Margin="10,0" Padding="5"  CornerRadius="30" />
+            <ImageButton Grid.Column="3" Grid.Row="0" Source="user.png" Clicked="OnBottomMenuClicked" CommandParameter="coachsProfile"  Margin="10,0" Padding="5"  CornerRadius="30"/>
+            <ImageButton Grid.Column="4" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30" BackgroundColor="{StaticResource Primary}"/>
 
         </Grid>
 

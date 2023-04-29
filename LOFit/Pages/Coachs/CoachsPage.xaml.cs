@@ -23,6 +23,8 @@ public partial class CoachsPage : ContentPage
         _dataService = dataService;
         _dataServiceOpinion = dataServiceOpinion;
         _dataServiceUser = dataServiceUser;
+
+        BottomMenuLoad();
         ListLoad();
 
         #region Swipe right
@@ -43,6 +45,18 @@ public partial class CoachsPage : ContentPage
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
         {
             await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            CoachModel model = await _dataService.GetOne(-1);
+            Singleton.Instance.IdTrenera = model.Id;
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(CoachModel), model}
+                };
+
+            await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);
         }
     }
     #endregion
@@ -136,6 +150,13 @@ public partial class CoachsPage : ContentPage
     #endregion
 
     #region Bottom menu
+    void BottomMenuLoad()
+    {
+        bool isUser = Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+        UserBottomMenu.IsVisible = isUser;
+        CoachBottomMenu.IsVisible = !isUser;
+    }
     async void OnBottomMenuClicked(object sender, EventArgs e)
     {
         var button = (ImageButton)sender;
@@ -156,6 +177,32 @@ public partial class CoachsPage : ContentPage
         else if (parameter == "coachs")
         {
             await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
+        else if (parameter == "coachsProfile")
+        {
+            OnProfileClicked(sender, e);
+        }
+        else if (parameter == "userProfile")
+        {
+            UserModel user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), user}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
+        else if (parameter == "connections")
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+        else if (parameter == "plans")
+        {
+        }
+        else if (parameter == "calendar")
+        {
         }
     }
     #endregion

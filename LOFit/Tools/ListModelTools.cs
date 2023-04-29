@@ -88,6 +88,8 @@ namespace LOFit.Tools
                 model.NazwaUser = await connection.NazwaUser(dataServiceUser);
                 model.NazwaTrener = await connection.NazwaTrener(dataServiceCoach);
                 model.CzasTrwania = connection.CzasTrwania();
+                model.PodgladDanych = connection.PodgladDanych();
+                model.TelefonUser = await connection.TelefonUser(dataServiceUser);
                 model.Status = connection.Status();
 
                 newList.Add(model);
