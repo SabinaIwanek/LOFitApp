@@ -37,8 +37,8 @@
             <VerticalStackLayout MaximumWidthRequest="600" MinimumWidthRequest="200" >
 
                 <StackLayout>
-                    
-                    <Grid HorizontalOptions="Fill" Padding="30,40">
+                    <!-- User data-->
+                    <Grid x:Name="UserData" HorizontalOptions="Fill" Padding="30,40">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="120"/>
                             <ColumnDefinition Width="1*" />
@@ -58,7 +58,7 @@
                         <Entry Grid.Row="1" Grid.Column="1" Text="{Binding Path=UserM.Nazwisko}"/>
 
                         <Label Grid.Row="2" Grid.Column="0" Text="Płeć: "/>
-                        <Picker Grid.Row="2" Grid.Column="1"  x:Name="GenderPicker" SelectedItem="{Binding SelectedGender}" WidthRequest="150" HorizontalOptions="Start">
+                        <Picker Grid.Row="2" Grid.Column="1" SelectedItem="{Binding SelectedGender}" WidthRequest="150" HorizontalOptions="Start">
                             <Picker.Items>
                                 <x:String>Kobieta</x:String>
                                 <x:String>Mężczyzna</x:String>
@@ -74,6 +74,78 @@
 
                         
                     </Grid>
+
+                    <!-- Coach data-->
+                    <Grid x:Name="CoachData" HorizontalOptions="Fill" Padding="30,40">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Grid.Row="0" Grid.Column="0" Text="Status trenera: "/>
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <HorizontalStackLayout>
+                                <Image x:Name="ImageZatwierdzonyTrener" Source="accepted.png" IsVisible="false" WidthRequest="30"/>
+                                <Label Text="{Binding StatusTrenera}"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Status dietetyka: "/>
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <HorizontalStackLayout>
+                                <Image x:Name="ImageZatwierdzonyDietetyk" Source="accepted.png" IsVisible="false" WidthRequest="30"/>
+                                <Label Text="{Binding StatusDietetyka}"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" Text="Imie: "/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Path=CoachM.Imie}"/>
+
+                        <Label Grid.Row="3" Grid.Column="0" Text="Nazwisko: "/>
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding Path=CoachM.Nazwisko}"/>
+
+                        <Label Grid.Row="4" Grid.Column="0" Text="Płeć: "/>
+                        <Picker Grid.Row="4" Grid.Column="1"  SelectedItem="{Binding SelectedGender}" WidthRequest="150" HorizontalOptions="Start">
+                            <Picker.Items>
+                                <x:String>Kobieta</x:String>
+                                <x:String>Mężczyzna</x:String>
+                                <x:String>Nie podano</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+                        <Label Grid.Row="5" Grid.Column="0" Text="Data urodzenia: "/>
+                        <DatePicker Grid.Row="5" Grid.Column="1" Date="{Binding Path=CoachM.Data_urodzenia}"/>
+
+                        <Label Grid.Row="6" Grid.Column="0" Text="Numer telefonu: "/>
+                        <Entry Grid.Row="6" Grid.Column="1" Text="{Binding Phone}"/>
+
+                        <Label Grid.Row="7" Grid.Column="0" Text="Miejscowość: "/>
+                        <Entry Grid.Row="7" Grid.Column="1" Text="{Binding Path=CoachM.Miejscowosc}"/>
+
+                        <Label Grid.Row="8" Grid.Column="0" Text="Cena usługi: "/>
+                        <Entry Grid.Row="8" Grid.Column="1" Text="{Binding Path=CoachM.Cena_uslugi}"/>
+
+                        <Label Grid.Row="9" Grid.Column="0" Text="Czas usługi: "/>
+                        <TimePicker Grid.Row="9" Grid.Column="1" Time="{Binding CzasUslugi}" FontSize="14" />
+
+                        <Label Grid.Row="10" Grid.Column="0" Text="Opis: "/>
+                        <Entry Grid.Row="10" Grid.Column="1" Text="{Binding Path=CoachM.Opis_profilu}"/>
+
+                    </Grid>
+
                 </StackLayout>
 
                 <StackLayout Padding="30,0">

@@ -255,7 +255,7 @@ public partial class CoachPage : ContentPage
     #region Coach Info
     async void OnEditButtonClicked(object sender, EventArgs e)
     {
-        if (Singleton.Instance.Type == TypKonta.Trener)
+        if (Singleton.Instance.Type == TypKonta.Trener && _isUserProfile)
         {
             var navigationParameter = new Dictionary<string, object>
                 {

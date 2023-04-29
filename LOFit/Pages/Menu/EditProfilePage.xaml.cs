@@ -25,8 +25,21 @@ public partial class EditProfilePage : ContentPage
             _modelCoachM = value;
             if (_modelCoachM != null)
             {
-                SelectedGender = DataTools.ReturnGender(value.Plec);
-                if (value.Nr_telefonu != null) Phone = value.Nr_telefonu.ToString();
+                if (Singleton.Instance.Type == TypKonta.Trener)
+                {
+                    SelectedGender = DataTools.ReturnGender(value.Plec);
+                    if (value.Nr_telefonu != null) Phone = value.Nr_telefonu.ToString();
+                    if (value.Czas_uslugi_min != null)
+                    {
+                        CzasUslugi = new TimeSpan(((int)value.Czas_uslugi_min / 60), ((int)value.Czas_uslugi_min % 60), 0);
+                    }
+
+                    StatusTrenera = value.StatusTrenera();
+                    StatusDietetyka = value.StatusDietetyka();
+
+                    if (value.Zatwierdzony_trener == 1) ImageZatwierdzonyTrener.IsVisible = true;
+                    if (value.Zatwierdzony_dietetyk == 1) ImageZatwierdzonyDietetyk.IsVisible = true;
+                }
                 OnPropertyChanged();
             }
         }
@@ -41,8 +54,11 @@ public partial class EditProfilePage : ContentPage
             _modelUserM = value;
             if (_modelUserM != null)
             {
-                SelectedGender = DataTools.ReturnGender(value.Plec);
-                if (value.Nr_telefonu != null) Phone = value.Nr_telefonu.ToString();
+                if(Singleton.Instance.Type == TypKonta.Uzytkownik)
+                {
+                    SelectedGender = DataTools.ReturnGender(value.Plec);
+                    if (value.Nr_telefonu != null) Phone = value.Nr_telefonu.ToString();
+                }
                 OnPropertyChanged();
             }
         }
@@ -95,6 +111,43 @@ public partial class EditProfilePage : ContentPage
 
             if (Singleton.Instance.Type == TypKonta.Uzytkownik) UserM.Nr_telefonu = phoneNumber;
             else if (Singleton.Instance.Type == TypKonta.Trener) CoachM.Nr_telefonu = phoneNumber;
+
+            OnPropertyChanged();
+        }
+    }
+
+    private string _statusTrenera;
+    public string StatusTrenera
+    {
+        get { return _statusTrenera; }
+        set
+        {
+            _statusTrenera = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string _statusDietetyka;
+    public string StatusDietetyka
+    {
+        get { return _statusDietetyka; }
+        set
+        {
+            _statusDietetyka = value;
+            OnPropertyChanged();
+        }
+    }
+
+    TimeSpan _czasUslugi;
+    public TimeSpan CzasUslugi
+    {
+        get { return _czasUslugi; }
+        set
+        {
+            _czasUslugi = value;
+
+            if (CoachM != null)
+                CoachM.Czas_uslugi_min = value.Hours * 60 + value.Minutes;
 
             OnPropertyChanged();
         }
@@ -161,7 +214,16 @@ public partial class EditProfilePage : ContentPage
     #region Switch
     private void Switch()
     {
-
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+        {
+            UserData.IsVisible = true;
+            CoachData.IsVisible = false;
+        }
+        else if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            UserData.IsVisible = false;
+            CoachData.IsVisible = true;
+        }
     }
     #endregion
 

@@ -75,55 +75,29 @@ namespace LOFit.Models.Accounts
             }
         }
 
-        private decimal? _cena_treningu;
-        public decimal? Cena_treningu
+        private decimal? _cena_uslugi;
+        public decimal? Cena_uslugi
         {
-            get => _cena_treningu;
+            get => _cena_uslugi;
             set
             {
-                if (_cena_treningu == value) return;
+                if (_cena_uslugi == value) return;
 
-                _cena_treningu = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Cena_treningu"));
+                _cena_uslugi = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Cena_uslugi"));
             }
         }
 
-        private TimeOnly? _czas_treningu;
-        public TimeOnly? Czas_treningu
+        private int? _czas_uslugi;
+        public int? Czas_uslugi_min
         {
-            get => _czas_treningu;
+            get => _czas_uslugi;
             set
             {
-                if (_czas_treningu == value) return;
+                if (_czas_uslugi == value) return;
 
-                _czas_treningu = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Czas_treningu"));
-            }
-        }
-
-        private decimal? _cena_dieta;
-        public decimal? Cena_dieta
-        {
-            get => _cena_dieta;
-            set
-            {
-                if (_cena_dieta == value) return;
-
-                _cena_dieta = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Cena_dieta"));
-            }
-        }
-
-        private TimeOnly? _czas_dieta;
-        public TimeOnly? Czas_dieta
-        {
-            get => _czas_dieta;
-            set
-            {
-                if (_czas_dieta == value) return;
-
-                _czas_dieta = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Czas_dieta"));
+                _czas_uslugi = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Czas_uslugi"));
             }
         }
 
@@ -164,8 +138,8 @@ namespace LOFit.Models.Accounts
 
         public string CenaUslugi()
         {
-            if (Czas_treningu != null && Cena_treningu != null)
-                return $"{Cena_treningu} zł, za {Czas_treningu} minut";
+            if (Czas_uslugi_min != null && Cena_uslugi != null)
+                return $"{Cena_uslugi} zł ({Czas_uslugi_min} min)";
 
             return "Brak danych";
         }
@@ -175,6 +149,22 @@ namespace LOFit.Models.Accounts
                 return "Brak danych";
 
             return ((DateTime)Data_urodzenia).ToString("dd.MM.yyyy");
+        }
+        public string StatusTrenera()
+        {
+            if (Zatwierdzony_trener == 0) return "W trakcie weryfikacji";
+            if (Zatwierdzony_trener == 1) return "Zatwierdzony";
+            if (Zatwierdzony_trener == 2) return "Odrzucony";
+
+            return "";
+        }
+        public string StatusDietetyka()
+        {
+            if (Zatwierdzony_trener == 0) return "W trakcie weryfikacji";
+            if (Zatwierdzony_trener == 1) return "Zatwierdzony";
+            if (Zatwierdzony_trener == 2) return "Odrzucony";
+
+            return "";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

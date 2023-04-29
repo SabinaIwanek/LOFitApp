@@ -27,16 +27,16 @@
 
     <!-- Zawartosc-->
     <StackLayout>
-
         <ScrollView HorizontalOptions="Fill" VerticalOptions="StartAndExpand">
             <StackLayout>
-
+                
                 <!--Wizytówka-->
                 <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="40" BackgroundColor="{StaticResource Primary2}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -53,9 +53,9 @@
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="9" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,5,20,5"/>
-                    <ImageButton Grid.Column="2" Grid.Row="0" x:Name="ButtonEdit"  Clicked="OnEditButtonClicked" Source="edit.png" BackgroundColor="Gainsboro" WidthRequest="35" HorizontalOptions="End" />
 
                     <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="25" FontAttributes="Bold"  />
+                    <ImageButton Grid.Column="3" Grid.Row="0" x:Name="ButtonEdit"  Clicked="OnEditButtonClicked" Source="edit.png" BackgroundColor="Transparent" WidthRequest="35" HorizontalOptions="End" />
 
                     <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TypTrenera}" FontSize="20" />
 
@@ -71,7 +71,7 @@
                         </HorizontalStackLayout>
                     </Grid>
 
-                    <Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" BackgroundColor="{StaticResource Primary}" />
+                    <Grid Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" BackgroundColor="{StaticResource Primary}" />
 
                     <Image Grid.Column="1" Grid.Row="5" Source="localizer.png" Margin="0,2,2,2"/>
                     <Label Grid.Column="2" Grid.Row="5" Text="{Binding CoachM.Miejscowosc}" Margin="3,2"/>
