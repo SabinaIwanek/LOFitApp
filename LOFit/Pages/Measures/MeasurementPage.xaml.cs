@@ -63,6 +63,8 @@ public partial class MeasurementPage : ContentPage
         if (Singleton.Instance.DateToShow.Year != 1) DateCalendar = Singleton.Instance.DateToShow;
         else DateCalendar = DateTime.Today;
 
+        BottomMenuLoad();
+
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
         {
@@ -97,6 +99,13 @@ public partial class MeasurementPage : ContentPage
     #endregion
 
     #region Menu buttons
+    async void OnBackClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
@@ -205,26 +214,72 @@ public partial class MeasurementPage : ContentPage
             Model = Model;
         }
     }
+    void BottomMenuLoad()
+    {
+        bool isUser = Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+        CoachsBottomButton.IsVisible = isUser;
+        ProfileBottomButton.IsVisible = !isUser;
+
+        if (isUser)
+        {
+            TollbarBack.IconImageSource = "";
+            TollbarBack.Text = "";
+            TollbarBack.IsEnabled = false;
+        }
+        else
+        {
+            TollbarBack.IconImageSource = "back.png";
+            TollbarBack.Text = "Back";
+            TollbarBack.IsEnabled = true;
+        }
+    }
     async void OnBottomMenuClicked(object sender, EventArgs e)
     {
         var button = (ImageButton)sender;
         var parameter = (string)button.CommandParameter;
 
-        if (parameter == "meals") 
+        if (parameter == "meals")
         {
             await Shell.Current.GoToAsync(nameof(MealsPage));
         }
-        else if (parameter == "measure") 
+        else if (parameter == "measure")
         {
             await Shell.Current.GoToAsync(nameof(MeasurementPage));
         }
-        else if (parameter == "workout") 
+        else if (parameter == "workout")
         {
             await Shell.Current.GoToAsync(nameof(WorkoutsPage));
         }
-        else if (parameter == "coachs") 
+        else if (parameter == "coachs")
         {
             await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
+        else if (parameter == "coachsProfile")
+        {
+            OnProfileClicked(sender, e);
+        }
+        else if (parameter == "userProfile")
+        {
+            UserModel user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), user}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
+        else if (parameter == "connections")
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+        else if (parameter == "plans")
+        {
+        }
+        else if (parameter == "calendar")
+        {
         }
     }
     #endregion

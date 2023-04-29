@@ -53,6 +53,8 @@ public partial class MealsPage : ContentPage
             DateCalendar = Singleton.Instance.DateToShow;
         }
 
+        BottomMenuLoad();
+
         #region Swipe left
         SwipeGestureRecognizer swipeGestureLeft = new SwipeGestureRecognizer
         {
@@ -72,6 +74,13 @@ public partial class MealsPage : ContentPage
     #endregion
 
     #region Menu buttons
+    async void OnBackClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
@@ -230,6 +239,26 @@ public partial class MealsPage : ContentPage
 
         await Shell.Current.GoToAsync(nameof(MealPage), navigationParameter);
     }
+    void BottomMenuLoad()
+    {
+        bool isUser = Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+        CoachsBottomButton.IsVisible = isUser;
+        ProfileBottomButton.IsVisible = !isUser;
+
+        if (isUser)
+        {
+            TollbarBack.IconImageSource = "";
+            TollbarBack.Text = "";
+            TollbarBack.IsEnabled = false;
+        }
+        else
+        {
+            TollbarBack.IconImageSource = "back.png";
+            TollbarBack.Text = "Back";
+            TollbarBack.IsEnabled = true;
+        }
+    }
     async void OnBottomMenuClicked(object sender, EventArgs e)
     {
         var button = (ImageButton)sender;
@@ -250,6 +279,32 @@ public partial class MealsPage : ContentPage
         else if (parameter == "coachs")
         {
             await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
+        else if (parameter == "coachsProfile")
+        {
+            OnProfileClicked(sender, e);
+        }
+        else if (parameter == "userProfile")
+        {
+            UserModel user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), user}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
+        else if (parameter == "connections")
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+        else if (parameter == "plans")
+        {
+        }
+        else if (parameter == "calendar")
+        {
         }
     }
     #endregion

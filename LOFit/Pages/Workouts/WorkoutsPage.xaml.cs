@@ -33,7 +33,7 @@ public partial class WorkoutsPage : ContentPage
             _data = value;
 
             Singleton.Instance.DateToShow = _data;
-            
+
             OnPropertyChanged();
             EntryDate();
             ListLoad();
@@ -52,6 +52,7 @@ public partial class WorkoutsPage : ContentPage
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
 
         DateCalendar = Singleton.Instance.DateToShow;
+        BottomMenuLoad();
 
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
@@ -83,11 +84,29 @@ public partial class WorkoutsPage : ContentPage
     }
     async void OnLeftSwiped()
     {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik) await Shell.Current.GoToAsync(nameof(CoachsPage));
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            UserModel user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), user}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
     }
     #endregion
 
     #region Menu buttons
+    async void OnBackClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
@@ -247,6 +266,26 @@ public partial class WorkoutsPage : ContentPage
 
         await Shell.Current.GoToAsync(nameof(WorkoutPage), navigationParameter);
     }
+    void BottomMenuLoad()
+    {
+        bool isUser = Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+        CoachsBottomButton.IsVisible = isUser;
+        ProfileBottomButton.IsVisible = !isUser;
+
+        if (isUser)
+        {
+            TollbarBack.IconImageSource = "";
+            TollbarBack.Text = "";
+            TollbarBack.IsEnabled = false;
+        }
+        else
+        {
+            TollbarBack.IconImageSource = "back.png";
+            TollbarBack.Text = "Back";
+            TollbarBack.IsEnabled = true;
+        }
+    }
     async void OnBottomMenuClicked(object sender, EventArgs e)
     {
         var button = (ImageButton)sender;
@@ -267,6 +306,32 @@ public partial class WorkoutsPage : ContentPage
         else if (parameter == "coachs")
         {
             await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
+        else if (parameter == "coachsProfile")
+        {
+            OnProfileClicked(sender, e);
+        }
+        else if (parameter == "userProfile")
+        {
+            UserModel user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), user}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
+        else if (parameter == "connections")
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+        else if (parameter == "plans")
+        {
+        }
+        else if (parameter == "calendar")
+        {
         }
     }
     #endregion

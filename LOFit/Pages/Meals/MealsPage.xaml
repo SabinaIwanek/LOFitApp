@@ -15,6 +15,8 @@
     
     <!--Menu-->
     <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="TollbarBack" Text="Back" Clicked="OnBackClicked" Order="Primary" IconImageSource="back.png" />
+
         <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
         <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
     </ContentPage.ToolbarItems>
@@ -242,7 +244,8 @@
             <ImageButton Grid.Column="0" Grid.Row="0" Source="meal.png" Clicked="OnBottomMenuClicked" CommandParameter="meals" Margin="10,0" Padding="5"  CornerRadius="30"  BackgroundColor="{StaticResource Primary}"/>
             <ImageButton Grid.Column="1" Grid.Row="0" Source="measure.png" Clicked="OnBottomMenuClicked" CommandParameter="measure" Margin="10,0" Padding="5"  CornerRadius="30" />
             <ImageButton Grid.Column="2" Grid.Row="0" Source="workout.png" Clicked="OnBottomMenuClicked" CommandParameter="workout"  Margin="10,0" Padding="5"  CornerRadius="30" />
-            <ImageButton Grid.Column="3" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30"/>
+            <ImageButton x:Name="CoachsBottomButton" Grid.Column="3" Grid.Row="0" Source="coachs.png" Clicked="OnBottomMenuClicked" CommandParameter="coachs"  Margin="10,0" Padding="5"  CornerRadius="30"/>
+            <ImageButton x:Name="ProfileBottomButton" Grid.Column="3" Grid.Row="0" Source="user.png" Clicked="OnBottomMenuClicked" CommandParameter="userProfile"  Margin="10,0" Padding="5"  CornerRadius="30"/>
 
         </Grid>
     </StackLayout>

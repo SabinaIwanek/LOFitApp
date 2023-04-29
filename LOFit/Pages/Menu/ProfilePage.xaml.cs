@@ -6,6 +6,8 @@ using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
 using LOFit.DataServices.User;
 using LOFit.Resources.Styles;
+using LOFit.Pages.Meals;
+using LOFit.Pages.Workouts;
 
 namespace LOFit.Pages.Menu;
 
@@ -70,11 +72,29 @@ public partial class ProfilePage : ContentPage
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
 
-        EditImageButton.IsVisible = Singleton.Instance.Type == TypKonta.Uzytkownik;
+        BottomMenuLoad();
 
         BindingContext = this;
+
+        #region Swipe right
+        SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
+        {
+            Direction = SwipeDirection.Right
+        };
+
+        swipeGestureRight.Swiped += (s, e) => OnRightSwiped();
+
+        Content.GestureRecognizers.Add(swipeGestureRight);
+        #endregion
     }
 
+    #region Swiped
+    async void OnRightSwiped()
+    {
+        await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+    }
+
+    #endregion
     #region Menu buttons
     async void OnBackClicked(object sender, EventArgs e)
     {
@@ -141,6 +161,64 @@ public partial class ProfilePage : ContentPage
                 };
 
             await Shell.Current.GoToAsync(nameof(EditProfilePage), navigationParameter);
+        }
+    }
+    #endregion
+
+    #region Bottom menu
+    void BottomMenuLoad()
+    {
+        bool isMyCoach = Singleton.Instance.Type == TypKonta.Trener && Singleton.Instance.IdUsera != 0;
+
+        CoachBottomMenu.IsVisible = isMyCoach;
+        EditImageButton.IsVisible = Singleton.Instance.Type == TypKonta.Uzytkownik;
+    }
+    async void OnBottomMenuClicked(object sender, EventArgs e)
+    {
+        var button = (ImageButton)sender;
+        var parameter = (string)button.CommandParameter;
+
+        if (parameter == "meals")
+        {
+            await Shell.Current.GoToAsync(nameof(MealsPage));
+        }
+        else if (parameter == "measure")
+        {
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        }
+        else if (parameter == "workout")
+        {
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        else if (parameter == "coachs")
+        {
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
+        else if (parameter == "coachsProfile")
+        {
+            OnProfileClicked(sender, e);
+        }
+        else if (parameter == "userProfile")
+        {
+            UserModel user = await _dataService.GetOne(Singleton.Instance.IdUsera);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(UserModel), user}
+                };
+
+            await Shell.Current.GoToAsync(nameof(ProfilePage), navigationParameter);
+        }
+        else if (parameter == "connections")
+        {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(ConnectionsPage));
+        }
+        else if (parameter == "plans")
+        {
+        }
+        else if (parameter == "calendar")
+        {
         }
     }
     #endregion

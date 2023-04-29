@@ -153,7 +153,6 @@ public partial class ConnectionsPage : ContentPage
         if (_type == 0)
         {
             var model = e.CurrentSelection.FirstOrDefault() as ConnectionListModel;
-            Singleton.Instance.IdUsera = model.Connection.Id_usera;
 
             UserModel user = await _dataServiceUser.GetOne(model.Connection.Id_usera);
 
