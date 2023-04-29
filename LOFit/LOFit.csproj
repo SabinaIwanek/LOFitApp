@@ -57,6 +57,8 @@
 	  <None Remove="Resources\Images\coachs.png" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\localizer.png" />
+	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\logo_tlo.png" />
 	  <None Remove="Resources\Images\meal.png" />
 	  <None Remove="Resources\Images\measure.png" />
 	  <None Remove="Resources\Images\money.png" />

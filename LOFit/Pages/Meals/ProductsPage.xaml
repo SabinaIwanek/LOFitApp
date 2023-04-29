@@ -7,6 +7,7 @@
     <!-- Tittle -->
     <Shell.TitleView>
         <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Image Source="logo_tlo.png" BackgroundColor="Transparent" WidthRequest="43" Margin="5,2" VerticalOptions="Start"/>
             <Label Text="Produkty" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
         </HorizontalStackLayout>
     </Shell.TitleView>

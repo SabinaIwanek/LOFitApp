@@ -16,13 +16,14 @@
     <!-- Tittle -->
     <Shell.TitleView>
         <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Image Source="logo_tlo.png" BackgroundColor="Transparent" WidthRequest="43" Margin="5,1"/>
             <Label Text="Logowanie" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
         </HorizontalStackLayout>
     </Shell.TitleView>
     
-    <VerticalStackLayout WidthRequest="300">
+    <VerticalStackLayout MinimumWidthRequest="150" MaximumWidthRequest="400" Padding="40">
 
-        <Label TextColor="#8BC34A" Text="LoFit" FontSize="30" HorizontalTextAlignment="Center" FontAttributes="Bold" FontFamily="Roboto" />
+        <Image Source="logo_tlo.png" BackgroundColor="Transparent" Margin="40"/>
 
         <Entry Text="{Binding Path=LoginM.Email}" Keyboard="Email" Placeholder="Wpisz e-mail" Margin="0,10"/>
         <Entry Text="{Binding Path=LoginM.Password}" IsPassword="True" />
