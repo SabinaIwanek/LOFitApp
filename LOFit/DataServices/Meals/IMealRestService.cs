@@ -7,6 +7,7 @@ namespace LOFit.DataServices.Meals
         Task<string> Add(MealModel form);
         Task<string> Update(MealModel form);
         Task<string> Delete(int id);
+        Task<string> CheckedBoxChange(int id, int check);
         Task<MealModel> GetOne(int id);
         Task<List<MealModel>> GetUserList(DateTime date, int userId);
     }

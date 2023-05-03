@@ -3,21 +3,22 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using LOFit.Models.Menu;
+using LOFit.Models.MenuCoach;
 
-namespace LOFit.DataServices.Workout
+namespace LOFit.DataServices.Plan
 {
-    public class WorkoutRestService : IWorkoutRestService
+    public class PlanRestService : IPlanRestService
     {
         private readonly HttpClient _httpClient;
         private readonly string _baseAddresss;
         private readonly string _url;
         private readonly JsonSerializerOptions _jsonSerializaerOptions;
 
-        public WorkoutRestService(HttpClient httpClient)
+        public PlanRestService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _baseAddresss = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5217" : "https://localhost:7205";
-            _url = $"{_baseAddresss}/api/workout";
+            _url = $"{_baseAddresss}/api/plan";
 
             _jsonSerializaerOptions = new JsonSerializerOptions
             {
@@ -25,7 +26,97 @@ namespace LOFit.DataServices.Workout
             };
         }
 
-        public async Task<int> Add(WorkoutModel form)
+        public async Task<List<WorkoutDayModel>> GetWorkouts(int id)
+        {
+            List<WorkoutDayModel> list = new List<WorkoutDayModel>();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/workouts/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    list = JsonSerializer.Deserialize<List<WorkoutDayModel>>(responseContent, _jsonSerializaerOptions);
+
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<List<MealModel>> GetMeals(int id)
+        {
+            List<MealModel> list = new List<MealModel>();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/meals/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    list = JsonSerializer.Deserialize<List<MealModel>>(responseContent, _jsonSerializaerOptions);
+
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<List<PlanModel>> GetByType(int type)
+        {
+            List<PlanModel> list = new List<PlanModel>();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/all/{type}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    list = JsonSerializer.Deserialize<List<PlanModel>>(responseContent, _jsonSerializaerOptions);
+
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<string> Add(PlanModel form)
         {
             try
             {
@@ -40,21 +131,19 @@ namespace LOFit.DataServices.Workout
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    return JsonSerializer.Deserialize<int>(responseContent, _jsonSerializaerOptions);
+                    return "Ok";
                 }
                 else
                 {
-                    return 0;
+                    return null;
                 }
             }
             catch (Exception ex)
             {
-                return 0;
+                return null;
             }
         }
-        public async Task<string> Update(WorkoutModel form)
+        public async Task<string> Update(PlanModel form)
         {
             try
             {
@@ -105,96 +194,5 @@ namespace LOFit.DataServices.Workout
                 return null;
             }
         }
-        public async Task<WorkoutModel> GetOne(int id)
-        {
-            WorkoutModel model = new WorkoutModel();
-
-            try
-            {
-                string token = Singleton.Instance.Token;
-
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/{id}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    model = JsonSerializer.Deserialize<WorkoutModel>(responseContent, _jsonSerializaerOptions);
-
-                    return model;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-        public async Task<List<WorkoutModel>> GetUserList()
-        {
-            List<WorkoutModel> model = new List<WorkoutModel>();
-
-            try
-            {
-                string token = Singleton.Instance.Token;
-
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/userlist");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    model = JsonSerializer.Deserialize<List<WorkoutModel>>(responseContent, _jsonSerializaerOptions);
-
-                    return model;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-        public async Task<List<WorkoutModel>> GetAppList()
-        {
-            List<WorkoutModel> model = new List<WorkoutModel>();
-
-            try
-            {
-                string token = Singleton.Instance.Token;
-
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/applist");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    model = JsonSerializer.Deserialize<List<WorkoutModel>>(responseContent, _jsonSerializaerOptions);
-
-                    return model;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
     }
 }

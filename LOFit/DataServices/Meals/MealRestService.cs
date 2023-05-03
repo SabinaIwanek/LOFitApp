@@ -2,7 +2,6 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Collections.Generic;
 using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Meals
@@ -28,11 +27,6 @@ namespace LOFit.DataServices.Meals
 
         public async Task<string> Add(MealModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -60,11 +54,6 @@ namespace LOFit.DataServices.Meals
         }
         public async Task<string> Update(MealModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -92,11 +81,6 @@ namespace LOFit.DataServices.Meals
         }
         public async Task<string> Delete(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -119,14 +103,33 @@ namespace LOFit.DataServices.Meals
                 return null;
             }
         }
-        public async Task<MealModel> GetOne(int id)
+        public async Task<string> CheckedBoxChange(int id, int check)
         {
-            MealModel model = new MealModel();
+            try
+            {
+                string token = Singleton.Instance.Token;
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/CheckedBoxChange/{id}/{check}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Ok";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
             {
                 return null;
             }
+        }
+        public async Task<MealModel> GetOne(int id)
+        {
+            MealModel model = new MealModel();
 
             try
             {
@@ -157,11 +160,6 @@ namespace LOFit.DataServices.Meals
         public async Task<List<MealModel>> GetUserList(DateTime date, int userId)
         {
             List<MealModel> model = new List<MealModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {

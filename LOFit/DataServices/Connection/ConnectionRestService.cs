@@ -27,11 +27,6 @@ namespace LOFit.DataServices.Connection
 
         public async Task<int> Add(ConnectionModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return 0;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -61,11 +56,6 @@ namespace LOFit.DataServices.Connection
         }
         public async Task<string> Update(ConnectionModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -93,11 +83,6 @@ namespace LOFit.DataServices.Connection
         }
         public async Task<string> Delete(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -123,11 +108,6 @@ namespace LOFit.DataServices.Connection
         public async Task<List<ConnectionModel>> GetCoachList(int id)
         {
             List<ConnectionModel> model = new List<ConnectionModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -159,11 +139,6 @@ namespace LOFit.DataServices.Connection
         {
             List<ConnectionModel> model = new List<ConnectionModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -192,11 +167,6 @@ namespace LOFit.DataServices.Connection
         }
         public async Task<int> GetCoachState(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return 4;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -223,11 +193,6 @@ namespace LOFit.DataServices.Connection
         }
         public async Task<string> UpdateStateOk(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -255,11 +220,6 @@ namespace LOFit.DataServices.Connection
 
         public async Task<string> UpdateStateNo(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;

@@ -27,11 +27,6 @@ namespace LOFit.DataServices.Certificate
 
         public async Task<string> Add(CertificateModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -61,11 +56,6 @@ namespace LOFit.DataServices.Certificate
         }
         public async Task<string> Update(CertificateModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -93,11 +83,6 @@ namespace LOFit.DataServices.Certificate
         }
         public async Task<string> Delete(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -123,11 +108,6 @@ namespace LOFit.DataServices.Certificate
         public async Task<CertificateModel> GetOne(int id)
         {
             CertificateModel model = new CertificateModel();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -159,11 +139,6 @@ namespace LOFit.DataServices.Certificate
         {
             List<CertificateModel> model = new List<CertificateModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -193,11 +168,6 @@ namespace LOFit.DataServices.Certificate
         public async Task<List<CertificateModel>> GetAppList()
         {
             List<CertificateModel> model = new List<CertificateModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {

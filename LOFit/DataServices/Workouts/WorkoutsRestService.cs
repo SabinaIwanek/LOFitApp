@@ -27,10 +27,10 @@ namespace LOFit.DataServices.Workouts
 
         public async Task<string> Add(WorkoutDayModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+            /*if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
                 return "Brak połączenia z internetem...";
-            }
+            }*/
 
             try
             {
@@ -59,11 +59,6 @@ namespace LOFit.DataServices.Workouts
         }
         public async Task<string> Update(WorkoutDayModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -91,11 +86,6 @@ namespace LOFit.DataServices.Workouts
         }
         public async Task<string> Delete(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -118,14 +108,33 @@ namespace LOFit.DataServices.Workouts
                 return null;
             }
         }
-        public async Task<WorkoutDayModel> GetOne(int id)
+        public async Task<string> CheckedBoxChange(int id, int check)
         {
-            WorkoutDayModel model = new WorkoutDayModel();
+            try
+            {
+                string token = Singleton.Instance.Token;
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/CheckedBoxChange/{id}/{check}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Ok";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
             {
                 return null;
             }
+        }
+        public async Task<WorkoutDayModel> GetOne(int id)
+        {
+            WorkoutDayModel model = new WorkoutDayModel();
 
             try
             {
@@ -156,11 +165,6 @@ namespace LOFit.DataServices.Workouts
         public async Task<List<WorkoutDayModel>> GetUserList(DateTime date, int idUsera)
         {
             List<WorkoutDayModel> model = new List<WorkoutDayModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {

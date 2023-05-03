@@ -7,6 +7,7 @@ namespace LOFit.DataServices.Workouts
         Task<string> Add(WorkoutDayModel form);
         Task<string> Update(WorkoutDayModel form);
         Task<string> Delete(int id);
+        Task<string> CheckedBoxChange(int id, int check);
         Task<WorkoutDayModel> GetOne(int id);
         Task<List<WorkoutDayModel>> GetUserList(DateTime date, int idUsera);
     }

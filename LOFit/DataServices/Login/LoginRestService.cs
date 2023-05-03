@@ -28,11 +28,6 @@ namespace LOFit.DataServices.Login
         // TokenGetModel
         public async Task<string> Login(LoginModel model)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string jsonBody = JsonSerializer.Serialize(model, _jsonSerializaerOptions);
@@ -65,11 +60,6 @@ namespace LOFit.DataServices.Login
 
         public async Task<string> SendMail(string email)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/sendcode/{email}");
@@ -93,11 +83,6 @@ namespace LOFit.DataServices.Login
 
         public async Task<string> ChangePassword(ChangePasswordModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;

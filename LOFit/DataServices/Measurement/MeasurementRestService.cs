@@ -30,11 +30,6 @@ namespace LOFit.DataServices.Measurement
         {
             MeasurementModel model = new MeasurementModel();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -66,11 +61,6 @@ namespace LOFit.DataServices.Measurement
         {
             List<MeasurementModel> list = new List<MeasurementModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -99,11 +89,6 @@ namespace LOFit.DataServices.Measurement
         }
         public async Task<string> Add(MeasurementModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -131,11 +116,6 @@ namespace LOFit.DataServices.Measurement
         }
         public async Task<string> Update(MeasurementModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;

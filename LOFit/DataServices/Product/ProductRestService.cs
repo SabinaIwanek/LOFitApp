@@ -27,11 +27,6 @@ namespace LOFit.DataServices.Product
 
         public async Task<int> Add(ProductModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return 0;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -61,11 +56,6 @@ namespace LOFit.DataServices.Product
         }
         public async Task<string> Update(ProductModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -93,11 +83,6 @@ namespace LOFit.DataServices.Product
         }
         public async Task<string> Delete(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -123,11 +108,6 @@ namespace LOFit.DataServices.Product
         public async Task<ProductModel> GetOne(int id)
         {
             ProductModel model = new ProductModel();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -159,11 +139,6 @@ namespace LOFit.DataServices.Product
         {
             List<ProductModel> model = new List<ProductModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -193,11 +168,6 @@ namespace LOFit.DataServices.Product
         public async Task<List<ProductModel>> GetAppList()
         {
             List<ProductModel> model = new List<ProductModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {

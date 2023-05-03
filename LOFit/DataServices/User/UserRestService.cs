@@ -27,11 +27,6 @@ namespace LOFit.DataServices.User
 
         public async Task<string> Update(UserModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -61,11 +56,6 @@ namespace LOFit.DataServices.User
         {
             UserModel model = new UserModel();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -94,11 +84,6 @@ namespace LOFit.DataServices.User
         }
         public async Task<string> GetName(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;

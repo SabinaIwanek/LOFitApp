@@ -25,11 +25,6 @@ namespace LOFit.DataServices.Registration
 
         public async Task<string> CreateUser(RegistrationModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string jsonBody = JsonSerializer.Serialize(form, _jsonSerializaerOptions);
@@ -54,11 +49,6 @@ namespace LOFit.DataServices.Registration
 
         public async Task<string> CreateCoach(RegistrationModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string jsonBody = JsonSerializer.Serialize(form, _jsonSerializaerOptions);

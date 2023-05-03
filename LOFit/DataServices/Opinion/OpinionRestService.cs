@@ -27,11 +27,6 @@ namespace LOFit.DataServices.Certificate
 
         public async Task<int> Add(OpinionModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return 0;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -61,11 +56,6 @@ namespace LOFit.DataServices.Certificate
         }
         public async Task<string> Update(OpinionModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -93,11 +83,6 @@ namespace LOFit.DataServices.Certificate
         }
         public async Task<string> Delete(int id)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -123,11 +108,6 @@ namespace LOFit.DataServices.Certificate
         public async Task<OpinionModel> GetMyOpinion(int coachId)
         {
             OpinionModel model = new OpinionModel();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -159,11 +139,6 @@ namespace LOFit.DataServices.Certificate
         {
             OpinionModel model = new OpinionModel();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -194,11 +169,6 @@ namespace LOFit.DataServices.Certificate
         {
             List<OpinionModel> model = new List<OpinionModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -228,11 +198,6 @@ namespace LOFit.DataServices.Certificate
         public async Task<List<OpinionModel>> GetAppList()
         {
             List<OpinionModel> model = new List<OpinionModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {

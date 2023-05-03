@@ -29,11 +29,6 @@ namespace LOFit.DataServices.Coach
         {
             CoachModel model = new CoachModel();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -62,11 +57,6 @@ namespace LOFit.DataServices.Coach
         }
         public async Task<string> Update(CoachModel form)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return "Brak połączenia z internetem...";
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -95,11 +85,6 @@ namespace LOFit.DataServices.Coach
         public async Task<List<CoachModel>> GetAll()
         {
             List<CoachModel> list = new List<CoachModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -130,11 +115,6 @@ namespace LOFit.DataServices.Coach
         public async Task<List<CoachModel>> GetMy(int type)
         {
             List<CoachModel> list = new List<CoachModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {

@@ -29,11 +29,6 @@ namespace LOFit.DataServices.Admin
         {
             List<CoachModel> list = new List<CoachModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -62,11 +57,6 @@ namespace LOFit.DataServices.Admin
         }
         public async Task<string> SetCoach(int id, int type)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -93,11 +83,6 @@ namespace LOFit.DataServices.Admin
         public async Task<List<CertificateModel>> GetWgTypeCert(int type)
         {
             List<CertificateModel> list = new List<CertificateModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -127,11 +112,6 @@ namespace LOFit.DataServices.Admin
         }
         public async Task<string> SetCert(int id, int type)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -158,11 +138,6 @@ namespace LOFit.DataServices.Admin
         public async Task<List<OpinionModel>> GetWgTypeOpinion(int type)
         {
             List<OpinionModel> list = new List<OpinionModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -192,11 +167,6 @@ namespace LOFit.DataServices.Admin
         }
         public async Task<string> SetOpinion(int id, int type)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -223,11 +193,6 @@ namespace LOFit.DataServices.Admin
         public async Task<List<ReportModel>> GetWgTypeReports(int type)
         {
             List<ReportModel> list = new List<ReportModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -257,11 +222,6 @@ namespace LOFit.DataServices.Admin
         }
         public async Task<string> SetReport(int id, int type)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -288,11 +248,6 @@ namespace LOFit.DataServices.Admin
         public async Task<List<AdminModel>> GetAppUsersAdmins()
         {
             List<AdminModel> list = new List<AdminModel>();
-
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
 
             try
             {
@@ -324,11 +279,6 @@ namespace LOFit.DataServices.Admin
         {
             List<UserModel> list = new List<UserModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -359,11 +309,6 @@ namespace LOFit.DataServices.Admin
         {
             List<CoachModel> list = new List<CoachModel>();
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -392,11 +337,6 @@ namespace LOFit.DataServices.Admin
         }
         public async Task<string> BlockAccount(int id, int type)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -422,11 +362,6 @@ namespace LOFit.DataServices.Admin
         }
         public async Task<string> UnblockAccount(int id, int type)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
@@ -452,11 +387,6 @@ namespace LOFit.DataServices.Admin
         }
         public async Task<string> DeleteAccount(int id, int type)
         {
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                return null;
-            }
-
             try
             {
                 string token = Singleton.Instance.Token;
