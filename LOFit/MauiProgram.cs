@@ -18,6 +18,7 @@ using LOFit.Pages.Login;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.MenuCoach;
 using LOFit.Pages.Workouts;
 
 namespace LOFit;
@@ -61,6 +62,11 @@ public static class MauiProgram
         // Menu
         builder.Services.AddTransient<ProfilePage>();
         builder.Services.AddTransient<EditProfilePage>();
+
+        // Menu Coach
+        builder.Services.AddTransient<PlansPage>();
+        builder.Services.AddTransient<PlanWorkoutPage>();
+        builder.Services.AddTransient<PlanMealPage>();
 
         // Coach
         builder.Services.AddTransient<CoachsPage>();

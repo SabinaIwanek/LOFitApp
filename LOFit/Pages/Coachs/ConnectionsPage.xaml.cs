@@ -7,6 +7,7 @@ using LOFit.Models.ProfileMenu;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.MenuCoach;
 using LOFit.Pages.Workouts;
 using LOFit.Tools;
 
@@ -61,7 +62,7 @@ public partial class ConnectionsPage : ContentPage
     #region Swiped
     async void OnSwipeRight()
     {
-        
+        await Shell.Current.GoToAsync(nameof(PlansPage));
     }
     async void OnSwipeLeft()
     {
@@ -237,6 +238,8 @@ public partial class ConnectionsPage : ContentPage
         }
         else if (parameter == "plans")
         {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(PlansPage));
         }
         else if (parameter == "calendar")
         {

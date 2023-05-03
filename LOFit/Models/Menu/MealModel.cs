@@ -125,6 +125,8 @@ namespace LOFit.Models.Menu
             }
         }
 
+        public int? Id_planu { get; set; }
+
         public int Kcla()
         {
             return (Gramy * Produkt.Kcla) / Produkt.Gramy;

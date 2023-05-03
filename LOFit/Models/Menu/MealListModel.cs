@@ -24,6 +24,6 @@ namespace LOFit.Models.Menu
         public int? Tluszcze { get; set; }
         public int? Wegle { get; set; }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

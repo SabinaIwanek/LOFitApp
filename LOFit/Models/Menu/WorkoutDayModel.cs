@@ -122,6 +122,8 @@ namespace LOFit.Models.Menu
             }
         }
 
+        public int? Id_planu { get; set; }
+
         public WorkoutModel Trening { get; set; }
 
         public string CzasString()

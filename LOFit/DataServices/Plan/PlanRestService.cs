@@ -26,9 +26,9 @@ namespace LOFit.DataServices.Plan
             };
         }
 
-        public async Task<List<WorkoutDayModel>> GetWorkouts(int id)
+        public async Task<List<List<WorkoutDayModel>>> GetWorkouts(int id)
         {
-            List<WorkoutDayModel> list = new List<WorkoutDayModel>();
+            List<List<WorkoutDayModel>> list = new List<List<WorkoutDayModel>>();
 
             try
             {
@@ -42,7 +42,7 @@ namespace LOFit.DataServices.Plan
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
 
-                    list = JsonSerializer.Deserialize<List<WorkoutDayModel>>(responseContent, _jsonSerializaerOptions);
+                    list = JsonSerializer.Deserialize<List<List<WorkoutDayModel>>>(responseContent, _jsonSerializaerOptions);
 
                     return list;
                 }
@@ -56,9 +56,9 @@ namespace LOFit.DataServices.Plan
                 return null;
             }
         }
-        public async Task<List<MealModel>> GetMeals(int id)
+        public async Task<List<List<MealModel>>> GetMeals(int id)
         {
-            List<MealModel> list = new List<MealModel>();
+            List<List<MealModel>> list = new List<List<MealModel>> ();
 
             try
             {
@@ -72,7 +72,7 @@ namespace LOFit.DataServices.Plan
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
 
-                    list = JsonSerializer.Deserialize<List<MealModel>>(responseContent, _jsonSerializaerOptions);
+                    list = JsonSerializer.Deserialize<List<List<MealModel>>>(responseContent, _jsonSerializaerOptions);
 
                     return list;
                 }
@@ -116,7 +116,37 @@ namespace LOFit.DataServices.Plan
                 return null;
             }
         }
-        public async Task<string> Add(PlanModel form)
+        public async Task<PlanModel> GetOne(int id)
+        {
+            PlanModel model = new PlanModel();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    model = JsonSerializer.Deserialize<PlanModel>(responseContent, _jsonSerializaerOptions);
+
+                    return model;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<int> Add(PlanModel form)
         {
             try
             {
@@ -131,16 +161,18 @@ namespace LOFit.DataServices.Plan
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return "Ok";
+                    int responseContent = Int32.Parse(await response.Content.ReadAsStringAsync());
+
+                    return responseContent;
                 }
                 else
                 {
-                    return null;
+                    return 0;
                 }
             }
             catch (Exception ex)
             {
-                return null;
+                return 0;
             }
         }
         public async Task<string> Update(PlanModel form)

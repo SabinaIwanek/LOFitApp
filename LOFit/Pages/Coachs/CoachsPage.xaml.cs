@@ -6,6 +6,7 @@ using LOFit.Models.Accounts;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.MenuCoach;
 using LOFit.Pages.Workouts;
 using LOFit.Tools;
 
@@ -200,6 +201,8 @@ public partial class CoachsPage : ContentPage
         }
         else if (parameter == "plans")
         {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(PlansPage));
         }
         else if (parameter == "calendar")
         {

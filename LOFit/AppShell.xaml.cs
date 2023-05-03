@@ -6,6 +6,7 @@ using LOFit.Pages.Meals;
 using LOFit.Pages.Workouts;
 using LOFit.Pages.Admin;
 using LOFit.Pages.Admin.VerifyLists;
+using LOFit.Pages.MenuCoach;
 
 namespace LOFit;
 
@@ -23,6 +24,10 @@ public partial class AppShell : Shell
 
         Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
         Routing.RegisterRoute(nameof(EditProfilePage), typeof(EditProfilePage));
+
+        Routing.RegisterRoute(nameof(PlansPage), typeof(PlansPage));
+        Routing.RegisterRoute(nameof(PlanWorkoutPage), typeof(PlanWorkoutPage));
+        Routing.RegisterRoute(nameof(PlanMealPage), typeof(PlanMealPage));
 
         Routing.RegisterRoute(nameof(CoachsPage), typeof(CoachsPage));
 		Routing.RegisterRoute(nameof(CoachPage), typeof(CoachPage));

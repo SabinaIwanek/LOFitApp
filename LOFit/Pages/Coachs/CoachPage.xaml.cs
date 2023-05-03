@@ -8,6 +8,7 @@ using LOFit.Models.ProfileMenu;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.MenuCoach;
 using LOFit.Pages.Workouts;
 using LOFit.Resources.Styles;
 using LOFit.Tools;
@@ -447,6 +448,8 @@ public partial class CoachPage : ContentPage
         }
         else if (parameter == "plans")
         {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(PlansPage));
         }
         else if (parameter == "calendar")
         {

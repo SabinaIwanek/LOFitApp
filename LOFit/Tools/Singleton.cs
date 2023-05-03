@@ -12,6 +12,7 @@ namespace LOFit.Tools
         public DateTime DateToShow;
         public int IdTrenera;
         public int IdUsera;
+        public int PlanDay;
         Singleton()
         {
             Token = string.Empty;
