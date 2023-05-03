@@ -9,6 +9,7 @@ using LOFit.Pages.Coachs;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
+using LOFit.Pages.MenuCoach;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Workouts;
@@ -187,6 +188,11 @@ public partial class WorkoutsPage : ContentPage
                 Header1.IsVisible = true;
                 Header2.IsVisible = true;
             }
+
+            if(Singleton.Instance.Type == TypKonta.Trener)
+            {
+                Header1.IsVisible = true;
+            }
         });
     }
     void OnCheckBoxClicked(object sender, CheckedChangedEventArgs e)
@@ -264,6 +270,15 @@ public partial class WorkoutsPage : ContentPage
 
     #region Bottom Button
 
+    async void OnAddPlanButtonClicked(object sender, EventArgs e)
+    {
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { "Typ", 0 }
+        };
+
+        await Shell.Current.GoToAsync(nameof(PlanListPage), navigationParameter);
+    }
     async void OnAddButtonClicked(object sender, EventArgs e)
     {
         var navigationParameter = new Dictionary<string, object>
@@ -280,7 +295,11 @@ public partial class WorkoutsPage : ContentPage
         bool isUser = Singleton.Instance.Type == TypKonta.Uzytkownik;
 
         CoachsBottomButton.IsVisible = isUser;
+        ButtonAddBottom.IsVisible = isUser;
+
         ProfileBottomButton.IsVisible = !isUser;
+        ButtonAddCoach.IsVisible = !isUser;
+        ButtonPlanTyg.IsVisible = !isUser;
 
         if (isUser)
         {

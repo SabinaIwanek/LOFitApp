@@ -34,6 +34,13 @@ public partial class LoginPage : ContentPage
         _dataServiceLogin = dataServiceLogin;
         _dataServiceCoach = dataServiceCoach;
 
+        Singleton.Instance.IdTrenera = 0;
+        Singleton.Instance.IdUsera = 0;
+        Singleton.Instance.Type = null;
+        Singleton.Instance.PlanDay = 0;
+        Singleton.Instance.Token = "";
+        Singleton.Instance.DateToShow = DateTime.Now;
+
         BindingContext = this;
         LoginM = new LoginModel(false);
     }

@@ -10,17 +10,18 @@ using LOFit.DataServices.User;
 
 namespace LOFit.Pages.Workouts;
 
-[QueryProperty(nameof(WorkoutDate), "workoutDayDate")]
+[QueryProperty(nameof(Model), "Model")]
 public partial class WorkoutsListPage : ContentPage
 {
     #region Binding prop
-    DateTime _workoutDate;
-    public DateTime WorkoutDate
+
+    WorkoutDayModel _model;
+    public WorkoutDayModel Model
     {
-        get { return _workoutDate; }
+        get { return _model; }
         set
         {
-            _workoutDate = value;
+            _model = value;
             ListLoad();
             OnPropertyChanged();
         }
@@ -97,9 +98,13 @@ public partial class WorkoutsListPage : ContentPage
         WorkoutListModel modelList = e.CurrentSelection.FirstOrDefault() as WorkoutListModel;
         WorkoutModel model = modelList.Workout;
 
+        Model.Czas = model.Czas;
+        Model.Kcla = model.Kcla;
+        Model.Opis = model.Opis;
+
         var navigationParameter = new Dictionary<string, object>
         {
-            { nameof(WorkoutDayModel), new WorkoutDayModel(){ Data_czas = WorkoutDate, Czas = model.Czas, Kcla= model.Kcla, Opis = model.Opis} },
+            { nameof(WorkoutDayModel), Model },
             { nameof(WorkoutModel), model },
             { "buttonClicked", 2 }
         };

@@ -1,12 +1,15 @@
 using LOFit.DataServices.Coach;
+using LOFit.DataServices.Plan;
 using LOFit.DataServices.User;
 using LOFit.DataServices.Workout;
 using LOFit.DataServices.Workouts;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.Menu;
+using LOFit.Models.MenuCoach;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Menu;
+using LOFit.Pages.MenuCoach;
 using LOFit.Resources.Styles;
 using LOFit.Tools;
 
@@ -21,6 +24,7 @@ public partial class WorkoutPage : ContentPage
     private readonly IWorkoutsRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
     private readonly IUserRestService _dataServiceUser;
+    private readonly IPlanRestService _dataServicePlan;
     private bool _isNew;
     private bool _isNewWorkout;
 
@@ -49,7 +53,7 @@ public partial class WorkoutPage : ContentPage
             _model = value;
 
             OnPropertyChanged();
-            if (Model.Id_usera == 0)
+            if (Model.Id == 0)
             {
                 _isNew = true;
             }
@@ -68,7 +72,7 @@ public partial class WorkoutPage : ContentPage
         {
             _modelWorkout = value;
 
-            if(_modelWorkout != null && _model != null && _model.Czas != null)
+            if (_modelWorkout != null && _model != null && _model.Czas != null)
             {
                 DateTime dt = (DateTime)Model.Czas;
                 WorkoutingTime = dt.TimeOfDay;
@@ -119,13 +123,14 @@ public partial class WorkoutPage : ContentPage
     }
     #endregion
 
-    public WorkoutPage(IWorkoutsRestService dataService, IWorkoutRestService workoutDataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
-	{
-		InitializeComponent();
+    public WorkoutPage(IWorkoutsRestService dataService, IWorkoutRestService workoutDataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser, IPlanRestService dataServicePlan)
+    {
+        InitializeComponent();
         _dataService = dataService;
         _workoutDataService = workoutDataService;
         _dataServiceCoach = dataServiceCoach;
         _dataServiceUser = dataServiceUser;
+        _dataServicePlan = dataServicePlan;
         BindingContext = this;
 
         WorkoutTime = DateTime.Now.TimeOfDay;
@@ -144,16 +149,33 @@ public partial class WorkoutPage : ContentPage
     #region Swipe
     async void OnRightSwiped()
     {
-        Singleton.Instance.DateToShow = Model.Data_czas;
-        await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        if (Model.Id_planu == null || Model.Id_planu == 0)
+        {
+            Singleton.Instance.DateToShow = Model.Data_czas;
+            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        }
+        else
+        {
+            int id = Int32.Parse(Model.Id_planu.ToString().Substring(1));
+
+            List<List<WorkoutDayModel>> list = await _dataServicePlan.GetWorkouts(id);
+            PlanModel plan = await _dataServicePlan.GetOne(id);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { "WorkoutsList", list },
+                    { "Plan", plan }
+                 };
+
+            await Shell.Current.GoToAsync(nameof(PlanWorkoutPage), navigationParameter);
+        }
     }
     #endregion
 
     #region Menu buttons
-    async void OnBackClicked(object sender, EventArgs e)
+    void OnBackClicked(object sender, EventArgs e)
     {
-        Singleton.Instance.DateToShow = Model.Data_czas;
-        await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        OnRightSwiped();
     }
     async void OnProfileClicked(object sender, EventArgs e)
     {
@@ -212,7 +234,7 @@ public partial class WorkoutPage : ContentPage
     {
         var navigationParameter = new Dictionary<string, object>
         {
-            { "workoutDayDate", Model.Data_czas }
+            { "Model", Model }
         };
 
         await Shell.Current.GoToAsync(nameof(WorkoutsListPage), navigationParameter);
@@ -242,7 +264,9 @@ public partial class WorkoutPage : ContentPage
 
         Model.Data_czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, WorkoutTime.Hours, WorkoutTime.Minutes, WorkoutTime.Seconds);
         Model.Czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, WorkoutingTime.Hours, WorkoutingTime.Minutes, WorkoutingTime.Seconds);
-        Model.Id_usera = Singleton.Instance.IdUsera;
+        
+        if (Model.Id_planu == null || Model.Id_planu == 0)
+            Model.Id_usera = Singleton.Instance.IdUsera;
 
         if (_isNewWorkout)
         {
@@ -271,7 +295,9 @@ public partial class WorkoutPage : ContentPage
             answer = await _dataService.Update(Model);
 
         if (answer == "Ok")
-            await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        {
+            OnRightSwiped();
+        }
     }
     #endregion
 }

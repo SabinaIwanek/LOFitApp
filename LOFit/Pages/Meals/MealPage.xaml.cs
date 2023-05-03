@@ -9,6 +9,9 @@ using LOFit.Pages.Coachs;
 using LOFit.Pages.Menu;
 using LOFit.Resources.Styles;
 using LOFit.Tools;
+using LOFit.DataServices.Plan;
+using LOFit.Models.MenuCoach;
+using LOFit.Pages.MenuCoach;
 
 namespace LOFit.Pages.Meals;
 
@@ -21,6 +24,7 @@ public partial class MealPage : ContentPage
     private readonly IProductRestService _productDataService;
     private readonly ICoachRestService _dataServiceCoach;
     private readonly IUserRestService _dataServiceUser;
+    private readonly IPlanRestService _dataServicePlan;
     private List<Button> _buttons;
     private List<Grid> _grids;
     private bool _isNew;
@@ -121,7 +125,7 @@ public partial class MealPage : ContentPage
             Gramy = Model.Gramy;
 
             OnPropertyChanged();
-            if (Model.Id_usera == 0)
+            if (Model.Id == 0)
             {
                 _isNew = true;
                 Model.Nazwa_dania = DataTools.ReturnDefaultMealName(Model.Data_czas);
@@ -156,13 +160,14 @@ public partial class MealPage : ContentPage
     }
     #endregion
 
-    public MealPage(IMealRestService dataService, IProductRestService productDataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
+    public MealPage(IMealRestService dataService, IProductRestService productDataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser, IPlanRestService dataServicePlan)
     {
         InitializeComponent();
         _dataService = dataService;
         _productDataService = productDataService;
         _dataServiceCoach = dataServiceCoach;
         _dataServiceUser = dataServiceUser;
+        _dataServicePlan = dataServicePlan;
         BindingContext = this;
         _buttons = new List<Button>() { ButtonAddProd, ButtonMyList, ButtonAppList };
         _grids = new List<Grid>() { BottomAddProd, BottomMyList, BottomAppList };
@@ -175,19 +180,41 @@ public partial class MealPage : ContentPage
             Direction = SwipeDirection.Right
         };
 
-        swipeGestureRight.Swiped += (s, e) =>
-        {
-            Shell.Current.GoToAsync(nameof(MealsPage));
-        };
+        swipeGestureRight.Swiped += (s, e) => OnRightSwiped();
 
         Content.GestureRecognizers.Add(swipeGestureRight);
         #endregion
     }
 
-    #region Menu buttons
-    async void OnBackClicked(object sender, EventArgs e)
+    #region Swipe
+    async void OnRightSwiped()
     {
-        await Shell.Current.GoToAsync(nameof(MealsPage));
+        if (Model.Id_planu == null || Model.Id_planu == 0)
+        {
+            await Shell.Current.GoToAsync(nameof(MealsPage));
+        }
+        else
+        {
+            int id = Int32.Parse(Model.Id_planu.ToString().Substring(1));
+
+            List<List<MealModel>> list = await _dataServicePlan.GetMeals(id);
+            PlanModel plan = await _dataServicePlan.GetOne(id);
+
+            var navigationParameter = new Dictionary<string, object>
+                {
+                    { "MealsList", list },
+                    { "Plan", plan }
+                 };
+
+            await Shell.Current.GoToAsync(nameof(PlanMealPage), navigationParameter);
+        }
+    }
+    #endregion
+
+    #region Menu buttons
+    void OnBackClicked(object sender, EventArgs e)
+    {
+        OnRightSwiped();
     }
     async void OnProfileClicked(object sender, EventArgs e)
     {
@@ -247,7 +274,7 @@ public partial class MealPage : ContentPage
         var navigationParameter = new Dictionary<string, object>
         {
             { "myList", true },
-            { "mealDate", Model.Data_czas }
+            { "Model", Model }
         };
 
         await Shell.Current.GoToAsync(nameof(ProductsPage), navigationParameter);
@@ -306,13 +333,13 @@ public partial class MealPage : ContentPage
     #region Bottom menu
     async void OnModifyButtonClicked(object sender, EventArgs e)
     {
-        if (Model.Nazwa_dania == string.Empty) return;
-        if (ModelProd.Nazwa == string.Empty) return;
-        if (Model.Gramy == 0) return;
-        if (ModelProd.Kcla == 0) return;
+        if (Model.Nazwa_dania == string.Empty) await DisplayAlert("Brak danych", "Uzupe³nij nazwê dania.", "Ok");
+        if (ModelProd.Nazwa == string.Empty) await DisplayAlert("Brak danych", "Uzupe³nij nazwê produktu.", "Ok");
+        if (Model.Gramy == 0) await DisplayAlert("Brak danych", "Uzupe³nij gramy.", "Ok");
+        if (ModelProd.Kcla == 0) await DisplayAlert("Brak danych", "Uzupe³nij iloœæ kalorii.", "Ok");
 
         Model.Produkt = ModelProd;
-        if (Model.Produkt == null) return;
+        if (Model.Produkt == null) await DisplayAlert("Brak danych", "Uzupe³nij produkt.", "Ok");
 
         string answer;
 
@@ -329,7 +356,9 @@ public partial class MealPage : ContentPage
         if (Model.Id_produktu == 0) return;
 
         Model.Data_czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, MealTime.Hours, MealTime.Minutes, MealTime.Seconds);
-        Model.Id_usera = Singleton.Instance.IdUsera;
+
+        if (Model.Id_planu == null || Model.Id_planu == 0)
+            Model.Id_usera = Singleton.Instance.IdUsera;
 
         if (_isNew)
         {
@@ -342,7 +371,7 @@ public partial class MealPage : ContentPage
             answer = await _dataService.Update(Model);
 
         if (answer == "Ok")
-            await Shell.Current.GoToAsync(nameof(MealsPage));
+            OnRightSwiped();
     }
     #endregion
 }

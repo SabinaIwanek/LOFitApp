@@ -31,6 +31,15 @@ public partial class MeasurementPage : ContentPage
             _model = value;
             _isNew = Model.Id_usera == 0;
 
+            if(Singleton.Instance.Type == TypKonta.Trener)
+            {
+                BottomButton.IsVisible = false;
+            }
+            else if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+            {
+                BottomButton.IsVisible = true;
+            }
+
             OnPropertyChanged();
         }
     }

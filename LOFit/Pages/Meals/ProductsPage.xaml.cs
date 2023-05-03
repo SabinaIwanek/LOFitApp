@@ -12,7 +12,7 @@ using LOFit.Tools;
 namespace LOFit.Pages.Meals;
 
 [QueryProperty(nameof(MyList), "myList")]
-[QueryProperty(nameof(MealDate), "mealDate")]
+[QueryProperty(nameof(Model), "Model")]
 public partial class ProductsPage : ContentPage
 {
     #region Binding prop
@@ -27,13 +27,13 @@ public partial class ProductsPage : ContentPage
             OnPropertyChanged();
         }
     }
-    DateTime _mealDate;
-    public DateTime MealDate
+    MealModel _model;
+    public MealModel Model
     {
-        get { return _mealDate; }
+        get { return _model; }
         set
         {
-            _mealDate = value;
+            _model = value;
             OnPropertyChanged();
         }
     }
@@ -123,7 +123,7 @@ public partial class ProductsPage : ContentPage
 
         var navigationParameter = new Dictionary<string, object>
         {
-            { nameof(MealModel), new MealModel(){ Data_czas = MealDate} },
+            { nameof(MealModel), Model },
             { nameof(ProductModel), e.CurrentSelection.FirstOrDefault() as ProductModel },
             { "buttonClicked", button as int? }
         };

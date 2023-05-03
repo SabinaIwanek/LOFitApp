@@ -156,6 +156,7 @@ public partial class PlanWorkoutPage : ContentPage
     void EntryDate(int day)
     {
         _day = day;
+        Singleton.Instance.PlanDay = _day;
 
         _buttons[0].Text = _day > 2 ? $"{day - 2}" : "";
         _buttons[1].Text = _day > 1 ? $"{day - 1}" : "";
@@ -195,6 +196,8 @@ public partial class PlanWorkoutPage : ContentPage
             var id = Int32.Parse(button.CommandParameter.ToString());
 
             await _dataService.Delete(id);
+
+            _list = await _dataServicePlan.GetWorkouts(Plan.Id);
             ListLoad();
         }
     }

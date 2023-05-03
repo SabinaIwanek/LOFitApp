@@ -152,7 +152,7 @@
         </ScrollView>
 
         <StackLayout Orientation="Horizontal">
-            <Button Text="Zapisz" Clicked="OnModifyButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium"/>
+            <Button x:Name="BottomButton" Text="Zapisz" Clicked="OnModifyButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium"/>
         </StackLayout>
 
         <!--Bottom menu-->

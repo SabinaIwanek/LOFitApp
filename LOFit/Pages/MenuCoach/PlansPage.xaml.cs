@@ -150,7 +150,7 @@ public partial class PlansPage : ContentPage
 
             await Shell.Current.GoToAsync(nameof(PlanWorkoutPage), navigationParameter);
         }
-        if (_type == 1)
+        else if (_type == 1)
         {
             PlanModel plan = e.CurrentSelection.FirstOrDefault() as PlanModel;
             List<List<MealModel>> list = await _dataService.GetMeals(plan.Id);

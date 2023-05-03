@@ -134,6 +134,9 @@
 	  <MauiXaml Update="Pages\Login\RegistrationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\MenuCoach\PlanListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\MenuCoach\PlanMealPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -150,6 +150,11 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
+                <!-- Add Coach List el-->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                    <ImageButton x:Name="ButtonAddCoach" Source="add.png" Clicked="OnAddButtonClicked"  HorizontalOptions="End" WidthRequest="60" HeightRequest="60" CornerRadius="30" Padding="10" BackgroundColor="{StaticResource Primary}" Margin="0,0,40,0"/>
+                </StackLayout>
+                
                 <!-- User header-->
                 <Grid HorizontalOptions="Fill" VerticalOptions="Start" x:Name="Header2" IsVisible="true" BackgroundColor="{StaticResource MyText3}" Margin="0,70,0,20">
                     <Grid.ColumnDefinitions>
@@ -162,7 +167,7 @@
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
-                    <Label Grid.Row="1" Grid.Column="0" Text="Moje" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Dodatkowe" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontFamily="Roboto" FontSize="30" HorizontalTextAlignment="Center"/>
                     <Grid Grid.Row="2" Grid.Column="0" BackgroundColor="{StaticResource Primary}"/>
                 </Grid>
 
@@ -231,9 +236,13 @@
 
             </StackLayout>
         </ScrollView>
-
+        
         <StackLayout Orientation="Horizontal">
-            <Button Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium" />
+            <Button x:Name="ButtonPlanTyg" Text="Wybierz plan żywieniowy" Clicked="OnAddPlanButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium"/>
+        </StackLayout>
+        
+        <StackLayout Orientation="Horizontal">
+            <Button x:Name="ButtonAddBottom" Text="Dodaj" Clicked="OnAddButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium" />
         </StackLayout>
 
         <!--Bottom menu-->
