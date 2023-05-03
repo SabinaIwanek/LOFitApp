@@ -99,11 +99,15 @@
                                     <RowDefinition Height="15" />
                                 </Grid.RowDefinitions>
 
-
                                 <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding WorkoutDay.Trening.Nazwa}" FontSize="20"  BackgroundColor="{StaticResource MyEntryBg}" VerticalTextAlignment="End" HorizontalTextAlignment="Center" Margin="0,20" />
-                                <Label Grid.Column="0" Grid.Row="1" Text="{Binding WorkoutDay.Opis}"  FontSize="16" VerticalTextAlignment="End" />
-                                <Button Grid.Column="4" Grid.Row="1" Text="X" FontSize="16"  Clicked="OnDeleteCoachWorkoutClicked" CommandParameter="{Binding WorkoutDay.Id}" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
 
+                                <Grid  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4">
+                                    <HorizontalStackLayout>
+                                        <CheckBox IsChecked="{Binding WorkoutDay.Zatwierdzony}" CheckedChanged="OnCheckBoxClicked" HeightRequest="40" />
+                                        <Label Text="{Binding WorkoutDay.Opis}"  FontSize="16" VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                                <Button Grid.Column="4" Grid.Row="1" Text="X" FontSize="16"  Clicked="OnDeleteCoachWorkoutClicked" CommandParameter="{Binding WorkoutDay.Id}" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
 
                                 <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Background="{StaticResource Primary}" />
 

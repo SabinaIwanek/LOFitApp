@@ -163,6 +163,15 @@ public partial class MealsPage : ContentPage
             }
         });
     }
+    void OnCheckBoxClicked(object sender, CheckedChangedEventArgs e)
+    {
+        var check = (CheckBox)sender;
+        var model = (MealListModel)check.Parent.BindingContext;
+        var id = model.Meal.Id;
+        int idChecked = check.IsChecked ? 1 : 0;
+
+        _dataService.CheckedBoxChange(id, idChecked);
+    }
     async void OnMealClicked(object sender, SelectionChangedEventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)

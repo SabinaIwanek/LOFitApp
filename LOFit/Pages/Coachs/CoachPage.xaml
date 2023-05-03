@@ -248,7 +248,7 @@
 
         <!--Bottom menu user-->
         <StackLayout Orientation="Horizontal" VerticalOptions="End">
-            <Button x:Name="ButtonSelect" Text="Wybierz trenera" Clicked="OnSelectButtonClicked" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+            <Button x:Name="ButtonSelect" Text="Wybierz trenera" Clicked="OnSelectButtonClicked" VerticalOptions="End" HorizontalOptions="FillAndExpand" FontSize="Medium"/>
         </StackLayout>
 
         <!--Bottom menu coach-->

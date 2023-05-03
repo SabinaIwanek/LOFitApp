@@ -189,6 +189,15 @@ public partial class WorkoutsPage : ContentPage
             }
         });
     }
+    void OnCheckBoxClicked(object sender, CheckedChangedEventArgs e)
+    {
+        var check = (CheckBox)sender;
+        var model = (WorkoutDayListModel)check.Parent.BindingContext;
+        var id = model.WorkoutDay.Id;
+        int idChecked = check.IsChecked ? 1 : 0;
+
+        _dataService.CheckedBoxChange(id, idChecked);
+    }
     async void OnWorkoutClicked(object sender, SelectionChangedEventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)

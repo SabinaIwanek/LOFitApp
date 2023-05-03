@@ -29,7 +29,8 @@ public partial class ConnectionsPage : ContentPage
         _dataServiceUser = dataServiceUser;
         _buttons = new List<Button>() { NewButton, ActiveButton, HistoryButton };
         _grids = new List<Grid>() { BottomNewButton, BottomActiveButton, BottomHistoryButton };
-        ListLoad(0);
+        ListLoad(1);
+        _type = 1;
 
         if (Singleton.Instance.Type == TypKonta.Trener)
             Singleton.Instance.IdUsera = 0;

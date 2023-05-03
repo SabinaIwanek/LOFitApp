@@ -33,12 +33,12 @@
                 <RowDefinition Height="5" />
             </Grid.RowDefinitions>
 
-            <Button x:Name="NewButton" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="Nowi" Clicked="OnListTypeClicked" CommandParameter="0" BackgroundColor="{StaticResource Primary2}" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="Medium"/>
-            <Button x:Name="ActiveButton" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Text="Aktualni" Clicked="OnListTypeClicked" CommandParameter="1" BackgroundColor="{StaticResource Primary2}"  TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Medium"/>
+            <Button x:Name="NewButton" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Text="Nowi" Clicked="OnListTypeClicked" CommandParameter="0" BackgroundColor="{StaticResource Primary2}" TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Medium"/>
+            <Button x:Name="ActiveButton" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Text="Aktualni" Clicked="OnListTypeClicked" CommandParameter="1" BackgroundColor="{StaticResource Primary2}"  TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="Medium"/>
             <Button x:Name="HistoryButton" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Text="Historia" Clicked="OnListTypeClicked" CommandParameter="3" BackgroundColor="{StaticResource Primary2}"  TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Medium"/>
 
-            <Grid Grid.Row="1" Grid.Column="0" x:Name="BottomNewButton" BackgroundColor="{StaticResource Primary}"/>
-            <Grid Grid.Row="1" Grid.Column="1" x:Name="BottomActiveButton" />
+            <Grid Grid.Row="1" Grid.Column="0" x:Name="BottomNewButton"/>
+            <Grid Grid.Row="1" Grid.Column="1" x:Name="BottomActiveButton" BackgroundColor="{StaticResource Primary}"/>
             <Grid Grid.Row="1" Grid.Column="2" x:Name="BottomHistoryButton" />
 
         </Grid>

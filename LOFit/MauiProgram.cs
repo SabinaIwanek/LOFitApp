@@ -5,6 +5,7 @@ using LOFit.DataServices.Connection;
 using LOFit.DataServices.Login;
 using LOFit.DataServices.Meals;
 using LOFit.DataServices.Measurement;
+using LOFit.DataServices.Plan;
 using LOFit.DataServices.Product;
 using LOFit.DataServices.Registration;
 using LOFit.DataServices.User;
@@ -42,6 +43,7 @@ public static class MauiProgram
         builder.Services.AddHttpClient<IMeasurementRestService, MeasurementRestService>();
         builder.Services.AddHttpClient<IMealRestService, MealRestService>();
         builder.Services.AddHttpClient<IOpinionRestService, OpinionRestService>();
+        builder.Services.AddHttpClient<IPlanRestService, PlanRestService>();
         builder.Services.AddHttpClient<IProductRestService, ProductRestService>();
         builder.Services.AddHttpClient<IRegistrationRestService, RegistrationRestService>();
         builder.Services.AddHttpClient<IUserRestService, UserRestService>();

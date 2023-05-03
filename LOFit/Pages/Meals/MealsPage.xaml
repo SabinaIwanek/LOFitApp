@@ -12,7 +12,7 @@
             <Label Text="Posiłki" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
         </HorizontalStackLayout>
     </Shell.TitleView>
-    
+
     <!--Menu-->
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="TollbarBack" Text="Back" Clicked="OnBackClicked" Order="Primary" IconImageSource="back.png" />
@@ -102,7 +102,14 @@
                                 </Grid.RowDefinitions>
 
                                 <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Text="{Binding Nazwa_dania}" FontSize="20" IsVisible="{Binding Nazwa_dania_visible}" BackgroundColor="{StaticResource MyEntryBg}" VerticalTextAlignment="End" HorizontalTextAlignment="Center" Margin="0,20" />
-                                <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Text="{Binding Meal.Produkt.Nazwa}" FontSize="16" VerticalTextAlignment="End" />
+                                
+                                <Grid  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4">
+                                    <HorizontalStackLayout>
+                                        <CheckBox IsChecked="{Binding Meal.Zatwierdzony}" CheckedChanged="OnCheckBoxClicked" HeightRequest="40" />
+                                        <Label Text="{Binding Meal.Produkt.Nazwa}" FontSize="16" VerticalTextAlignment="End" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+
                                 <Button Grid.Column="4" Grid.Row="1" Text="X" Clicked="OnDeleteCoachMealClicked"  CommandParameter="{Binding Meal.Id}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
 
 
