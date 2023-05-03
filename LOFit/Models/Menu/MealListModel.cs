@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace LOFit.Models.Menu
 {
@@ -29,6 +24,6 @@ namespace LOFit.Models.Menu
         public int? Tluszcze { get; set; }
         public int? Wegle { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
     }
 }
