@@ -206,6 +206,8 @@ public partial class CoachsPage : ContentPage
         }
         else if (parameter == "calendar")
         {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(TermsPage));
         }
     }
     #endregion

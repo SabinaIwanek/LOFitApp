@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:LOFit.Models.ProfileMenu"
+             x:Class="LOFit.Pages.MenuCoach.ClientListPage">
+
+    <!-- Tittle -->
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="CenterAndExpand">
+            <Image Source="logo_tlo.png" BackgroundColor="Transparent" WidthRequest="43" Margin="5,2" VerticalOptions="Start"/>
+            <Label Text="Klienci" FontFamily="Strande2" TextColor="White" VerticalOptions="Start" FontSize="30" FontAttributes="Bold" Margin="20,5,0,0"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+
+    <!--Menu-->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Back" Clicked="OnBackClicked" Order="Primary" IconImageSource="back.png"/>
+
+        <ToolbarItem Text="Mój profil" Clicked="OnProfileClicked" Order="Secondary" />
+        <ToolbarItem Text="Wyloguj" Clicked="OnLogoutClicked" Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+
+    <!-- Listy -->
+    <ScrollView HorizontalOptions="Fill" VerticalOptions="StartAndExpand">
+        <StackLayout>
+
+            <!--Aktualni-->
+            <CollectionView x:Name="collectionViewActual" SelectionMode="Single" SelectionChanged="OnConnectionClicked">
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="model:ConnectionListModel">
+
+                        <Grid HorizontalOptions="Fill" VerticalOptions="Start" Padding="30" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="24" />
+                                <RowDefinition Height="1" />
+                                <RowDefinition Height="10" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding NazwaUser}" FontSize="20" FontAttributes="Bold" />
+
+                            <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+                                <HorizontalStackLayout>
+                                    <Image Source="phone.png" Margin="2,0,10,2"/>
+                                    <Label Grid.ColumnSpan="3" Text="{Binding TelefonUser}" FontSize="20" VerticalTextAlignment="End"/>
+                                </HorizontalStackLayout>
+                            </Grid>
+
+                            <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" BackgroundColor="{StaticResource Primary}" />
+
+                            <Label Grid.Column="0" Grid.Row="4" Text="Czas trwania: " />
+                            <Label Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Text="{Binding CzasTrwania}"  />
+
+                            <Label Grid.Column="0" Grid.Row="5" Text="Podgląd danych: " />
+                            <Label Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Text="{Binding PodgladDanych}"  />
+
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

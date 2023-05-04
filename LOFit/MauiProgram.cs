@@ -70,6 +70,8 @@ public static class MauiProgram
         builder.Services.AddTransient<PlanWorkoutPage>();
         builder.Services.AddTransient<PlanMealPage>();
         builder.Services.AddTransient<PlanListPage>();
+        builder.Services.AddTransient<TermsPage>();
+        builder.Services.AddTransient<ClientListPage>();
 
         // Coach
         builder.Services.AddTransient<CoachsPage>();

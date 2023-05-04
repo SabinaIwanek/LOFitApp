@@ -13,6 +13,7 @@ namespace LOFit.Tools
         public int IdTrenera;
         public int IdUsera;
         public int PlanDay;
+        public int? CoachMinutes;
         Singleton()
         {
             Token = string.Empty;

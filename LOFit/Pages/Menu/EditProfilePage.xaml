@@ -160,7 +160,7 @@
         </ScrollView>
 
         <StackLayout Orientation="Horizontal" VerticalOptions="End">
-            <Button x:Name="SendButton" Text="Zapisz" Clicked="OnSendButtonClicked" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
+            <Button x:Name="SendButton" Text="Zapisz" FontSize="Medium" Clicked="OnSendButtonClicked" VerticalOptions="End" HorizontalOptions="FillAndExpand"/>
         </StackLayout>
 
 

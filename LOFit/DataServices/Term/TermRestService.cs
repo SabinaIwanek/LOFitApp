@@ -55,6 +55,33 @@ namespace LOFit.DataServices.Term
                 return 0;
             }
         }
+        public async Task<string> Update(TermModel form)
+        {
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                string jsonBody = JsonSerializer.Serialize(form, _jsonSerializaerOptions);
+                StringContent content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync($"{_url}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Ok";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<string> Delete(int id)
         {
             try
@@ -109,6 +136,36 @@ namespace LOFit.DataServices.Term
                 return null;
             }
         }
+        public async Task<TermModel> GetNext(int id)
+        {
+            TermModel model = new TermModel();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/getnext/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    model = JsonSerializer.Deserialize<TermModel>(responseContent, _jsonSerializaerOptions);
+
+                    return model;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<List<TermModel>> GetByDay(DateTime date)
         {
             List<TermModel> model = new List<TermModel>();
@@ -119,7 +176,7 @@ namespace LOFit.DataServices.Term
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/{date.ToString("yyyy - MM - dd")}");
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/byDay/{date.ToString("yyyy-MM-dd")}");
 
                 if (response.IsSuccessStatusCode)
                 {

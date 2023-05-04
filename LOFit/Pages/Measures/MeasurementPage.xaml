@@ -68,6 +68,40 @@
 
         <!--ZAWARTOSC-->
         <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout>
+                
+            <!--Bottom menu-->
+            <Grid x:Name="NextTerm" IsVisible="false" HorizontalOptions="Fill" VerticalOptions="End" Padding="50,15" BackgroundColor="{StaticResource Primary2}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="15" />
+                    </Grid.RowDefinitions>
+
+
+                    <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Następna konsultacja"  FontSize="20" BackgroundColor="{StaticResource MyEntryBg}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Margin="0,20"/>
+
+                    <Grid Grid.Column="0" Grid.Row="1" >
+                        <HorizontalStackLayout>
+                            <Image IsVisible="{Binding Term.Term.Zatwierdzony}" Source="accepted.png" WidthRequest="30"/>
+                            <Label Text="{Binding Term.NazwaTrener}"  FontSize="20" VerticalTextAlignment="Center" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                    
+                
+                    <Button Grid.Column="1" Grid.Row="1" x:Name="ButtonAccept" Text="Potwierdż" FontSize="16"  Clicked="OnAcceptTermClicked" Margin="0,0,0,5" />
+
+                    <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Background="{StaticResource Primary}" />
+
+                    <Label Grid.Column="0" Grid.Row="3" Text="{Binding Term.Termin}" FontSize="18"/>
+                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Term.Dzien}" FontSize="18"/>
+                </Grid>
 
             <VerticalStackLayout HorizontalOptions="FillAndExpand">
                 
@@ -149,6 +183,8 @@
                 </StackLayout>
 
             </VerticalStackLayout>
+
+            </StackLayout>
         </ScrollView>
 
         <StackLayout Orientation="Horizontal">

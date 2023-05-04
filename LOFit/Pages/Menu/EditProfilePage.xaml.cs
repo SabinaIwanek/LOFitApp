@@ -54,7 +54,7 @@ public partial class EditProfilePage : ContentPage
             _modelUserM = value;
             if (_modelUserM != null)
             {
-                if(Singleton.Instance.Type == TypKonta.Uzytkownik)
+                if (Singleton.Instance.Type == TypKonta.Uzytkownik)
                 {
                     SelectedGender = DataTools.ReturnGender(value.Plec);
                     if (value.Nr_telefonu != null) Phone = value.Nr_telefonu.ToString();
@@ -235,8 +235,16 @@ public partial class EditProfilePage : ContentPage
     async void OnSendButtonClicked(object sender, EventArgs e)
     {
         string answer = string.Empty;
-        if (Singleton.Instance.Type == TypKonta.Uzytkownik) answer = await _dataServiceUser.Update(UserM);
-        else if (Singleton.Instance.Type == TypKonta.Trener) answer = await _dataServiceCoach.Update(CoachM);
+
+        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+        {
+            answer = await _dataServiceUser.Update(UserM);
+        }
+        else if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            answer = await _dataServiceCoach.Update(CoachM);
+            Singleton.Instance.CoachMinutes = CoachM.Czas_uslugi_min;
+        }
 
         if (answer == "Ok")
         {

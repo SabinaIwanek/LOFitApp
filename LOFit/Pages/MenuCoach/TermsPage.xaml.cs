@@ -1,57 +1,46 @@
 using LOFit.DataServices.Coach;
-using LOFit.DataServices.Measurement;
 using LOFit.DataServices.Term;
 using LOFit.DataServices.User;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
-using LOFit.Models.Menu;
 using LOFit.Models.MenuCoach;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Meals;
+using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
 using LOFit.Pages.Workouts;
 using LOFit.Tools;
 
-namespace LOFit.Pages.Measures;
+namespace LOFit.Pages.MenuCoach;
 
-[QueryProperty(nameof(Model), "MeasurementModel")]
-public partial class MeasurementPage : ContentPage
+[QueryProperty(nameof(Client), "Client")]
+[QueryProperty(nameof(DateCalendar), "DateCalendar")]
+[QueryProperty(nameof(TermTimeOd), "TermTimeOd")]
+[QueryProperty(nameof(TermTimeDo), "TermTimeDo")]
+public partial class TermsPage : ContentPage
 {
-    private readonly IMeasurementRestService _dataService;
+
+    private readonly ITermRestService _dataService;
     private readonly ICoachRestService _dataServiceCoach;
     private readonly IUserRestService _dataServiceUser;
-    private readonly ITermRestService _dataServiceTerm;
     private List<Button> _buttons;
-    private bool _isNew;
 
     #region Binding prop
-    MeasurementModel _model;
-    public MeasurementModel Model
+
+    UserModel _client;
+    public UserModel Client
     {
-        get { return _model; }
+        get { return _client; }
         set
         {
-            _model = value;
-            _isNew = Model.Id_usera == 0;
+            _client = value;
 
-            BottomButton.IsVisible = Singleton.Instance.Type == TypKonta.Uzytkownik;
-
-            OnPropertyChanged();
-        }
-    }
-
-    TermListModel _termin;
-    public TermListModel Term
-    {
-        get { return _termin; }
-        set
-        {
-            _termin = value;
-            if (_termin != null && _termin.Term != null && _termin.Term.Id != 0)
+            if (_client.Id != 0)
             {
-                NextTerm.IsVisible = true;
-                ButtonAccept.IsVisible = Singleton.Instance.Type == TypKonta.Uzytkownik && !_termin.Term.Zatwierdzony;
+                GridAddTerm.IsVisible = true;
+                ButtonClient.Text = _client.Wizytowka();
             }
+
             OnPropertyChanged();
         }
     }
@@ -64,6 +53,7 @@ public partial class MeasurementPage : ContentPage
         {
             if (value.Year == 1900) return;
             _data = value;
+            LabelWeekDay.Text = TermTools.ReturnWeekDay(_data);
 
             Singleton.Instance.DateToShow = _data;
 
@@ -71,33 +61,48 @@ public partial class MeasurementPage : ContentPage
             EntryData();
         }
     }
+
+    TimeSpan _termTimeOd;
+    public TimeSpan TermTimeOd
+    {
+        get { return _termTimeOd; }
+        set
+        {
+            _termTimeOd = value;
+
+            int minutes = 60;
+
+            if (Singleton.Instance.CoachMinutes != null)
+                minutes = (int)Singleton.Instance.CoachMinutes;
+
+            TermTimeDo = value.Add(new TimeSpan(0, minutes, 0));
+
+            OnPropertyChanged();
+        }
+    }
+
+    TimeSpan _termTimeDo;
+    public TimeSpan TermTimeDo
+    {
+        get { return _termTimeDo; }
+        set
+        {
+            _termTimeDo = value;
+            OnPropertyChanged();
+        }
+    }
     #endregion
-    public MeasurementPage(IMeasurementRestService dataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser, ITermRestService dataServiceTerm)
+
+    public TermsPage(ITermRestService dataService, ICoachRestService dataServiceCoach, IUserRestService dataServiceUser)
     {
         InitializeComponent();
         _dataService = dataService;
         _dataServiceCoach = dataServiceCoach;
         _dataServiceUser = dataServiceUser;
-        _dataServiceTerm = dataServiceTerm;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
-
-        if (Singleton.Instance.DateToShow.Year != 1) DateCalendar = Singleton.Instance.DateToShow;
-        else DateCalendar = DateTime.Today;
-
-        BottomMenuLoad();
-        TermLoad();
-
-        #region Swipe right
-        SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
-        {
-            Direction = SwipeDirection.Right
-        };
-
-        swipeGestureRight.Swiped += (s, e) => OnRightSwiped();
-
-        Content.GestureRecognizers.Add(swipeGestureRight);
-        #endregion
+        DateCalendar = DateTime.Today;
+        Singleton.Instance.IdUsera = 0;
 
         #region Swipe left
         SwipeGestureRecognizer swipeGestureLeft = new SwipeGestureRecognizer
@@ -112,24 +117,13 @@ public partial class MeasurementPage : ContentPage
     }
 
     #region Swipe
-    async void OnRightSwiped()
-    {
-        await Shell.Current.GoToAsync(nameof(MealsPage));
-    }
     async void OnLeftSwiped()
     {
-        await Shell.Current.GoToAsync(nameof(WorkoutsPage));
+        await Shell.Current.GoToAsync(nameof(PlansPage));
     }
     #endregion
 
     #region Menu buttons
-    async void OnBackClicked(object sender, EventArgs e)
-    {
-        if (Singleton.Instance.Type == TypKonta.Trener)
-        {
-            await Shell.Current.GoToAsync(nameof(ConnectionsPage));
-        }
-    }
     async void OnProfileClicked(object sender, EventArgs e)
     {
         if (Singleton.Instance.Type == TypKonta.Uzytkownik)
@@ -181,103 +175,106 @@ public partial class MeasurementPage : ContentPage
 
         DateCalendar = DateCalendar.AddDays(value);
     }
-    async void EntryData()
+    void EntryData()
     {
         _buttons[0].Text = DateCalendar.AddDays(-2).ToString("dd");
         _buttons[1].Text = DateCalendar.AddDays(-1).ToString("dd");
         _buttons[2].Text = DateCalendar.AddDays(1).ToString("dd");
         _buttons[3].Text = DateCalendar.AddDays(2).ToString("dd");
 
-        Model = await _dataService.Get(DateCalendar);
+        ListLoad();
     }
     #endregion
 
-    #region Plus / Minus
-    void OnButtonMinusClicked(object sender, EventArgs e)
+    #region List
+    async void ListLoad()
     {
-        var button = (Button)sender;
-        var propertyName = (string)button.CommandParameter;
-
-        var propertyInfo = Model.GetType().GetProperty(propertyName);
-        var propertyValue = (decimal?)propertyInfo.GetValue(Model);
-
-        if (propertyValue == null) propertyValue = 0;
-        else propertyValue--;
-
-        propertyInfo.SetValue(Model, propertyValue);
+        collectionView.ItemsSource = await ListModelTools.ReturnTermList((await _dataService.GetByDay(DateCalendar))?.OrderBy(x => x.MinOd()).ToList(), _dataServiceUser, _dataServiceCoach);
     }
-    void OnButtonPlusClicked(object sender, EventArgs e)
+    async void OnTermClicked(object sender, SelectionChangedEventArgs e)
     {
-        var button = (Button)sender;
-        var propertyName = (string)button.CommandParameter;
+            TermListModel listModel = e.CurrentSelection.FirstOrDefault() as TermListModel;
+            TermModel term = listModel.Term;
 
-        var propertyInfo = Model.GetType().GetProperty(propertyName);
-        var propertyValue = (decimal?)propertyInfo.GetValue(Model);
+            Singleton.Instance.IdUsera = term.Id_usera;
 
-        if (propertyValue == null) propertyValue = 1;
-        else propertyValue++;
+            await Shell.Current.GoToAsync(nameof(MeasurementPage));
+        
+    }
+    async void OnDeleteTermClicked(object sender, EventArgs e)
+    {
+        if (Singleton.Instance.Type == TypKonta.Trener)
+        {
+            var button = (Button)sender;
+            var id = Int32.Parse(button.CommandParameter.ToString());
 
-        propertyInfo.SetValue(Model, propertyValue);
+            await _dataService.Delete(id);
+
+            Dispatcher.Dispatch(() =>
+            {
+                DateCalendar = DateCalendar;
+            });
+        }
     }
     #endregion
 
     #region Bottom menu
-    async void OnModifyButtonClicked(object sender, EventArgs e)
+    async void OnAddButtonClicked(object sender, EventArgs e)
     {
-        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
+        if (GridAddTerm.IsVisible)
         {
-            if (_isNew)
+            if (Client.Id == 0)
             {
-                string answer = await _dataService.Add(Model);
-
-                if (answer == "Ok")
-                    _isNew = false;
+                await DisplayAlert("Dodaj termin", "Wska¿ klienta.", "Ok");
             }
-            else await _dataService.Update(Model);
 
-            Model = Model;
-        }
-    }
-    async void TermLoad()
-    {
-        TermModel term = new TermModel();
+            List<TermModel> dayList = ((List<TermListModel>)collectionView.ItemsSource).Select(x=>x.Term).ToList();
 
-        if (Singleton.Instance.Type == TypKonta.Uzytkownik)
-            term = await _dataServiceTerm.GetNext(-1);
-        else if (Singleton.Instance.Type == TypKonta.Trener)
-            term = await _dataServiceTerm.GetNext(Singleton.Instance.IdUsera);
+            bool wynik = TermTools.ChechNewTerm(dayList, TermTimeOd, TermTimeDo);
 
-        if (term != null)
-        {
-            Term = await ListModelTools.ReturnTermList(term, _dataServiceUser, _dataServiceCoach);
-        }
-    }
-    void BottomMenuLoad()
-    {
-        bool isUser = Singleton.Instance.Type == TypKonta.Uzytkownik;
+            if (wynik)
+            {
+                TermModel model = new TermModel()
+                {
+                    Id_usera = Client.Id,
+                    Termin_od = new DateTime(DateCalendar.Year, DateCalendar.Month, DateCalendar.Day, TermTimeOd.Hours, TermTimeOd.Minutes, 0),
+                    Termin_do = new DateTime(DateCalendar.Year, DateCalendar.Month, DateCalendar.Day, TermTimeDo.Hours, TermTimeDo.Minutes, 0)
+                };
 
-        CoachsBottomButton.IsVisible = isUser;
-        ProfileBottomButton.IsVisible = !isUser;
-
-        if (isUser)
-        {
-            TollbarBack.IconImageSource = "";
-            TollbarBack.Text = "";
-            TollbarBack.IsEnabled = false;
+                var answer = await _dataService.Add(model);
+                ListLoad();
+                GridAddTerm.IsVisible = false;
+            }
+            else
+            {
+                await DisplayAlert("Dodaj termin", "Nowy termin nachodzi na istniej¹ce.", "Ok");
+            }
         }
         else
         {
-            TollbarBack.IconImageSource = "back.png";
-            TollbarBack.Text = "Back";
-            TollbarBack.IsEnabled = true;
+            GridAddTerm.IsVisible = true;
         }
     }
-    async void OnAcceptTermClicked(object sender, EventArgs e)
+    async void OnSelectClientButton(object sender, EventArgs e)
     {
-        Term.Term.Zatwierdzony = true;
-        await _dataServiceTerm.Update(Term.Term);
+        var navigationParameter = new Dictionary<string, object>
+        {
+                { "Client", Client },
+                { "DateCalendar", DateCalendar },
+                { "TermTimeOd", TermTimeOd },
+                { "TermTimeDo", TermTimeDo }
+            };
 
-        TermLoad();
+        await Shell.Current.GoToAsync(nameof(ClientListPage), navigationParameter);
+    }
+    void OnEndButtonClicked(object sender, EventArgs e)
+    {
+        GridAddTerm.IsVisible = false;
+
+    }
+    async void OnSearchButtonClicked(object sender, EventArgs e)
+    {
+
     }
     async void OnBottomMenuClicked(object sender, EventArgs e)
     {
@@ -322,9 +319,13 @@ public partial class MeasurementPage : ContentPage
         }
         else if (parameter == "plans")
         {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(PlansPage));
         }
         else if (parameter == "calendar")
         {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(TermsPage));
         }
     }
     #endregion

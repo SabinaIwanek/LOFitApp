@@ -1,4 +1,8 @@
-﻿using System.ComponentModel;
+﻿using LOFit.DataServices.Coach;
+using LOFit.DataServices.User;
+using LOFit.Models.Accounts;
+using LOFit.Tools;
+using System.ComponentModel;
 
 namespace LOFit.Models.MenuCoach
 {
@@ -33,6 +37,33 @@ namespace LOFit.Models.MenuCoach
             }
         }
         public bool Zatwierdzony { get; set; }
+
+        public int MinOd()
+        {
+            return TermTools.ReturnMinutes(Termin_od);
+        }
+        public int MinDo()
+        {
+            return TermTools.ReturnMinutes(Termin_do);
+        }
+        public async Task<string> NazwaUser(IUserRestService dataService)
+        {
+            UserModel model = await dataService.GetOne(Id_usera);
+            return $"{model.Imie} {model.Nazwisko}";
+        }
+        public async Task<string> NazwaTrener(ICoachRestService dataService)
+        {
+            CoachModel model = await dataService.GetOne(Id_trenera);
+            return $"{model.Imie} {model.Nazwisko}";
+        }
+        public string Termin()
+        {
+            return $"{Termin_od.ToString("HH:mm")} - {Termin_do.ToString("HH:mm")}";
+        }
+        public string Dzien()
+        {
+            return Termin_od.ToString("dd-MM-yyyy");
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

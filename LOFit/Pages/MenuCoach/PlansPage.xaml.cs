@@ -60,7 +60,8 @@ public partial class PlansPage : ContentPage
     #region Swiped
     async void OnSwipeRight()
     {
-
+        if (Singleton.Instance.Type == TypKonta.Trener)
+            await Shell.Current.GoToAsync(nameof(TermsPage));
     }
     async void OnSwipeLeft()
     {
@@ -268,6 +269,8 @@ public partial class PlansPage : ContentPage
         }
         else if (parameter == "calendar")
         {
+            if (Singleton.Instance.Type == TypKonta.Trener)
+                await Shell.Current.GoToAsync(nameof(TermsPage));
         }
     }
     #endregion

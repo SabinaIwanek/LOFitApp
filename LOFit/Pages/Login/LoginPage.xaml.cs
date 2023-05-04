@@ -77,6 +77,7 @@ public partial class LoginPage : ContentPage
             {
                 CoachModel model = await _dataServiceCoach.GetOne(-1);
                 Singleton.Instance.IdTrenera = model.Id;
+                Singleton.Instance.CoachMinutes = model.Czas_uslugi_min;
 
                 await Shell.Current.GoToAsync(nameof(ConnectionsPage));
                 return;
