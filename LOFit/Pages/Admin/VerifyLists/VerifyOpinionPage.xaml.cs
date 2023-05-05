@@ -9,6 +9,7 @@ public partial class VerifyOpinionPage : ContentPage
 {
     private IAdminRestService _dataService;
     private List<Button> _buttons;
+    private List<Grid> _grids;
 
     #region Binding prop
     private string _adminName;
@@ -83,6 +84,8 @@ public partial class VerifyOpinionPage : ContentPage
         _dataService = dataService;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3 };
+        _grids = new List<Grid>() { Bottom1, Bottom2, Bottom3 };
+
         ListLoad(0);
         OnLoadData();
     }
@@ -164,6 +167,27 @@ public partial class VerifyOpinionPage : ContentPage
     }
     #endregion
 
+    #region List
+    async void ListLoad(int type)
+    {
+        collectionView.ItemsSource = await _dataService.GetWgTypeOpinion(type);
+
+        DataTools.ButtonNotClicked(_buttons, _grids);
+        DataTools.ButtonClicked(_buttons[type], _grids[type]);
+    }
+    async void OnOpinionClicked(object sender, SelectionChangedEventArgs e)
+    {
+        OpinionModel coach = e.CurrentSelection.FirstOrDefault() as OpinionModel;
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { nameof(OpinionModel), coach }
+        };
+
+        // await Shell.Current.GoToAsync(nameof(OpinionPage), navigationParameter);
+    }
+    #endregion
+
     #region Action buttons
     async void OnOkButtonClicked(object sender, EventArgs e)
     {
@@ -181,24 +205,4 @@ public partial class VerifyOpinionPage : ContentPage
     }
     #endregion
 
-    #region List
-    async void ListLoad(int type)
-    {
-        collectionView.ItemsSource = await _dataService.GetWgTypeOpinion(type);
-
-        DataTools.ButtonNotClicked(_buttons);
-        DataTools.ButtonClicked(_buttons[type]);
-    }
-    async void OnOpinionClicked(object sender, SelectionChangedEventArgs e)
-    {
-        OpinionModel coach = e.CurrentSelection.FirstOrDefault() as OpinionModel;
-
-        var navigationParameter = new Dictionary<string, object>
-        {
-            { nameof(OpinionModel), coach }
-        };
-
-       // await Shell.Current.GoToAsync(nameof(OpinionPage), navigationParameter);
-    }
-    #endregion
 }

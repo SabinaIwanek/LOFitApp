@@ -1,5 +1,6 @@
 using LOFit.DataServices.Admin;
 using LOFit.Models.Accounts;
+using LOFit.Models.Menu;
 using LOFit.Pages.Admin.VerifyLists;
 using LOFit.Tools;
 
@@ -8,6 +9,8 @@ namespace LOFit.Pages.Admin.VerifyLists;
 public partial class VerifyProductsPage : ContentPage
 {
     private readonly IAdminRestService _dataService;
+    private List<Button> _buttons;
+    private List<Grid> _grids;
 
     #region Binding prop
     private string _adminName;
@@ -82,7 +85,10 @@ public partial class VerifyProductsPage : ContentPage
         InitializeComponent();
         _dataService = dataService;
         BindingContext = this;
+        _buttons = new List<Button>() { Button1, Button2, Button3 };
+        _grids = new List<Grid>() { Bottom1, Bottom2, Bottom3 };
 
+        ListLoad(0);
         OnLoadData();
     }
 
@@ -150,6 +156,54 @@ public partial class VerifyProductsPage : ContentPage
             Singleton.Logout();
             await Shell.Current.GoToAsync("Login", navigationParameter);
         }
+    }
+    #endregion
+
+    #region Type buttons
+    void OnTypeClicked(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        var property = Int32.Parse((string)button.CommandParameter);
+
+        ListLoad(property);
+    }
+    #endregion
+
+    #region List
+    async void ListLoad(int type)
+    {
+        collectionView.ItemsSource = await _dataService.GetWgTypeProducts(type);
+
+        DataTools.ButtonNotClicked(_buttons, _grids);
+        DataTools.ButtonClicked(_buttons[type], _grids[type]);
+    }
+    async void OnProductClicked(object sender, SelectionChangedEventArgs e)
+    {
+        ProductModel model = e.CurrentSelection.FirstOrDefault() as ProductModel;
+
+        var navigationParameter = new Dictionary<string, object>
+        {
+            { nameof(ProductModel), model }
+        };
+
+        // await Shell.Current.GoToAsync(nameof(CertificatePage), navigationParameter);
+    }
+    #endregion
+
+    #region Action buttons
+    async void OnOkButtonClicked(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        var property = (int)button.CommandParameter;
+
+        string wynik = await _dataService.SetCert(property, 1);
+    }
+    async void OnNoButtonClicked(object sender, EventArgs e)
+    {
+        var button = (Button)sender;
+        var property = (int)button.CommandParameter;
+
+        string wynik = await _dataService.SetCert(property, 2);
     }
     #endregion
 }

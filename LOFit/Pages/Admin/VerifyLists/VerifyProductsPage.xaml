@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LOFit.Pages.Admin.VerifyLists.VerifyProductsPage">
+             x:Class="LOFit.Pages.Admin.VerifyLists.VerifyProductsPage"
+             xmlns:model="clr-namespace:LOFit.Models.Menu">
 
     <!-- Tittle -->
     <Shell.TitleView>
@@ -11,7 +12,7 @@
     </Shell.TitleView>
 
 
-    <HorizontalStackLayout HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand">
+    <StackLayout Orientation="Horizontal">
 
         <!-- Lista Menu-->
         <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Start" BackgroundColor="{StaticResource Primary2}" RowSpacing="10">
@@ -59,7 +60,75 @@
         </Grid>
 
         <!-- Zawartosc-->
+        <Grid HorizontalOptions="FillAndExpand" RowSpacing="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-    </HorizontalStackLayout>
+
+            <!-- Guziki -->
+            <Grid Grid.Column="0" Grid.Row="0" HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource Primary2}" >
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="5" />
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Column="0" Grid.Row="0" x:Name="Button1" CommandParameter="0" Text="Nowe"  Clicked="OnTypeClicked"  BackgroundColor="Transparent"  TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="Medium"/>
+                    <Button Grid.Column="1" Grid.Row="0" x:Name="Button2" CommandParameter="1" Text="Zatwierdzone"  Clicked="OnTypeClicked"  BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Medium" />
+                    <Button Grid.Column="2" Grid.Row="0" x:Name="Button3" CommandParameter="2" Text="Odrzucone" Clicked="OnTypeClicked"  BackgroundColor="Transparent"  TextColor="{StaticResource MyText}" FontAttributes="Bold" FontSize="Medium"/>
+
+                    <Grid Grid.Row="1" Grid.Column="0" x:Name="Bottom1" BackgroundColor="{StaticResource Primary}"/>
+                    <Grid Grid.Row="1" Grid.Column="1" x:Name="Bottom2" />
+                    <Grid Grid.Row="1" Grid.Column="2" x:Name="Bottom3" />
+                </Grid>
+
+            </Grid>
+
+            <!-- Lista-->
+            <Grid Grid.Column="0" Grid.Row="1"  HorizontalOptions="FillAndExpand">
+                <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnProductClicked">
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate x:DataType="model:ProductModel">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="150" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Id}" FontSize="Medium" Margin="2"/>
+                                <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwa}" FontSize="Medium" Margin="2"/>
+                                <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Ean}" FontSize="Medium" Margin="2"/>
+                                <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Kcla}" FontSize="Medium" Margin="2"/>
+
+                                <Button Grid.Column="4" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}"/>
+                                <Button Grid.Column="5" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}"/>
+                            </Grid>
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </Grid>
+
+        </Grid>
+    </StackLayout>
     
 </ContentPage>

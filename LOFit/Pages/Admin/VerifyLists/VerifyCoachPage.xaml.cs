@@ -9,6 +9,7 @@ public partial class VerifyCoachPage : ContentPage
 {
     private IAdminRestService _dataService;
     private List<Button> _buttons;
+    private List<Grid> _grids;
 
     #region Binding prop
     private string _adminName;
@@ -83,6 +84,8 @@ public partial class VerifyCoachPage : ContentPage
         _dataService = dataService;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3 };
+        _grids = new List<Grid>() { Bottom1, Bottom2, Bottom3 };
+
         ListLoad(0); 
         OnLoadData();
     }
@@ -186,8 +189,8 @@ public partial class VerifyCoachPage : ContentPage
     {
         collectionView.ItemsSource = await _dataService.GetWgTypeCoach(type);
 
-        DataTools.ButtonNotClicked(_buttons);
-        DataTools.ButtonClicked(_buttons[type]);
+        DataTools.ButtonNotClicked(_buttons, _grids);
+        DataTools.ButtonClicked(_buttons[type], _grids[type]);
     }
     async void OnCoachClicked(object sender, SelectionChangedEventArgs e)
     {
