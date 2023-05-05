@@ -223,61 +223,6 @@ namespace LOFit.DataServices.Admin
                 return ex.ToString();
             }
         }
-        public async Task<List<ReportModel>> GetWgTypeReports(int type)
-        {
-            List<ReportModel> list = new List<ReportModel>();
-
-            try
-            {
-                string token = Singleton.Instance.Token;
-
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/reports/{type}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    list = JsonSerializer.Deserialize<List<ReportModel>>(responseContent, _jsonSerializaerOptions);
-
-                    return list;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-        public async Task<string> SetReport(int id, int type)
-        {
-            try
-            {
-                string token = Singleton.Instance.Token;
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/reports/{id}/{type}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    return responseContent;
-                }
-                else
-                {
-                    return "Bad response";
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-        }
         public async Task<List<ProductModel>> GetWgTypeProducts(int type)
         {
             List<ProductModel> list = new List<ProductModel>();

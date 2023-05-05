@@ -12,6 +12,7 @@ public partial class VerifyCoachPage : ContentPage
     private IOpinionRestService _dataServiceOpinion;
     private List<Button> _buttons;
     private List<Grid> _grids;
+    private int _type;
 
     #region Binding prop
     private string _adminName;
@@ -160,6 +161,7 @@ public partial class VerifyCoachPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetCoach(property, 1);
+        ListLoad(_type);
     }
     async void OnNoButtonClicked(object sender, EventArgs e)
     {
@@ -167,16 +169,19 @@ public partial class VerifyCoachPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetCoach(property, 2);
+        ListLoad(_type);
     }
     #endregion
 
     #region List
     async void ListLoad(int type)
     {
+        _type = type;
         collectionView.ItemsSource = await ListModelTools.ReturnCoachList( await _dataService.GetWgTypeCoach(type), _dataServiceOpinion);
 
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
+        OnLoadData();
     }
     async void OnCoachClicked(object sender, SelectionChangedEventArgs e)
     {

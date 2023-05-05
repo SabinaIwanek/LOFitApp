@@ -163,6 +163,7 @@ public partial class VerifyProductsPage : ContentPage
       
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
+        OnLoadData();
     }
     #endregion
 

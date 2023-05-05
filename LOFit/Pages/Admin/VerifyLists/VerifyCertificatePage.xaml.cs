@@ -160,6 +160,7 @@ public partial class VerifyCertificatePage : ContentPage
 
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
+        OnLoadData();
     }
     async void OnCertificateClicked(object sender, SelectionChangedEventArgs e)
     {

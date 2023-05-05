@@ -89,10 +89,10 @@
                     <Entry Grid.Column="1" Grid.Row="1" x:Name="EntryOpis" Text="{Binding Model.Opis}" Keyboard="Chat"/>
                     
                     <Label Grid.Column="0" Grid.Row="2" Text="Czas: " />
-                    <TimePicker Grid.Column="1" Grid.Row="2" Time="{Binding WorkoutingTime}" FontSize="Small" />
+                    <TimePicker x:Name="Picker" Grid.Column="1" Grid.Row="2" Time="{Binding WorkoutingTime}" FontSize="Small" />
 
                     <Label Grid.Column="0" Grid.Row="3" FontAttributes="Bold" Text="Kcla: " />
-                    <Entry Grid.Column="1" Grid.Row="3" FontAttributes="Bold" Text="{Binding Model.Kcla}"  />
+                    <Entry Grid.Column="1" Grid.Row="3" FontAttributes="Bold" Text="{Binding Model.Kcla}" x:Name="EntryKcla" />
 
                 </Grid>
 
@@ -105,7 +105,7 @@
         </ScrollView>
 
         <StackLayout Orientation="Horizontal">
-            <Button Text="Zapisz" Clicked="OnModifyButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium"/>
+            <Button x:Name="BottomButton" Text="Zapisz" Clicked="OnModifyButtonClicked"  HorizontalOptions="FillAndExpand" FontSize="Medium"/>
         </StackLayout>
 
     </StackLayout>

@@ -27,6 +27,7 @@ public partial class WorkoutPage : ContentPage
     private readonly IPlanRestService _dataServicePlan;
     private bool _isNew;
     private bool _isNewWorkout;
+    private bool _buttonEnable;
 
     #region Binding prop
 
@@ -51,6 +52,8 @@ public partial class WorkoutPage : ContentPage
         set
         {
             _model = value;
+            if(value != null)
+                LoadData();
 
             OnPropertyChanged();
             if (Model.Id == 0)
@@ -101,9 +104,10 @@ public partial class WorkoutPage : ContentPage
             {
                 DateTime czas = (DateTime)ModelWorkout.Czas;
                 int minuty = czas.Hour * 60 + czas.Minute;
+                if (minuty == 0) return;
 
                 int minuty2 = value.Hours * 60 + value.Minutes;
-
+               
                 Model.Kcla = minuty2 * ModelWorkout.Kcla / minuty;
             }
 
@@ -133,8 +137,8 @@ public partial class WorkoutPage : ContentPage
         _dataServicePlan = dataServicePlan;
         BindingContext = this;
 
-        WorkoutTime = DateTime.Now.TimeOfDay;
-
+        WorkoutTime = DateTime.Now.TimeOfDay; 
+        
         #region Swipe right
         SwipeGestureRecognizer swipeGestureRight = new SwipeGestureRecognizer
         {
@@ -223,6 +227,8 @@ public partial class WorkoutPage : ContentPage
     #region Workout buttons
     void OnButtonAddWorkoutClicked(object sender, EventArgs e)
     {
+        if (_buttonEnable) return;
+
         DataTools.ButtonClicked(ButtonAddWorkout, BottomAddWorkout);
         DataTools.ButtonNotClicked(ButtonMyList, BottomMyList);
 
@@ -232,6 +238,8 @@ public partial class WorkoutPage : ContentPage
     }
     async void OnButtonMyListClicked(object sender, EventArgs e)
     {
+        if (_buttonEnable) return;
+
         var navigationParameter = new Dictionary<string, object>
         {
             { "Model", Model }
@@ -254,11 +262,29 @@ public partial class WorkoutPage : ContentPage
     }
     #endregion
 
+    #region Load data
+    void LoadData()
+    {
+        bool isCoach = (Model.Id_trenera != null) && Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+        BottomButton.IsVisible = !isCoach;
+        EntryNazwa.IsReadOnly = isCoach;
+        EntryOpis.IsReadOnly = isCoach;
+        Picker.IsEnabled = !isCoach;
+        EntryKcla.IsReadOnly = isCoach;
+        _buttonEnable = isCoach;
+    }
+
+    #endregion
+
     #region Bottom menu
     async void OnModifyButtonClicked(object sender, EventArgs e)
     {
         Model.Trening = ModelWorkout;
         if (Model.Trening == null) return;
+
+        if(Model.Trening.Nazwa == "")
+            await DisplayAlert("Brak danych", "Nazwa treningu jest wymagana.", "Ok");
 
         string answer;
 

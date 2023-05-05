@@ -197,11 +197,16 @@ public partial class ConnectionsPage : ContentPage
     }
     async void OnDecideNoClicked(object sender, EventArgs e)
     {
-        var button = (ImageButton)sender;
-        var id = (int)button.CommandParameter;
+        bool result = await DisplayAlert($"Odrzuæ klienta", "Czy aby na pewno?", "Tak", "Nie");
 
-        await _dataService.UpdateStateNo(id);
-        ListLoad(_type);
+        if (result)
+        {
+            var button = (ImageButton)sender;
+            var id = (int)button.CommandParameter;
+
+            await _dataService.UpdateStateNo(id);
+            ListLoad(_type);
+        }
     }
     #endregion
 

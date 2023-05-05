@@ -381,7 +381,6 @@ public partial class CoachPage : ContentPage
     async void OnSendOpinionClicked(object sender, EventArgs e)
     {
         Opinia.Id_trenera = CoachM.Id;
-        if (Opinia.Opis_zgloszenia == null) Opinia.Opis_zgloszenia = "";
 
         if (Opinia.Ocena == 0) Opinia.Ocena = 1;
 

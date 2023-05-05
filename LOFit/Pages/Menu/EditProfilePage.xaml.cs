@@ -249,10 +249,11 @@ public partial class EditProfilePage : ContentPage
         if (answer == "Ok")
         {
             OnProfileClicked(sender, e);
+            await DisplayAlert("Zmiana danych", $"Dane zmieniono poprawnie.", "OK");
         }
         else
         {
-            await DisplayAlert("Zmiana danych", $"B³¹d {answer}", "OK");
+            await DisplayAlert("Zmiana danych", $"B³¹d {answer}.", "OK");
         }
     }
     #endregion

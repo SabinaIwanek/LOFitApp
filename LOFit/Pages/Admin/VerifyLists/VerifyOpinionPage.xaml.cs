@@ -140,6 +140,7 @@ public partial class VerifyOpinionPage : ContentPage
     async void ListLoad()
     {
         collectionView.ItemsSource = ListModelTools.ReturnOpinionList( await _dataService.GetWgTypeOpinion(1));
+        OnLoadData();
     }
     #endregion
 

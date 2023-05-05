@@ -29,6 +29,7 @@ public partial class MealPage : ContentPage
     private List<Grid> _grids;
     private bool _isNew;
     private bool _isNewProd;
+    private bool _buttonEnable;
 
     #region Binding prop
 
@@ -123,6 +124,9 @@ public partial class MealPage : ContentPage
         {
             _model = value;
             Gramy = Model.Gramy;
+
+            if (value != null)
+                LoadData();
 
             OnPropertyChanged();
             if (Model.Id == 0)
@@ -262,6 +266,8 @@ public partial class MealPage : ContentPage
     #region Product buttons
     void OnButtonAddProdClicked(object sender, EventArgs e)
     {
+        if (_buttonEnable) return;
+
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(ButtonAddProd, BottomAddProd);
 
@@ -271,6 +277,8 @@ public partial class MealPage : ContentPage
     }
     async void OnButtonMyListClicked(object sender, EventArgs e)
     {
+        if (_buttonEnable) return;
+
         var navigationParameter = new Dictionary<string, object>
         {
             { "myList", true },
@@ -281,6 +289,8 @@ public partial class MealPage : ContentPage
     }
     async void OnButtonAppListClicked(object sender, EventArgs e)
     {
+        if (_buttonEnable) return;
+
         var navigationParameter = new Dictionary<string, object>
         {
             { "myList", false },
@@ -328,6 +338,19 @@ public partial class MealPage : ContentPage
 
         IsNewProd(false);
     }
+    #endregion
+
+    #region Load data
+    void LoadData()
+    {
+        bool isCoach = (Model.Id_trenera != null) && Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+        BottomButton.IsVisible = !isCoach;
+        EntryKcla.IsReadOnly = isCoach;
+        EntryGramy.IsReadOnly = isCoach;
+        _buttonEnable = isCoach;
+    }
+
     #endregion
 
     #region Bottom menu

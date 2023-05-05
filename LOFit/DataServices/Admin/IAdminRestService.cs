@@ -15,8 +15,6 @@ namespace LOFit.DataServices.Admin
         Task<string> SetCert(int id, int type);
         Task<List<OpinionModel>> GetWgTypeOpinion(int type);
         Task<string> SetOpinion(int id, int type);
-        Task<List<ReportModel>> GetWgTypeReports(int type);
-        Task<string> SetReport(int id, int type);
         Task<List<ProductModel>> GetWgTypeProducts(int type);
         Task<string> SetProduct(int id, int type);
         Task<List<AdminModel>> GetAppUsersAdmins();

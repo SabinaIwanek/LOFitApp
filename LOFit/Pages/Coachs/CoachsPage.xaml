@@ -60,8 +60,9 @@
                             <RowDefinition Height="24" />
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="9" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,5,20,5"/>
 
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="9" Source="user.png" HeightRequest="100" Margin="0,5,20,5"/>
+                        
                         <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="20" FontAttributes="Bold"  />
 
                         <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TypTrenera}" FontSize="16" />
@@ -129,8 +130,10 @@
                             <RowDefinition Height="24" />
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" Grid.RowSpan="9" Text="JPG" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Background="{StaticResource MyTextLight}" Margin="0,5,20,5"/>
 
+                        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="9" Source="user.png" HeightRequest="90" Margin="0,5,20,5"/>
+                        
+                        
                         <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Wizytowka}" FontSize="20" FontAttributes="Bold"  />
 
                         <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TypTrenera}" FontSize="16" />

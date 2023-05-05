@@ -205,15 +205,20 @@ public partial class TermsPage : ContentPage
     {
         if (Singleton.Instance.Type == TypKonta.Trener)
         {
-            var button = (Button)sender;
-            var id = Int32.Parse(button.CommandParameter.ToString());
+            bool result = await DisplayAlert($"Usuñ termin", "Czy aby na pewno?", "Tak", "Nie");
 
-            await _dataService.Delete(id);
-
-            Dispatcher.Dispatch(() =>
+            if(result)
             {
-                DateCalendar = DateCalendar;
-            });
+                var button = (Button)sender;
+                var id = Int32.Parse(button.CommandParameter.ToString());
+
+                await _dataService.Delete(id);
+
+                Dispatcher.Dispatch(() =>
+                {
+                    DateCalendar = DateCalendar;
+                });
+            }
         }
     }
     #endregion

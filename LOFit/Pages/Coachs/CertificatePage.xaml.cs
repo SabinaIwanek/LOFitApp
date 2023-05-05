@@ -60,6 +60,7 @@ public partial class CertificatePage : ContentPage
         Content.GestureRecognizers.Add(swipeGestureRight);
         #endregion
     }
+
     #region Swipe
     async void OnRightSwiped()
     {
@@ -127,6 +128,9 @@ public partial class CertificatePage : ContentPage
     #region Bottom menu
     async void OnAddButtonClicked(object sender, EventArgs e)
     {
+        if(ModelC.Nazwa == "" || ModelC.Organizacja =="")
+            await DisplayAlert("Dodawanie certyfikatu", "WprowadŸ dane.", "Ok");
+
         string answer = await _dataService.Add(ModelC);
 
         Dispatcher.Dispatch(() =>

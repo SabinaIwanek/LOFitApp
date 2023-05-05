@@ -35,18 +35,6 @@ namespace LOFit.Models.ProfileMenu
             }
         }
 
-        private string _opis_zgloszenia;
-        public string Opis_zgloszenia
-        {
-            get => _opis_zgloszenia;
-            set
-            {
-                if (_opis_zgloszenia == value) return;
-
-                _opis_zgloszenia = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Opis_zgloszenia"));
-            }
-        }
         public int Zgloszona { get; set; } //status weryfikacji
 
         public async Task<string> Imie(IUserRestService dataService)

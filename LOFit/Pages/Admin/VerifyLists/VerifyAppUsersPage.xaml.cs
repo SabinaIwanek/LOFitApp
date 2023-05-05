@@ -161,6 +161,7 @@ public partial class VerifyAppUsersPage : ContentPage
 
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
+        OnLoadData();
     }
     async void OnUserClicked(object sender, SelectionChangedEventArgs e)
     {
