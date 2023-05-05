@@ -96,36 +96,37 @@
 
             <!-- Lista-->
             <Grid Grid.Column="0" Grid.Row="1"  HorizontalOptions="FillAndExpand">
-                <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnProductClicked">
-                    <CollectionView.ItemTemplate>
+                <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnProductClicked">
+                        <CollectionView.ItemTemplate>
 
-                        <DataTemplate x:DataType="model:ProductModel">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="1*" />
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="150" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
+                            <DataTemplate x:DataType="model:ProductModel">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="150" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
 
-                                <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Id}" FontSize="Medium" Margin="2"/>
-                                <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwa}" FontSize="Medium" Margin="2"/>
-                                <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Ean}" FontSize="Medium" Margin="2"/>
-                                <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Kcla}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Id}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwa}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Ean}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Kcla}" FontSize="Medium" Margin="2"/>
 
-                                <Button Grid.Column="4" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}"/>
-                                <Button Grid.Column="5" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}"/>
-                            </Grid>
-                        </DataTemplate>
+                                    <Button Grid.Column="4" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}"/>
+                                    <Button Grid.Column="5" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}"/>
+                                </Grid>
+                            </DataTemplate>
 
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
             </Grid>
 
         </Grid>
