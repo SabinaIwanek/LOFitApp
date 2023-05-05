@@ -50,6 +50,10 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0" Grid.Column="0" Text="Imie: "/>
@@ -72,8 +76,19 @@
 
                         <Label Grid.Row="4" Grid.Column="0" Text="Numer telefonu: "/>
                         <Entry Grid.Row="4" Grid.Column="1" Text="{Binding Phone}"/>
-
                         
+                        <Label Grid.Row="5" Grid.Column="0" Text="Waga początkowa: "/>
+                        <Entry Grid.Row="5" Grid.Column="1" Text="{Binding Path=UserM.Waga_poczatkowa}"/>
+
+                        <Label Grid.Row="6" Grid.Column="0" Text="Docelowa waga: "/>
+                        <Entry Grid.Row="6" Grid.Column="1" Text="{Binding Path=UserM.Waga_cel}"/>
+                        
+                        <Label Grid.Row="7" Grid.Column="0" Text="Dzienny limit kalorii: "/>
+                        <Entry Grid.Row="7" Grid.Column="1" Text="{Binding Path=UserM.Kcla_dzien}"/>
+
+                        <Label Grid.Row="8" Grid.Column="0" Text="Dzienne spalanie kalorii: "/>
+                        <Entry Grid.Row="8" Grid.Column="1" Text="{Binding Path=UserM.Kcla_dzien_trening}"/>
+
                     </Grid>
 
                     <!-- Coach data-->

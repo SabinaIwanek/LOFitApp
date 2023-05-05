@@ -22,6 +22,7 @@ public partial class MeasurementPage : ContentPage
     private readonly IUserRestService _dataServiceUser;
     private readonly ITermRestService _dataServiceTerm;
     private List<Button> _buttons;
+    private List<Image> _images;
     private bool _isNew;
 
     #region Binding prop
@@ -35,6 +36,9 @@ public partial class MeasurementPage : ContentPage
             _isNew = Model.Id_usera == 0;
 
             BottomButton.IsVisible = Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+            if (value != null)
+                OnLoadProgres();
 
             OnPropertyChanged();
         }
@@ -81,6 +85,7 @@ public partial class MeasurementPage : ContentPage
         _dataServiceTerm = dataServiceTerm;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
+        _images = new List<Image>() { Run0, Run1, Run2, Run3, Run4, Run5, Run6, Run7, Run8, Run9 };
 
         if (Singleton.Instance.DateToShow.Year != 1) DateCalendar = Singleton.Instance.DateToShow;
         else DateCalendar = DateTime.Today;
@@ -189,6 +194,81 @@ public partial class MeasurementPage : ContentPage
         _buttons[3].Text = DateCalendar.AddDays(2).ToString("dd");
 
         Model = await _dataService.Get(DateCalendar);
+    }
+    #endregion
+
+    #region Progres
+    async void OnLoadProgres()
+    {
+        UserModel user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
+
+        Dispatcher.Dispatch(() =>
+        {
+            LabelCel.Text = $"{user.Waga_cel}kg";
+            DataTools.DisableImage(_images);
+
+            if (Model.Waga == null || user.Waga_cel == null || user.Waga_poczatkowa == null)
+            {
+                ProgresRun.Progress = 0;
+                DataTools.EnableImage(_images, 0);
+
+                return;
+            }
+
+            if (user.Waga_poczatkowa > user.Waga_cel)
+            {
+                var progres = ((Model.Waga - user.Waga_cel) / (user.Waga_poczatkowa - user.Waga_cel));
+
+                if (progres <= 0)
+                {
+                    DataTools.EnableImage(_images, 9);
+                    ProgresRun.Progress = 1;
+                }
+                else if (progres >= 1)
+                {
+                    DataTools.EnableImage(_images, 0);
+                    ProgresRun.Progress = 0;
+                }
+                else
+                {
+                    progres = 1 - progres;
+                    ProgresRun.Progress = (double)progres;
+
+                    int i = (int)Math.Round((decimal)(progres * 10));
+                    DataTools.EnableImage(_images, i);
+                }
+
+            }
+            else if (user.Waga_poczatkowa < user.Waga_cel)
+            {
+                var progres = ((Model.Waga - user.Waga_cel) / (user.Waga_poczatkowa - user.Waga_cel));
+
+                if (progres <= 0)
+                {
+                    DataTools.EnableImage(_images, 9);
+                    ProgresRun.Progress = 1;
+                }
+                else if (progres >= 1)
+                {
+                    DataTools.EnableImage(_images, 0);
+                    ProgresRun.Progress = 0;
+                }
+                else
+                {
+                    progres = 1 - progres;
+                    ProgresRun.Progress = (double)progres;
+
+                    int i = (int)Math.Round((decimal)(progres * 10));
+                    DataTools.EnableImage(_images, i);
+                }
+            }
+            else if (user.Waga_poczatkowa == user.Waga_cel)
+            {
+                ProgresRun.Progress = 1;
+                DataTools.EnableImage(_images, 9);
+            }
+        });
+
     }
     #endregion
 

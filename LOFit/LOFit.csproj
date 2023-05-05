@@ -69,6 +69,7 @@
 	  <None Remove="Resources\Images\phone.png" />
 	  <None Remove="Resources\Images\plan.png" />
 	  <None Remove="Resources\Images\report.png" />
+	  <None Remove="Resources\Images\running.png" />
 	  <None Remove="Resources\Images\star.png" />
 	  <None Remove="Resources\Images\star_empty.png" />
 	  <None Remove="Resources\Images\user.png" />

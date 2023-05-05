@@ -172,6 +172,7 @@ public partial class WorkoutsPage : ContentPage
     async void ListLoad()
     {
         var list = await _dataService.GetUserList(DateCalendar, Singleton.Instance.IdUsera);
+        var user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
 
         Dispatcher.Dispatch(() =>
         {
@@ -193,6 +194,20 @@ public partial class WorkoutsPage : ContentPage
             {
                 Header1.IsVisible = true;
             }
+
+            var suma = ((List<WorkoutDayListModel>)collectionView.ItemsSource)?.Sum(x => x.WorkoutDay.Kcla) + ((List<WorkoutDayListModel>)collectionViewCoach.ItemsSource)?.Where(x => x.WorkoutDay.Zatwierdzony).Sum(x => x.WorkoutDay.Kcla);
+
+            if (user.Kcla_dzien_trening != null)
+            {
+                ProgresKcla.Progress = (double)suma / (int)user.Kcla_dzien_trening;
+                LabelKcla.Text = $"{suma}/{user.Kcla_dzien_trening} Kcla";
+            }
+            else
+            {
+                LabelKcla.Text = $"Suma: {suma} Kcla";
+                ProgresKcla.IsVisible = false;
+            }
+
         });
     }
     void OnCheckBoxClicked(object sender, CheckedChangedEventArgs e)

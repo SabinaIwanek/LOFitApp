@@ -160,11 +160,11 @@ namespace LOFit.Tools
                 star.Source = "star_empty.png";
             }
 
-            if(rate >= 4.5 ) stars[4].Source = "star.png";
-            if(rate >= 3.5 ) stars[3].Source = "star.png";
-            if(rate >= 2.5 ) stars[2].Source = "star.png";
-            if(rate >= 1.5 ) stars[1].Source = "star.png";
-            if(rate != 0 ) stars[0].Source = "star.png";
+            if (rate >= 4.5) stars[4].Source = "star.png";
+            if (rate >= 3.5) stars[3].Source = "star.png";
+            if (rate >= 2.5) stars[2].Source = "star.png";
+            if (rate >= 1.5) stars[1].Source = "star.png";
+            if (rate != 0) stars[0].Source = "star.png";
         }
         public static void StarsImageButton(List<ImageButton> stars, int rate)
         {
@@ -178,6 +178,19 @@ namespace LOFit.Tools
             if (rate > 2) stars[2].Source = "star.png";
             if (rate > 1) stars[1].Source = "star.png";
             stars[0].Source = "star.png";
+        }
+        public static void DisableImage(List<Image> list)
+        {
+            foreach (Image image in list)
+            {
+                image.IsVisible = false;
+            }
+        }
+        public static void EnableImage(List<Image> list, int i)
+        {
+            if (i > 9) i = 9;
+            else if (i < 0) i = 0;
+            list[i].IsVisible = true;
         }
     }
 }

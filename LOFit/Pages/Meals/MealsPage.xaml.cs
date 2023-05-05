@@ -10,6 +10,7 @@ using LOFit.Pages.Menu;
 using LOFit.Pages.Workouts;
 using LOFit.Tools;
 using LOFit.Pages.MenuCoach;
+using LOFit.Resources.Styles;
 
 namespace LOFit.Pages.Meals;
 
@@ -146,6 +147,7 @@ public partial class MealsPage : ContentPage
     async void ListLoad()
     {
         var list = await _dataService.GetUserList(DateCalendar, Singleton.Instance.IdUsera);
+        var user = await _dataServiceUser.GetOne(Singleton.Instance.IdUsera);
 
         Dispatcher.Dispatch(() =>
         {
@@ -166,6 +168,23 @@ public partial class MealsPage : ContentPage
             if (Singleton.Instance.Type == TypKonta.Trener)
             {
                 Header1.IsVisible = true;
+            }
+
+            var suma = ((List<MealListModel>)collectionView.ItemsSource)?.Sum(x => x.Kcla) + ((List<MealListModel>)collectionViewCoach.ItemsSource)?.Where(x=>x.Meal.Zatwierdzony).Sum(x => x.Kcla);
+            if(user.Kcla_dzien != null)
+            {
+                ProgresKcla.Progress = (double)suma / (int)user.Kcla_dzien;
+                LabelKcla.Text = $"{suma}/{user.Kcla_dzien} Kcla";
+
+                if (suma > user.Kcla_dzien)
+                    ProgresKcla.ProgressColor = Colors.Red;
+                else
+                    ProgresKcla.ProgressColor = MyColors.Primary;
+            }
+            else
+            {
+                LabelKcla.Text = $"Suma: {suma} Kcla";
+                ProgresKcla.IsVisible = false;
             }
         });
     }

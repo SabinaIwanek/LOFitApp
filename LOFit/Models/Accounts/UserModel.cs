@@ -62,6 +62,58 @@ namespace LOFit.Models.Accounts
             }
         }
 
+        private int? _waga_poczatkowa;
+        public int? Waga_poczatkowa
+        {
+            get => _waga_poczatkowa;
+            set
+            {
+                if (_waga_poczatkowa == value) return;
+
+                _waga_poczatkowa = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Waga_poczatkowa"));
+            }
+        }
+
+        private int? _waga_cel;
+        public int? Waga_cel
+        {
+            get => _waga_cel;
+            set
+            {
+                if (_waga_cel == value) return;
+
+                _waga_cel = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Waga_cel"));
+            }
+        }
+
+        private int? _kcla_dzien;
+        public int? Kcla_dzien
+        {
+            get => _kcla_dzien;
+            set
+            {
+                if (_kcla_dzien == value) return;
+
+                _kcla_dzien = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Kcla_dzien"));
+            }
+        }
+
+        private int? _kcla_dzien_trening;
+        public int? Kcla_dzien_trening
+        {
+            get => _kcla_dzien_trening;
+            set
+            {
+                if (_kcla_dzien_trening == value) return;
+
+                _kcla_dzien_trening = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Kcla_dzien_trening"));
+            }
+        }
+
         public string Wizytowka()
         {
             return $"{Imie} {Nazwisko}";
