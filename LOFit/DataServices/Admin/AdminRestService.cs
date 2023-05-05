@@ -3,6 +3,7 @@ using System.Text.Json;
 using LOFit.Tools;
 using LOFit.Models.Accounts;
 using LOFit.Models.ProfileMenu;
+using LOFit.Models.Menu;
 
 namespace LOFit.DataServices.Admin
 {
@@ -25,6 +26,38 @@ namespace LOFit.DataServices.Admin
             };
         }
 
+        public async Task<AdminModel> GetOne(int id)
+        {
+            AdminModel model = new AdminModel();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    model = JsonSerializer.Deserialize<AdminModel>(responseContent, _jsonSerializaerOptions);
+
+                    return model;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        //Zarzadzanie
         public async Task<List<CoachModel>> GetWgTypeCoach(int type)
         {
             List<CoachModel> list = new List<CoachModel>();
@@ -228,6 +261,61 @@ namespace LOFit.DataServices.Admin
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/reports/{id}/{type}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    return responseContent;
+                }
+                else
+                {
+                    return "Bad response";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+        public async Task<List<ProductModel>> GetWgTypeProducts(int type)
+        {
+            List<ProductModel> list = new List<ProductModel>();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/products/{type}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    list = JsonSerializer.Deserialize<List<ProductModel>>(responseContent, _jsonSerializaerOptions);
+
+                    return list;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public async Task<string> SetProduct(int id, int type)
+        {
+            try
+            {
+                string token = Singleton.Instance.Token;
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/products/{id}/{type}");
 
                 if (response.IsSuccessStatusCode)
                 {

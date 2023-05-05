@@ -10,6 +10,7 @@ using LOFit.Pages.Coachs;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Menu;
 using LOFit.Pages.Workouts;
+using LOFit.Resources.Styles;
 using LOFit.Tools;
 
 namespace LOFit.Pages.Measures;
@@ -23,6 +24,7 @@ public partial class MeasurementPage : ContentPage
     private readonly ITermRestService _dataServiceTerm;
     private List<Button> _buttons;
     private List<Image> _images;
+    private List<Entry> _entry;
     private bool _isNew;
 
     #region Binding prop
@@ -36,11 +38,14 @@ public partial class MeasurementPage : ContentPage
 
             _model = value;
             _isNew = Model.Id == 0;
-            
+
             if (_isNew)
             {
                 LoadLastData();
             }
+
+            DataTools.ChangeTextColor(_entry, _isNew ? MyColors.MyText2 : MyColors.MyText);
+
 
             if (value != null)
                 OnLoadProgres();
@@ -91,6 +96,7 @@ public partial class MeasurementPage : ContentPage
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3, Button4 };
         _images = new List<Image>() { Run0, Run1, Run2, Run3, Run4, Run5, Run6, Run7, Run8, Run9 };
+        _entry = new List<Entry>() { Entry1, Entry2, Entry3, Entry4, Entry5, Entry6, Entry7, Entry8, Entry9, Entry10, Entry11 };
 
         if (Singleton.Instance.DateToShow.Year != 1) DateCalendar = Singleton.Instance.DateToShow;
         else DateCalendar = DateTime.Today;
@@ -211,6 +217,7 @@ public partial class MeasurementPage : ContentPage
 
         _model = model;
         OnPropertyChanged(nameof(Model));
+        OnLoadProgres();
     }
     #endregion
 
@@ -224,7 +231,7 @@ public partial class MeasurementPage : ContentPage
             LabelCel.Text = $"{user.Waga_cel}kg";
             DataTools.DisableImage(_images);
 
-            if (Model.Waga == null || user.Waga_cel == null || user.Waga_poczatkowa == null)
+            if (_model.Waga == null || user.Waga_cel == null || user.Waga_poczatkowa == null)
             {
                 ProgresRun.Progress = 0;
                 DataTools.EnableImage(_images, 0);
@@ -234,7 +241,7 @@ public partial class MeasurementPage : ContentPage
 
             if (user.Waga_poczatkowa > user.Waga_cel)
             {
-                var progres = ((Model.Waga - user.Waga_cel) / (user.Waga_poczatkowa - user.Waga_cel));
+                var progres = ((_model.Waga - user.Waga_cel) / (user.Waga_poczatkowa - user.Waga_cel));
 
                 if (progres <= 0)
                 {
@@ -258,7 +265,7 @@ public partial class MeasurementPage : ContentPage
             }
             else if (user.Waga_poczatkowa < user.Waga_cel)
             {
-                var progres = ((Model.Waga - user.Waga_cel) / (user.Waga_poczatkowa - user.Waga_cel));
+                var progres = ((_model.Waga - user.Waga_cel) / (user.Waga_poczatkowa - user.Waga_cel));
 
                 if (progres <= 0)
                 {

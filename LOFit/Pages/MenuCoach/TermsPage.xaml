@@ -84,7 +84,13 @@
                                 </Grid.RowDefinitions>
 
 
-                                <Label Grid.Column="0" Grid.Row="1" Text="{Binding NazwaUser}"  FontSize="16" VerticalTextAlignment="End" />
+                                <Grid Grid.Column="0" Grid.Row="1" >
+                                    <HorizontalStackLayout>
+                                        <Image IsVisible="{Binding Term.Zatwierdzony}" Source="accepted.png" WidthRequest="30"/>
+                                        <Label Text="{Binding NazwaUser}"  FontSize="16" VerticalTextAlignment="End" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                                
                                 <Button Grid.Column="1" Grid.Row="1" Text="X" FontSize="16"  Clicked="OnDeleteTermClicked" CommandParameter="{Binding Term.Id}" FontAttributes="Bold" TextColor="{StaticResource Primary}" BackgroundColor="Transparent" Padding="0,3,0,0" />
 
                                 <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Background="{StaticResource Primary}" />

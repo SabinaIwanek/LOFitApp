@@ -192,5 +192,12 @@ namespace LOFit.Tools
             else if (i < 0) i = 0;
             list[i].IsVisible = true;
         }
+        public static void ChangeTextColor(List<Entry> list, Color color)
+        {
+            foreach (var item in list)
+            {
+                item.TextColor = color;
+            }
+        }
     }
 }

@@ -96,8 +96,6 @@
 
                 <Button x:Name="SendButton" Text="Załóż konto" Clicked="OnSendButtonClicked" Margin="0,20,0,0"/>
 
-                <Label x:Name="Information"/>
-
             </VerticalStackLayout>
         </ScrollView>
     </StackLayout>

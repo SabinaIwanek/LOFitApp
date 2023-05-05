@@ -60,7 +60,7 @@ public partial class ChangePasswordPage : ContentPage
     {
         if (LoginM.Email == string.Empty)
         {
-            Information.Text = "Wpisz e-mail.";
+            await DisplayAlert("Zmiana has³a", "Wpisz e-mail.", "Ok");
             return;
         }
 
@@ -78,32 +78,30 @@ public partial class ChangePasswordPage : ContentPage
             ChangeButton.IsVisible = true;
             CodeButton.IsVisible = false;
 
-            Information.Text = $"Wys³ano kod na email {LoginM.Email}.";
+            await DisplayAlert("Zmiana has³a", $"Wys³ano kod na email {LoginM.Email}.", "Ok");
         }
         else
         {
-            Information.Text = result;
+            await DisplayAlert("Zmiana has³a", result, "Ok");
         }
     }
     async void OnChangeButtonClicked(object sender, EventArgs e)
     {
-        Information.Text = string.Empty;
-
         if (LoginM.Password == null || Password2 == null || LoginM.Password == string.Empty || Password2 == string.Empty)
         {
-            Information.Text = "Wpisz oba has³a.";
+            await DisplayAlert("Zmiana has³a", "Wpisz oba has³a.", "Ok");
             return;
         }
 
         if (LoginM.Password != Password2)
         {
-            Information.Text = "Has³a ró¿ni¹ siê.";
+            await DisplayAlert("Zmiana has³a", "Has³a ró¿ni¹ siê.", "Ok");
             return;
         }
 
         if (LoginM.Code > 999999 || LoginM.Code < 100000)
         {
-            Information.Text = "Kod posiada 6 cyfr. Nieprawid³owa iloœæ cyfr.";
+            await DisplayAlert("Zmiana has³a", "Kod posiada 6 cyfr. Nieprawid³owa iloœæ cyfr.", "Ok");
             return;
         }
 
@@ -120,9 +118,7 @@ public partial class ChangePasswordPage : ContentPage
         }
         else
         {
-            Information.Text = result;
+            await DisplayAlert("Zmiana has³a", result, "Ok");
         }
     }
-
-
 }

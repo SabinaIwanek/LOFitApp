@@ -37,7 +37,7 @@
 
         <Button x:Name="LoginButton" Text="Zaloguj" Clicked="OnLoginButtonClicked" />
 
-        
+
         <StackLayout>
             <StackLayout.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnRegistrationButtonClicked" />
@@ -51,9 +51,6 @@
                 </Label.FormattedText>
             </Label>
         </StackLayout>
-
-
-        <Label x:Name="Information"/>
 
     </VerticalStackLayout>
 

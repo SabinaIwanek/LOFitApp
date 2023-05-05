@@ -9,6 +9,74 @@ public partial class VerifyCertificatePage : ContentPage
 {
     private IAdminRestService _dataService;
     private List<Button> _buttons;
+
+    #region Binding prop
+    private string _adminName;
+    public string AdminName
+    {
+        get { return _adminName; }
+        set
+        {
+            _adminName = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private int _infoCoachs;
+    public int InfoCoachs
+    {
+        get { return _infoCoachs; }
+        set
+        {
+            _infoCoachs = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private int _infoCertificate;
+    public int InfoCertificate
+    {
+        get { return _infoCertificate; }
+        set
+        {
+            _infoCertificate = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private int _infoVerifyOpinion;
+    public int InfoVerifyOpinion
+    {
+        get { return _infoVerifyOpinion; }
+        set
+        {
+            _infoVerifyOpinion = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private int _infoVerifyReport;
+    public int InfoVerifyReport
+    {
+        get { return _infoVerifyReport; }
+        set
+        {
+            _infoVerifyReport = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private int _infoProducts;
+    public int InfoProducts
+    {
+        get { return _infoProducts; }
+        set
+        {
+            _infoProducts = value;
+            OnPropertyChanged();
+        }
+    }
+    #endregion
     public VerifyCertificatePage(IAdminRestService dataService)
 	{
 		InitializeComponent();
@@ -16,30 +84,73 @@ public partial class VerifyCertificatePage : ContentPage
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3 };
         ListLoad(0);
+        OnLoadData();
     }
 
-    #region Menu buttons Admin
-    async void OnBackClicked(object sender, EventArgs e)
+    #region Load data
+    async void OnLoadData()
     {
-        await Shell.Current.GoToAsync(nameof(CentralAdminPage));
+        AdminModel admin = await _dataService.GetOne(-1);
+        AdminName = $"{admin.Imie} {admin.Nazwisko}";
+
+        InfoCoachs = (await _dataService.GetWgTypeCoach(0)).Count;
+        InfoCertificate = (await _dataService.GetWgTypeCert(0)).Count;
+        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(0)).Count;
+        InfoVerifyReport = (await _dataService.GetWgTypeReports(0)).Count;
+        InfoProducts = (await _dataService.GetWgTypeProducts(0)).Count;
+
+        InfoCoach.IsVisible = InfoCoachs != 0;
+        InfoCert.IsVisible = InfoCertificate != 0;
+        InfoOpinion.IsVisible = InfoVerifyOpinion != 0;
+        InfoReport.IsVisible = InfoVerifyReport != 0;
+        InfoProd.IsVisible = InfoProducts != 0;
     }
-    async void OnSettingsClicked(object sender, EventArgs e)
+    #endregion
+
+    #region Menu buttons
+    async void OnButtonMenuClicked(object sender, EventArgs e)
     {
-        //await Shell.Current.GoToAsync(nameof(SettingsUserPage));
-    }
-    async void OnLogoutClicked(object sender, EventArgs e)
-    {
-        var navigationParameter = new Dictionary<string, object>
+        var button = (Button)sender;
+        var parameter = (string)button.CommandParameter;
+
+        if (parameter == "users")
         {
-            {nameof(LoginModel), new LoginModel(false)
+            await Shell.Current.GoToAsync(nameof(VerifyAppUsersPage));
+        }
+        else if (parameter == "coachs")
+        {
+            await Shell.Current.GoToAsync(nameof(VerifyCoachPage));
+        }
+        else if (parameter == "ceftificate")
+        {
+            await Shell.Current.GoToAsync(nameof(VerifyCertificatePage));
+        }
+        else if (parameter == "opinion")
+        {
+            await Shell.Current.GoToAsync(nameof(VerifyOpinionPage));
+        }
+        else if (parameter == "reports")
+        {
+            await Shell.Current.GoToAsync(nameof(VerifyReportPage));
+        }
+        else if (parameter == "products")
+        {
+            await Shell.Current.GoToAsync(nameof(VerifyProductsPage));
+        }
+        else if (parameter == "wyloguj")
+        {
+            var navigationParameter = new Dictionary<string, object>
+            {
+                {nameof(LoginModel), new LoginModel(false)
                 {
                     Email = Singleton.Instance.User,
                 }
-            }
-        };
+                }
+            };
 
-        Singleton.Logout();
-        await Shell.Current.GoToAsync("Login", navigationParameter);
+            Singleton.Logout();
+            await Shell.Current.GoToAsync("Login", navigationParameter);
+        }
     }
     #endregion
 

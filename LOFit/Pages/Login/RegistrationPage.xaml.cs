@@ -156,29 +156,27 @@ public partial class RegistrationPage : ContentPage
     #region Bottom button
     async void OnSendButtonClicked(object sender, EventArgs e)
     {
-        Information.Text = string.Empty;
-
         if (!DataTools.CheckEmail(UserM.Email))
         {
-            Information.Text = "B³êdny adres email";
+            await DisplayAlert("Relestracja", "B³êdny adres email", "Ok");
             return;
         }
 
         if (Password2 == string.Empty || UserM.Haslo == string.Empty || Password2 == null || UserM.Haslo == null)
         {
-            Information.Text = "Wpisz has³o do dwóch pól.";
+            await DisplayAlert("Relestracja", "Wpisz has³o do dwóch pól.", "Ok");
             return;
         }
 
         if (Password2 != UserM.Haslo)
         {
-            Information.Text = "Has³a siê ró¿ni¹.";
+            await DisplayAlert("Relestracja", "Has³a siê ró¿ni¹.", "Ok");
             return;
         }
 
         if (UserM.Imie == string.Empty || UserM.Imie == null)
         {
-            Information.Text = "Wpisz imiê.";
+            await DisplayAlert("Relestracja", "Wpisz imiê.", "Ok");
             return;
         }
 
@@ -198,7 +196,7 @@ public partial class RegistrationPage : ContentPage
         }
         else
         {
-            Information.Text = answer;
+            await DisplayAlert("Relestracja", answer, "Ok");
         }
     }
     #endregion

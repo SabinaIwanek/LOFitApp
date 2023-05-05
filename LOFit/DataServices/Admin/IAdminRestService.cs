@@ -1,10 +1,14 @@
 ﻿using LOFit.Models.Accounts;
+using LOFit.Models.Menu;
 using LOFit.Models.ProfileMenu;
 
 namespace LOFit.DataServices.Admin
 {
     public interface IAdminRestService
     {
+        Task<AdminModel> GetOne(int id);
+
+        //Zarzadzanie
         Task<List<CoachModel>> GetWgTypeCoach(int type);
         Task<string> SetCoach(int id, int type);
         Task<List<CertificateModel>> GetWgTypeCert(int type);
@@ -13,6 +17,8 @@ namespace LOFit.DataServices.Admin
         Task<string> SetOpinion(int id, int type);
         Task<List<ReportModel>> GetWgTypeReports(int type);
         Task<string> SetReport(int id, int type);
+        Task<List<ProductModel>> GetWgTypeProducts(int type);
+        Task<string> SetProduct(int id, int type);
         Task<List<AdminModel>> GetAppUsersAdmins();
         Task<List<UserModel>> GetAppUsers();
         Task<List<CoachModel>> GetAppUsersCoachs();

@@ -1,9 +1,9 @@
 ﻿using LOFit.DataServices.Coach;
 using LOFit.DataServices.Login;
-using LOFit.DataServices.Measurement;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Pages.Admin;
+using LOFit.Pages.Admin.VerifyLists;
 using LOFit.Pages.Coachs;
 using LOFit.Pages.Measures;
 using LOFit.Tools;
@@ -47,11 +47,10 @@ public partial class LoginPage : ContentPage
 
     async void OnLoginButtonClicked(object sender, EventArgs e)
     {
-        Information.Text = string.Empty;
-
         if (_loginModel.Email == string.Empty || _loginModel.Password == string.Empty || _loginModel.Email == null || _loginModel.Password == null)
         {
-            Information.Text = "Wprowadź dane do obu pól.";
+            await DisplayAlert("Logowanie", "Wprowadź dane do obu pól.", "Ok");
+
             return;
         }
 
@@ -61,7 +60,7 @@ public partial class LoginPage : ContentPage
         {
             if (Singleton.Instance.Type == TypKonta.Administrator)
             {
-                await Shell.Current.GoToAsync(nameof(CentralAdminPage));
+                await Shell.Current.GoToAsync(nameof(VerifyAppUsersPage));
                 return;
             }
 
@@ -85,7 +84,7 @@ public partial class LoginPage : ContentPage
         }
         else
         {
-            Information.Text = result;
+            await DisplayAlert("Logowanie", result, "Ok");
         }
     }
 

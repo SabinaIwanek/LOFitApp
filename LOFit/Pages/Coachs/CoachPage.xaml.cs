@@ -489,6 +489,7 @@ public partial class CoachPage : ContentPage
                     if (model == null) return;
 
                     model.Czas_do = DateTime.Now;
+                    model.Zatwierdzone = 5;
 
                     _dataServiceConn.Update(model);
                 });
@@ -519,6 +520,7 @@ public partial class CoachPage : ContentPage
             if (_type == 1) ButtonSelect.Text = "Zakoñcz powi¹zanie";
             if (_type == 2) ButtonSelect.Text = "Ponów proœbê (ostatnia odrzucona)";
             if (_type == 3) ButtonSelect.Text = "Wybierz trenera";
+            if (_type == 5) ButtonSelect.Text = "Wybierz ponownie";
         });
     }
     #endregion
