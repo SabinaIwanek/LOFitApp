@@ -50,7 +50,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(VerifyCoachPage), typeof(VerifyCoachPage));
         Routing.RegisterRoute(nameof(VerifyCertificatePage), typeof(VerifyCertificatePage));
         Routing.RegisterRoute(nameof(VerifyOpinionPage), typeof(VerifyOpinionPage));
-        Routing.RegisterRoute(nameof(VerifyReportPage), typeof(VerifyReportPage));
         Routing.RegisterRoute(nameof(VerifyAppUsersPage), typeof(VerifyAppUsersPage));
         Routing.RegisterRoute(nameof(VerifyProductsPage), typeof(VerifyProductsPage));
     }

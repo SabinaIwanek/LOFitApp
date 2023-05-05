@@ -102,9 +102,6 @@
 	  <MauiXaml Update="Pages\Admin\VerifyLists\VerifyProductsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\Admin\VerifyLists\VerifyReportPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Pages\Coachs\CertificatePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -123,6 +123,9 @@ namespace LOFit.Models.Menu
             }
         }
 
+        public bool ButtonNo() => W_bazie_programu != 2;
+        public bool ButtonOk() => W_bazie_programu != 1;
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

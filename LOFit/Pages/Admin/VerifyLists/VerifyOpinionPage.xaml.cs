@@ -8,8 +8,6 @@ namespace LOFit.Pages.Admin.VerifyLists;
 public partial class VerifyOpinionPage : ContentPage
 {
     private IAdminRestService _dataService;
-    private List<Button> _buttons;
-    private List<Grid> _grids;
 
     #region Binding prop
     private string _adminName;
@@ -56,17 +54,6 @@ public partial class VerifyOpinionPage : ContentPage
         }
     }
 
-    private int _infoVerifyReport;
-    public int InfoVerifyReport
-    {
-        get { return _infoVerifyReport; }
-        set
-        {
-            _infoVerifyReport = value;
-            OnPropertyChanged();
-        }
-    }
-
     private int _infoProducts;
     public int InfoProducts
     {
@@ -83,10 +70,8 @@ public partial class VerifyOpinionPage : ContentPage
 		InitializeComponent();
         _dataService = dataService;
         BindingContext = this;
-        _buttons = new List<Button>() { Button1, Button2, Button3 };
-        _grids = new List<Grid>() { Bottom1, Bottom2, Bottom3 };
 
-        ListLoad(0);
+        ListLoad();
         OnLoadData();
     }
 
@@ -98,14 +83,12 @@ public partial class VerifyOpinionPage : ContentPage
 
         InfoCoachs = (await _dataService.GetWgTypeCoach(0)).Count;
         InfoCertificate = (await _dataService.GetWgTypeCert(0)).Count;
-        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(0)).Count;
-        InfoVerifyReport = (await _dataService.GetWgTypeReports(0)).Count;
+        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(1)).Count;
         InfoProducts = (await _dataService.GetWgTypeProducts(0)).Count;
 
         InfoCoach.IsVisible = InfoCoachs != 0;
         InfoCert.IsVisible = InfoCertificate != 0;
         InfoOpinion.IsVisible = InfoVerifyOpinion != 0;
-        InfoReport.IsVisible = InfoVerifyReport != 0;
         InfoProd.IsVisible = InfoProducts != 0;
     }
     #endregion
@@ -132,10 +115,6 @@ public partial class VerifyOpinionPage : ContentPage
         {
             await Shell.Current.GoToAsync(nameof(VerifyOpinionPage));
         }
-        else if (parameter == "reports")
-        {
-            await Shell.Current.GoToAsync(nameof(VerifyReportPage));
-        }
         else if (parameter == "products")
         {
             await Shell.Current.GoToAsync(nameof(VerifyProductsPage));
@@ -157,34 +136,10 @@ public partial class VerifyOpinionPage : ContentPage
     }
     #endregion
 
-    #region Type buttons
-    async void OnTypeClicked(object sender, EventArgs e)
-    {
-        var button = (Button)sender;
-        var property = Int32.Parse((string)button.CommandParameter);
-
-        ListLoad(property);
-    }
-    #endregion
-
     #region List
-    async void ListLoad(int type)
+    async void ListLoad()
     {
-        collectionView.ItemsSource = await _dataService.GetWgTypeOpinion(type);
-
-        DataTools.ButtonNotClicked(_buttons, _grids);
-        DataTools.ButtonClicked(_buttons[type], _grids[type]);
-    }
-    async void OnOpinionClicked(object sender, SelectionChangedEventArgs e)
-    {
-        OpinionModel coach = e.CurrentSelection.FirstOrDefault() as OpinionModel;
-
-        var navigationParameter = new Dictionary<string, object>
-        {
-            { nameof(OpinionModel), coach }
-        };
-
-        // await Shell.Current.GoToAsync(nameof(OpinionPage), navigationParameter);
+        collectionView.ItemsSource = ListModelTools.ReturnOpinionList( await _dataService.GetWgTypeOpinion(1));
     }
     #endregion
 
@@ -195,6 +150,7 @@ public partial class VerifyOpinionPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetOpinion(property, 1);
+        ListLoad();
     }
     async void OnNoButtonClicked(object sender, EventArgs e)
     {
@@ -202,6 +158,7 @@ public partial class VerifyOpinionPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetOpinion(property, 2);
+        ListLoad();
     }
     #endregion
 

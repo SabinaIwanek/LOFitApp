@@ -1,4 +1,5 @@
 using LOFit.DataServices.Admin;
+using LOFit.DataServices.Certificate;
 using LOFit.Models.Accounts;
 using LOFit.Pages.Coachs;
 using LOFit.Tools;
@@ -8,6 +9,7 @@ namespace LOFit.Pages.Admin.VerifyLists;
 public partial class VerifyCoachPage : ContentPage
 {
     private IAdminRestService _dataService;
+    private IOpinionRestService _dataServiceOpinion;
     private List<Button> _buttons;
     private List<Grid> _grids;
 
@@ -56,17 +58,6 @@ public partial class VerifyCoachPage : ContentPage
         }
     }
 
-    private int _infoVerifyReport;
-    public int InfoVerifyReport
-    {
-        get { return _infoVerifyReport; }
-        set
-        {
-            _infoVerifyReport = value;
-            OnPropertyChanged();
-        }
-    }
-
     private int _infoProducts;
     public int InfoProducts
     {
@@ -78,10 +69,11 @@ public partial class VerifyCoachPage : ContentPage
         }
     }
     #endregion
-    public VerifyCoachPage(IAdminRestService dataService)
+    public VerifyCoachPage(IAdminRestService dataService, IOpinionRestService dataServiceOpinion)
 	{
 		InitializeComponent();
         _dataService = dataService;
+        _dataServiceOpinion = dataServiceOpinion;
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3 };
         _grids = new List<Grid>() { Bottom1, Bottom2, Bottom3 };
@@ -98,14 +90,12 @@ public partial class VerifyCoachPage : ContentPage
 
         InfoCoachs = (await _dataService.GetWgTypeCoach(0)).Count;
         InfoCertificate = (await _dataService.GetWgTypeCert(0)).Count;
-        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(0)).Count;
-        InfoVerifyReport = (await _dataService.GetWgTypeReports(0)).Count;
+        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(1)).Count;
         InfoProducts = (await _dataService.GetWgTypeProducts(0)).Count;
 
         InfoCoach.IsVisible = InfoCoachs != 0;
         InfoCert.IsVisible = InfoCertificate != 0;
         InfoOpinion.IsVisible = InfoVerifyOpinion != 0;
-        InfoReport.IsVisible = InfoVerifyReport != 0;
         InfoProd.IsVisible = InfoProducts != 0;
     }
     #endregion
@@ -131,10 +121,6 @@ public partial class VerifyCoachPage : ContentPage
         else if (parameter == "opinion")
         {
             await Shell.Current.GoToAsync(nameof(VerifyOpinionPage));
-        }
-        else if (parameter == "reports")
-        {
-            await Shell.Current.GoToAsync(nameof(VerifyReportPage));
         }
         else if (parameter == "products")
         {
@@ -187,7 +173,7 @@ public partial class VerifyCoachPage : ContentPage
     #region List
     async void ListLoad(int type)
     {
-        collectionView.ItemsSource = await _dataService.GetWgTypeCoach(type);
+        collectionView.ItemsSource = await ListModelTools.ReturnCoachList( await _dataService.GetWgTypeCoach(type), _dataServiceOpinion);
 
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LOFit.Pages.Admin.VerifyLists.VerifyAppUsersPage">
+             x:Class="LOFit.Pages.Admin.VerifyLists.VerifyAppUsersPage"
+             xmlns:model="clr-namespace:LOFit.Models.Accounts">
 
     <!-- Tittle -->
     <Shell.TitleView>
@@ -27,7 +28,6 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
-                <RowDefinition Height="1*" />
                 <RowDefinition Height="100" />
             </Grid.RowDefinitions>
 
@@ -47,25 +47,22 @@
             <Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Text="Opinie do weryfikacji"  Clicked="OnButtonMenuClicked" CommandParameter="opinion" BackgroundColor="{StaticResource MyText}" />
             <Button Grid.Column="1" Grid.Row="5" x:Name="InfoOpinion" Text="{Binding InfoVerifyOpinion}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
 
-            <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Zgłoszenia"  Clicked="OnButtonMenuClicked" CommandParameter="reports" BackgroundColor="{StaticResource MyText}"/>
-            <Button Grid.Column="1" Grid.Row="6" x:Name="InfoReport" Text="{Binding InfoVerifyReport}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
+            <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Produkty do zatwierdzenia"  Clicked="OnButtonMenuClicked" CommandParameter="products" BackgroundColor="{StaticResource MyText}"/>
+            <Button Grid.Column="1" Grid.Row="6" x:Name="InfoProd" Text="{Binding InfoProducts}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
 
-            <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="Produkty do zatwierdzenia"  Clicked="OnButtonMenuClicked" CommandParameter="products" BackgroundColor="{StaticResource MyText}"/>
-            <Button Grid.Column="1" Grid.Row="7" x:Name="InfoProd" Text="{Binding InfoProducts}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
-
-            <Button Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Text="Wyloguj" Margin="40,30" Padding="0"  Clicked="OnButtonMenuClicked" CommandParameter="wyloguj" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="18" BorderWidth="3" BorderColor="{StaticResource MyText}" FontAttributes="Bold"/>
+            <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="Wyloguj" Margin="40,30" Padding="0"  Clicked="OnButtonMenuClicked" CommandParameter="wyloguj" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="18" BorderWidth="3" BorderColor="{StaticResource MyText}" FontAttributes="Bold"/>
 
 
         </Grid>
 
         <!-- Zawartosc-->
-
-        <Grid HorizontalOptions="FillAndExpand" RowSpacing="20">
+        <Grid HorizontalOptions="FillAndExpand" RowSpacing="20" Padding="40,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="55" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -94,16 +91,37 @@
 
             </Grid>
 
+            <!-- Naglowek -->
+            <Grid Grid.Column="0" Grid.Row="1"  HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource MyEntryBg}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0"  Text="Id" FontSize="Medium"/>
+                    <Label Grid.Column="1" Grid.Row="0"  Text="Imie" FontSize="Medium" />
+                    <Label Grid.Column="2" Grid.Row="0"  Text="Nazwisko" FontSize="Medium" />
+                </Grid>
+            </Grid>
+            
             <!-- Lista-->
-            <Grid Grid.Column="0" Grid.Row="1"  HorizontalOptions="FillAndExpand">
+            <Grid Grid.Column="0" Grid.Row="2"  HorizontalOptions="FillAndExpand">
                 <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnUserClicked">
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate>
+                            <DataTemplate x:DataType="model:UserListModel">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="150" />
@@ -118,9 +136,9 @@
                                     <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Imie}" FontSize="Medium" Margin="2"/>
                                     <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Nazwisko}" FontSize="Medium" Margin="2"/>
 
-                                    <Button Grid.Column="3" Grid.Row="0" Text="Odblokuj" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}"/>
-                                    <Button Grid.Column="4" Grid.Row="0" Text="Zablokuj" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}"/>
-                                    <Button Grid.Column="5" Grid.Row="0" Text="Usuń" Clicked="OnDeleteButtonClicked" CommandParameter="{Binding Id}"/>
+                                    <Button Grid.Column="3" Grid.Row="0" Text="Odblokuj" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}" Margin="5,0" IsVisible="{Binding ButtonOd}"/>
+                                    <Button Grid.Column="4" Grid.Row="0" Text="Zablokuj" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}"  BackgroundColor="Orange" Margin="5,0" IsVisible="{Binding ButtonZab}"/>
+                                    <Button Grid.Column="5" Grid.Row="0" Text="Usuń" Clicked="OnDeleteButtonClicked" CommandParameter="{Binding Id}" BackgroundColor="Red" Margin="5,0" IsVisible="{Binding ButtonDel}"/>
                                 </Grid>
                             </DataTemplate>
 

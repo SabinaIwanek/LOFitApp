@@ -28,9 +28,8 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="100" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
 
                 <Image Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Source="user.png" Margin="0,10"/>
@@ -49,24 +48,22 @@
                 <Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Text="Opinie do weryfikacji"  Clicked="OnButtonMenuClicked" CommandParameter="opinion" BackgroundColor="{StaticResource MyText}" />
                 <Button Grid.Column="1" Grid.Row="5" x:Name="InfoOpinion" Text="{Binding InfoVerifyOpinion}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
 
-                <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Zgłoszenia"  Clicked="OnButtonMenuClicked" CommandParameter="reports" BackgroundColor="{StaticResource MyText}"/>
-                <Button Grid.Column="1" Grid.Row="6" x:Name="InfoReport" Text="{Binding InfoVerifyReport}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
+                <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Produkty do zatwierdzenia"  Clicked="OnButtonMenuClicked" CommandParameter="products" BackgroundColor="{StaticResource MyText}"/>
+                <Button Grid.Column="1" Grid.Row="6" x:Name="InfoProd" Text="{Binding InfoProducts}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
 
-                <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="Produkty do zatwierdzenia"  Clicked="OnButtonMenuClicked" CommandParameter="products" BackgroundColor="{StaticResource MyText}"/>
-                <Button Grid.Column="1" Grid.Row="7" x:Name="InfoProd" Text="{Binding InfoProducts}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
-
-                <Button Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Text="Wyloguj" Margin="40,30" Padding="0"  Clicked="OnButtonMenuClicked" CommandParameter="wyloguj" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="18" BorderWidth="3" BorderColor="{StaticResource MyText}" FontAttributes="Bold"/>
+                <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="Wyloguj" Margin="40,30" Padding="0"  Clicked="OnButtonMenuClicked" CommandParameter="wyloguj" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="18" BorderWidth="3" BorderColor="{StaticResource MyText}" FontAttributes="Bold"/>
 
             </Grid>
 
         <!-- Zawartosc-->
 
-        <Grid HorizontalOptions="FillAndExpand" RowSpacing="20">
+        <Grid HorizontalOptions="FillAndExpand" RowSpacing="20" Padding="40,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="55" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -95,19 +92,47 @@
 
             </Grid>
 
+            <!-- Naglowek -->
+            <Grid Grid.Column="0" Grid.Row="1"  HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource MyEntryBg}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0"  Text="Id" FontSize="Medium"/>
+                    <Label Grid.Column="1" Grid.Row="0"  Text="Id trenera" FontSize="Medium" />
+                    <Label Grid.Column="2" Grid.Row="0"  Text="Nazwa" FontSize="Medium" />
+                    <Label Grid.Column="3" Grid.Row="0"  Text="Organizacja" FontSize="Medium" />
+                    <Label Grid.Column="4" Grid.Row="0"  Text="Kod" FontSize="Medium" />
+                    <Label Grid.Column="5" Grid.Row="0"  Text="Data" FontSize="Medium" />
+                </Grid>
+            </Grid>
+
             <!-- Lista-->
-            <Grid Grid.Column="0" Grid.Row="1"  HorizontalOptions="FillAndExpand">
+            <Grid Grid.Column="0" Grid.Row="2"  HorizontalOptions="FillAndExpand">
                 <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnCertificateClicked">
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="model:CertificateModel">
+                            <DataTemplate x:DataType="model:CertificateListModel">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="70"/>
+                                        <ColumnDefinition Width="120"/>
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="1*" />
                                         <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="150" />
                                     </Grid.ColumnDefinitions>
@@ -115,13 +140,15 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
-                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Id_trenera}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwa}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Organizacja}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Kod_certyfikatu}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Certyfikat.Id}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Certyfikat.Id_trenera}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Certyfikat.Nazwa}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Certyfikat.Organizacja}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="4" Grid.Row="0"  Text="{Binding Certyfikat.Kod_certyfikatu}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="5" Grid.Row="0"  Text="{Binding DataCert}" FontSize="Medium" Margin="2"/>
 
-                                    <Button Grid.Column="4" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}"/>
-                                    <Button Grid.Column="5" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}"/>
+                                    <Button Grid.Column="6" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Certyfikat.Id}" Margin="5,0" IsVisible="{Binding ButtonOk}"/>
+                                    <Button Grid.Column="7" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Certyfikat.Id}" BackgroundColor="Red" Margin="5,0" IsVisible="{Binding ButtonNo}"/>
                                 </Grid>
                             </DataTemplate>
 

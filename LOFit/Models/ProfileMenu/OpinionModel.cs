@@ -58,6 +58,9 @@ namespace LOFit.Models.ProfileMenu
             return Zgloszona == 1;
         }
 
+        public bool ButtonNo() => Zgloszona != 3;
+        public bool ButtonOk() => Zgloszona != 2;
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

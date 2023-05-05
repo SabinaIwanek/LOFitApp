@@ -498,5 +498,30 @@ namespace LOFit.DataServices.Admin
                 return ex.ToString();
             }
         }
+        public async Task<bool> IsBlock(int id, int type)
+        {
+            try
+            {
+                string token = Singleton.Instance.Token;
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/appusers/isblock/{id}/{type}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    return bool.Parse(responseContent);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

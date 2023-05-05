@@ -25,5 +25,6 @@ namespace LOFit.DataServices.Admin
         Task<string> BlockAccount(int id, int type);
         Task<string> UnblockAccount(int id, int type);
         Task<string> DeleteAccount(int id, int type);
+        Task<bool> IsBlock(int id, int type);
     }
 }

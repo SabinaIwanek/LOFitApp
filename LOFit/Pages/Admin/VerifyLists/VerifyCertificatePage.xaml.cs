@@ -10,6 +10,7 @@ public partial class VerifyCertificatePage : ContentPage
     private IAdminRestService _dataService;
     private List<Button> _buttons;
     private List<Grid> _grids;
+    private int _type;
 
     #region Binding prop
     private string _adminName;
@@ -56,17 +57,6 @@ public partial class VerifyCertificatePage : ContentPage
         }
     }
 
-    private int _infoVerifyReport;
-    public int InfoVerifyReport
-    {
-        get { return _infoVerifyReport; }
-        set
-        {
-            _infoVerifyReport = value;
-            OnPropertyChanged();
-        }
-    }
-
     private int _infoProducts;
     public int InfoProducts
     {
@@ -98,14 +88,12 @@ public partial class VerifyCertificatePage : ContentPage
 
         InfoCoachs = (await _dataService.GetWgTypeCoach(0)).Count;
         InfoCertificate = (await _dataService.GetWgTypeCert(0)).Count;
-        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(0)).Count;
-        InfoVerifyReport = (await _dataService.GetWgTypeReports(0)).Count;
+        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(1)).Count;
         InfoProducts = (await _dataService.GetWgTypeProducts(0)).Count;
 
         InfoCoach.IsVisible = InfoCoachs != 0;
         InfoCert.IsVisible = InfoCertificate != 0;
         InfoOpinion.IsVisible = InfoVerifyOpinion != 0;
-        InfoReport.IsVisible = InfoVerifyReport != 0;
         InfoProd.IsVisible = InfoProducts != 0;
     }
     #endregion
@@ -131,10 +119,6 @@ public partial class VerifyCertificatePage : ContentPage
         else if (parameter == "opinion")
         {
             await Shell.Current.GoToAsync(nameof(VerifyOpinionPage));
-        }
-        else if (parameter == "reports")
-        {
-            await Shell.Current.GoToAsync(nameof(VerifyReportPage));
         }
         else if (parameter == "products")
         {
@@ -170,7 +154,9 @@ public partial class VerifyCertificatePage : ContentPage
     #region List
     async void ListLoad(int type)
     {
-        collectionView.ItemsSource = await _dataService.GetWgTypeCert(type);
+        _type = type;
+
+        collectionView.ItemsSource = ListModelTools.ReturnCertificateList( await _dataService.GetWgTypeCert(type));
 
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
@@ -195,6 +181,7 @@ public partial class VerifyCertificatePage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetCert(property, 1);
+        ListLoad(_type);
     }
     async void OnNoButtonClicked(object sender, EventArgs e)
     {
@@ -202,6 +189,7 @@ public partial class VerifyCertificatePage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetCert(property, 2);
+        ListLoad(_type);
     }
     #endregion
         

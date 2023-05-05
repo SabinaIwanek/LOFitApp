@@ -93,7 +93,6 @@ public static class MauiProgram
         builder.Services.AddTransient<VerifyCoachPage>();
         builder.Services.AddTransient<VerifyCertificatePage>();
         builder.Services.AddTransient<VerifyOpinionPage>();
-        builder.Services.AddTransient<VerifyReportPage>();
         builder.Services.AddTransient<VerifyAppUsersPage>();
         builder.Services.AddTransient<VerifyProductsPage>();
 

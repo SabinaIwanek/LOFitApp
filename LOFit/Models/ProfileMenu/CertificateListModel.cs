@@ -19,6 +19,8 @@ namespace LOFit.Models.ProfileMenu
 
         public string DataCert { get; set; }
         public bool ZatwierdzonyBool { get; set; }
+        public bool ButtonOk { get; set; }
+        public bool ButtonNo { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

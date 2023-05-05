@@ -106,6 +106,9 @@ namespace LOFit.Models.Accounts
             }
         }
 
+        public bool ButtonOk { get; set; }
+        public bool ButtonNo { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

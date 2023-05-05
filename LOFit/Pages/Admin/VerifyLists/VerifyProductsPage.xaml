@@ -15,7 +15,7 @@
     <StackLayout Orientation="Horizontal">
 
         <!-- Lista Menu-->
-        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="Start" BackgroundColor="{StaticResource Primary2}" RowSpacing="10">
+        <Grid VerticalOptions="FillAndExpand" BackgroundColor="{StaticResource Primary2}" RowSpacing="10" WidthRequest="300" >
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
@@ -24,7 +24,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="120" />
                 <RowDefinition Height="50" />
-                <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
@@ -49,13 +48,11 @@
             <Button Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Text="Opinie do weryfikacji"  Clicked="OnButtonMenuClicked" CommandParameter="opinion" BackgroundColor="{StaticResource MyText}" />
             <Button Grid.Column="1" Grid.Row="5" x:Name="InfoOpinion" Text="{Binding InfoVerifyOpinion}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
 
-            <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Zgłoszenia"  Clicked="OnButtonMenuClicked" CommandParameter="reports" BackgroundColor="{StaticResource MyText}"/>
-            <Button Grid.Column="1" Grid.Row="6" x:Name="InfoReport" Text="{Binding InfoVerifyReport}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
+            <Button Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Produkty do zatwierdzenia"  Clicked="OnButtonMenuClicked" CommandParameter="products" BackgroundColor="{StaticResource Primary}"/>
+            <Button Grid.Column="1" Grid.Row="6" x:Name="InfoProd" Text="{Binding InfoProducts}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
 
-            <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="Produkty do zatwierdzenia"  Clicked="OnButtonMenuClicked" CommandParameter="products" BackgroundColor="{StaticResource Primary}"/>
-            <Button Grid.Column="1" Grid.Row="7" x:Name="InfoProd" Text="{Binding InfoProducts}" CornerRadius="30" WidthRequest="35" HeightRequest="35"/>
+            <Button Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Text="Wyloguj" Margin="40,30" Padding="0"  Clicked="OnButtonMenuClicked" CommandParameter="wyloguj" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="18" BorderWidth="3" BorderColor="{StaticResource MyText}" FontAttributes="Bold"/>
 
-            <Button Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Text="Wyloguj" Margin="40,30" Padding="0"  Clicked="OnButtonMenuClicked" CommandParameter="wyloguj" BackgroundColor="Transparent" TextColor="{StaticResource MyText}" FontSize="18" BorderWidth="3" BorderColor="{StaticResource MyText}" FontAttributes="Bold"/>
 
         </Grid>
 
@@ -129,10 +126,10 @@
             <!-- Lista-->
             <Grid Grid.Column="0" Grid.Row="2"  HorizontalOptions="FillAndExpand">
                 <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnProductClicked">
+                    <CollectionView x:Name="collectionView" SelectionMode="Single" >
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="model:ProductModel">
+                            <DataTemplate x:DataType="model:ProductListModel">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="70"/>
@@ -150,101 +147,18 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
-                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Id}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwa}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Ean}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Kcla}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="4" Grid.Row="0"  Text="{Binding Gramy}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="5" Grid.Row="0"  Text="{Binding Bialko}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="6" Grid.Row="0"  Text="{Binding Tluszcze}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="7" Grid.Row="0"  Text="{Binding Wegle}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Product.Id}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Product.Nazwa}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Product.Ean}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Product.Kcla}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="4" Grid.Row="0"  Text="{Binding Product.Gramy}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="5" Grid.Row="0"  Text="{Binding Product.Bialko}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="6" Grid.Row="0"  Text="{Binding Product.Tluszcze}" FontSize="Medium" Margin="2"/>
+                                    <Label Grid.Column="7" Grid.Row="0"  Text="{Binding Product.Wegle}" FontSize="Medium" Margin="2"/>
 
-                                    <Button Grid.Column="8" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}" Margin="5,0"/>
-                                    <Button Grid.Column="9" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}" BackgroundColor="Red" Margin="5,0"/>
-                                </Grid>
-                            </DataTemplate>
 
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
-            </Grid>
-
-            <!-- Lista Ok-->
-            <Grid Grid.Column="0" Grid.Row="2"  HorizontalOptions="FillAndExpand">
-                <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <CollectionView x:Name="collectionViewOk" SelectionMode="Single" SelectionChanged="OnProductClicked">
-                        <CollectionView.ItemTemplate>
-
-                            <DataTemplate x:DataType="model:ProductModel">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="70"/>
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="150" />
-                                        <ColumnDefinition Width="150" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
-                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Id}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwa}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Ean}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Kcla}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="4" Grid.Row="0"  Text="{Binding Gramy}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="5" Grid.Row="0"  Text="{Binding Bialko}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="6" Grid.Row="0"  Text="{Binding Tluszcze}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="7" Grid.Row="0"  Text="{Binding Wegle}" FontSize="Medium" Margin="2"/>
-
-                                    <Button Grid.Column="9" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Id}" BackgroundColor="Red" Margin="5,0"/>
-                                </Grid>
-                            </DataTemplate>
-
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
-            </Grid>
-
-            <!-- Lista No-->
-            <Grid Grid.Column="0" Grid.Row="2"  HorizontalOptions="FillAndExpand">
-                <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <CollectionView x:Name="collectionViewNo" SelectionMode="Single" SelectionChanged="OnProductClicked">
-                        <CollectionView.ItemTemplate>
-
-                            <DataTemplate x:DataType="model:ProductModel">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="70"/>
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="150" />
-                                        <ColumnDefinition Width="150" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
-                                    <Label Grid.Column="0" Grid.Row="0"  Text="{Binding Id}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="1" Grid.Row="0"  Text="{Binding Nazwa}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="2" Grid.Row="0"  Text="{Binding Ean}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="3" Grid.Row="0"  Text="{Binding Kcla}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="4" Grid.Row="0"  Text="{Binding Gramy}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="5" Grid.Row="0"  Text="{Binding Bialko}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="6" Grid.Row="0"  Text="{Binding Tluszcze}" FontSize="Medium" Margin="2"/>
-                                    <Label Grid.Column="7" Grid.Row="0"  Text="{Binding Wegle}" FontSize="Medium" Margin="2"/>
-
-                                    <Button Grid.Column="8" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Id}" Margin="5,0"/>
+                                    <Button Grid.Column="8" Grid.Row="0" Text="Zatwierdź" Clicked="OnOkButtonClicked" CommandParameter="{Binding Product.Id}" Margin="5,0" IsVisible="{Binding ButtonOk}"/>
+                                    <Button Grid.Column="9" Grid.Row="0" Text="Odrzuć" Clicked="OnNoButtonClicked" CommandParameter="{Binding Product.Id}" BackgroundColor="Red" Margin="5,0" IsVisible="{Binding ButtonNo}"/>
                                 </Grid>
                             </DataTemplate>
 

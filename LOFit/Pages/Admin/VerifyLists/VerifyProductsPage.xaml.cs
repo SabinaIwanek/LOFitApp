@@ -11,6 +11,7 @@ public partial class VerifyProductsPage : ContentPage
     private readonly IAdminRestService _dataService;
     private List<Button> _buttons;
     private List<Grid> _grids;
+    private int _type;
 
     #region Binding prop
     private string _adminName;
@@ -57,17 +58,6 @@ public partial class VerifyProductsPage : ContentPage
         }
     }
 
-    private int _infoVerifyReport;
-    public int InfoVerifyReport
-    {
-        get { return _infoVerifyReport; }
-        set
-        {
-            _infoVerifyReport = value;
-            OnPropertyChanged();
-        }
-    }
-
     private int _infoProducts;
     public int InfoProducts
     {
@@ -87,6 +77,7 @@ public partial class VerifyProductsPage : ContentPage
         BindingContext = this;
         _buttons = new List<Button>() { Button1, Button2, Button3 };
         _grids = new List<Grid>() { Bottom1, Bottom2, Bottom3 };
+        _type = 0;
 
         ListLoad(0);
         OnLoadData();
@@ -100,14 +91,12 @@ public partial class VerifyProductsPage : ContentPage
 
         InfoCoachs = (await _dataService.GetWgTypeCoach(0)).Count;
         InfoCertificate = (await _dataService.GetWgTypeCert(0)).Count;
-        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(0)).Count;
-        InfoVerifyReport = (await _dataService.GetWgTypeReports(0)).Count;
+        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(1)).Count;
         InfoProducts = (await _dataService.GetWgTypeProducts(0)).Count;
 
         InfoCoach.IsVisible = InfoCoachs != 0;
         InfoCert.IsVisible = InfoCertificate != 0;
         InfoOpinion.IsVisible = InfoVerifyOpinion != 0;
-        InfoReport.IsVisible = InfoVerifyReport != 0;
         InfoProd.IsVisible = InfoProducts != 0;
     }
     #endregion
@@ -133,10 +122,6 @@ public partial class VerifyProductsPage : ContentPage
         else if (parameter == "opinion")
         {
             await Shell.Current.GoToAsync(nameof(VerifyOpinionPage));
-        }
-        else if (parameter == "reports")
-        {
-            await Shell.Current.GoToAsync(nameof(VerifyReportPage));
         }
         else if (parameter == "products")
         {
@@ -172,42 +157,12 @@ public partial class VerifyProductsPage : ContentPage
     #region List
     async void ListLoad(int type)
     {
-        collectionView.ItemsSource = await _dataService.GetWgTypeProducts(type);
+        _type = type;
 
-        collectionView.IsVisible = false;
-        collectionViewOk.IsVisible = false;
-        collectionViewNo.IsVisible = false;
-
-
-        if (type == 0)
-        {
-            collectionView.ItemsSource = await _dataService.GetWgTypeProducts(type);
-            collectionView.IsVisible = true;
-        }
-        if (type == 1)
-        {
-            collectionViewOk.ItemsSource = await _dataService.GetWgTypeProducts(type);
-            collectionViewOk.IsVisible = true;
-        }
-        if (type == 2)
-        {
-            collectionViewNo.ItemsSource = await _dataService.GetWgTypeProducts(type);
-            collectionViewNo.IsVisible = true;
-        }
-
+        collectionView.ItemsSource = ListModelTools.ReturnProductList(await _dataService.GetWgTypeProducts(type));
+      
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
-    }
-    async void OnProductClicked(object sender, SelectionChangedEventArgs e)
-    {
-        ProductModel model = e.CurrentSelection.FirstOrDefault() as ProductModel;
-
-        var navigationParameter = new Dictionary<string, object>
-        {
-            { nameof(ProductModel), model }
-        };
-
-        // await Shell.Current.GoToAsync(nameof(CertificatePage), navigationParameter);
     }
     #endregion
 
@@ -218,6 +173,7 @@ public partial class VerifyProductsPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetProduct(property, 1);
+        ListLoad(_type);
     }
     async void OnNoButtonClicked(object sender, EventArgs e)
     {
@@ -225,6 +181,7 @@ public partial class VerifyProductsPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.SetProduct(property, 2);
+        ListLoad(_type);
     }
     #endregion
 }

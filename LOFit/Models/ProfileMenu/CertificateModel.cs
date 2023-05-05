@@ -71,6 +71,9 @@ namespace LOFit.Models.ProfileMenu
             return Zatwierdzony == 1;
         }
 
+        public bool ButtonNo() => Zatwierdzony != 2;
+        public bool ButtonOk() => Zatwierdzony != 1;
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

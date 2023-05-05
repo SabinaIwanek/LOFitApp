@@ -1,8 +1,6 @@
 using LOFit.DataServices.Admin;
 using LOFit.Models.Accounts;
-using LOFit.Pages.Coachs;
 using LOFit.Tools;
-using Microsoft.Maui.Controls;
 
 namespace LOFit.Pages.Admin.VerifyLists;
 
@@ -58,17 +56,6 @@ public partial class VerifyAppUsersPage : ContentPage
         }
     }
 
-    private int _infoVerifyReport;
-    public int InfoVerifyReport
-    {
-        get { return _infoVerifyReport; }
-        set
-        {
-            _infoVerifyReport = value;
-            OnPropertyChanged();
-        }
-    }
-
     private int _infoProducts;
     public int InfoProducts
     {
@@ -100,14 +87,12 @@ public partial class VerifyAppUsersPage : ContentPage
 
         InfoCoachs = (await _dataService.GetWgTypeCoach(0)).Count;
         InfoCertificate = (await _dataService.GetWgTypeCert(0)).Count;
-        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(0)).Count;
-        InfoVerifyReport = (await _dataService.GetWgTypeReports(0)).Count;
+        InfoVerifyOpinion = (await _dataService.GetWgTypeOpinion(1)).Count;
         InfoProducts = (await _dataService.GetWgTypeProducts(0)).Count;
 
         InfoCoach.IsVisible = InfoCoachs != 0;
         InfoCert.IsVisible = InfoCertificate != 0;
         InfoOpinion.IsVisible = InfoVerifyOpinion != 0;
-        InfoReport.IsVisible = InfoVerifyReport != 0;
         InfoProd.IsVisible = InfoProducts != 0;
     }
     #endregion
@@ -133,10 +118,6 @@ public partial class VerifyAppUsersPage : ContentPage
         else if (parameter == "opinion")
         {
             await Shell.Current.GoToAsync(nameof(VerifyOpinionPage));
-        }
-        else if (parameter == "reports")
-        {
-            await Shell.Current.GoToAsync(nameof(VerifyReportPage));
         }
         else if (parameter == "products")
         {
@@ -172,9 +153,9 @@ public partial class VerifyAppUsersPage : ContentPage
     #region List
     async void ListLoad(int type)
     {
-        if (type == 0) collectionView.ItemsSource = await _dataService.GetAppUsersAdmins();
-        if (type == 1) collectionView.ItemsSource = await _dataService.GetAppUsers();
-        if (type == 2) collectionView.ItemsSource = await _dataService.GetAppUsersCoachs();
+        if (type == 0) collectionView.ItemsSource = await ListModelTools.ReturnUserList(await _dataService.GetAppUsersAdmins(), _dataService);
+        if (type == 1) collectionView.ItemsSource = await ListModelTools.ReturnUserList(await _dataService.GetAppUsers(), _dataService);
+        if (type == 2) collectionView.ItemsSource = await ListModelTools.ReturnUserList(await _dataService.GetAppUsersCoachs(), _dataService);
 
         _type = await Task.Run(() => type);
 
@@ -201,6 +182,7 @@ public partial class VerifyAppUsersPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.UnblockAccount(property, _type);
+        ListLoad(_type);
     }
     async void OnNoButtonClicked(object sender, EventArgs e)
     {
@@ -208,6 +190,7 @@ public partial class VerifyAppUsersPage : ContentPage
         var property = (int)button.CommandParameter;
 
         string wynik = await _dataService.BlockAccount(property, _type);
+        ListLoad(_type);
     }
     async void OnDeleteButtonClicked(object sender, EventArgs e)
     {

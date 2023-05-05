@@ -173,6 +173,9 @@ namespace LOFit.Models.Accounts
             return "";
         }
 
+        public bool ButtonNo() => !(Zatwierdzony_trener == 2 || Zatwierdzony_dietetyk == 2);
+        public bool ButtonOk() => !(Zatwierdzony_trener == 1 || Zatwierdzony_dietetyk ==1);
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
