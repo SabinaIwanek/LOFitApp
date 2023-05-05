@@ -174,6 +174,27 @@ public partial class VerifyProductsPage : ContentPage
     {
         collectionView.ItemsSource = await _dataService.GetWgTypeProducts(type);
 
+        collectionView.IsVisible = false;
+        collectionViewOk.IsVisible = false;
+        collectionViewNo.IsVisible = false;
+
+
+        if (type == 0)
+        {
+            collectionView.ItemsSource = await _dataService.GetWgTypeProducts(type);
+            collectionView.IsVisible = true;
+        }
+        if (type == 1)
+        {
+            collectionViewOk.ItemsSource = await _dataService.GetWgTypeProducts(type);
+            collectionViewOk.IsVisible = true;
+        }
+        if (type == 2)
+        {
+            collectionViewNo.ItemsSource = await _dataService.GetWgTypeProducts(type);
+            collectionViewNo.IsVisible = true;
+        }
+
         DataTools.ButtonNotClicked(_buttons, _grids);
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
     }
@@ -196,14 +217,14 @@ public partial class VerifyProductsPage : ContentPage
         var button = (Button)sender;
         var property = (int)button.CommandParameter;
 
-        string wynik = await _dataService.SetCert(property, 1);
+        string wynik = await _dataService.SetProduct(property, 1);
     }
     async void OnNoButtonClicked(object sender, EventArgs e)
     {
         var button = (Button)sender;
         var property = (int)button.CommandParameter;
 
-        string wynik = await _dataService.SetCert(property, 2);
+        string wynik = await _dataService.SetProduct(property, 2);
     }
     #endregion
 }
