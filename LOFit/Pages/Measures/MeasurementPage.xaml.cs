@@ -32,10 +32,15 @@ public partial class MeasurementPage : ContentPage
         get { return _model; }
         set
         {
-            _model = value;
-            _isNew = Model.Id_usera == 0;
-
             BottomButton.IsVisible = Singleton.Instance.Type == TypKonta.Uzytkownik;
+
+            _model = value;
+            _isNew = Model.Id == 0;
+            
+            if (_isNew)
+            {
+                LoadLastData();
+            }
 
             if (value != null)
                 OnLoadProgres();
@@ -197,6 +202,18 @@ public partial class MeasurementPage : ContentPage
     }
     #endregion
 
+    #region Load data
+
+    async void LoadLastData()
+    {
+        MeasurementModel model = await _dataService.GetLast(Singleton.Instance.IdUsera);
+        model.Data_pomiaru = DateCalendar;
+
+        _model = model;
+        OnPropertyChanged(nameof(Model));
+    }
+    #endregion
+
     #region Progres
     async void OnLoadProgres()
     {
@@ -315,7 +332,7 @@ public partial class MeasurementPage : ContentPage
             }
             else await _dataService.Update(Model);
 
-            Model = Model;
+            DateCalendar = Model.Data_pomiaru;
         }
     }
     async void TermLoad()

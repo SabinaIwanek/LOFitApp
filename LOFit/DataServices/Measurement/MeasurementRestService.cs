@@ -57,6 +57,37 @@ namespace LOFit.DataServices.Measurement
                 return null;
             }
         }
+        public async Task<MeasurementModel> GetLast(int id)
+        {
+            MeasurementModel model = new MeasurementModel();
+
+            try
+            {
+                string token = Singleton.Instance.Token;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await _httpClient.GetAsync($"{_url}/last/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    model = JsonSerializer.Deserialize<MeasurementModel>(responseContent, _jsonSerializaerOptions);
+                    model.Id = 0;
+
+                    return model;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<List<MeasurementModel>> GetWeek(DateTime date, int id)
         {
             List<MeasurementModel> list = new List<MeasurementModel>();
