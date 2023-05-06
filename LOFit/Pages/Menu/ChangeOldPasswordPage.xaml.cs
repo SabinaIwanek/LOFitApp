@@ -119,6 +119,19 @@ public partial class ChangeOldPasswordPage : ContentPage
             return;
         }
 
+
+        if (!NewPassword1.Any(char.IsDigit))
+        {
+            await DisplayAlert("Zmiana has³a", "Nowe has³o musi zawieraæ przynajmniej jedn¹ cyfrê.", "Ok");
+            return;
+        }
+
+        if (!NewPassword1.Any(char.IsUpper))
+        {
+            await DisplayAlert("Zmiana has³a", "Nowe has³o zawieraæ przynajmniej jedn¹ du¿¹ literê.", "Ok");
+            return;
+        }
+
         if (NewPassword1 != NewPassword2)
         {
             await DisplayAlert("Zmiana has³a", $"Nowe has³a ró¿ni¹ siê.", "OK");

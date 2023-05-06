@@ -162,17 +162,6 @@ public partial class VerifyCertificatePage : ContentPage
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
         OnLoadData();
     }
-    async void OnCertificateClicked(object sender, SelectionChangedEventArgs e)
-    {
-        CertificateModel coach = e.CurrentSelection.FirstOrDefault() as CertificateModel;
-
-        var navigationParameter = new Dictionary<string, object>
-        {
-            { nameof(CertificateModel), coach }
-        };
-
-        // await Shell.Current.GoToAsync(nameof(CertificatePage), navigationParameter);
-    }
     #endregion
 
     #region Action buttons

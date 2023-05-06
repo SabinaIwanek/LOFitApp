@@ -185,11 +185,11 @@ public partial class VerifyCoachPage : ContentPage
     }
     async void OnCoachClicked(object sender, SelectionChangedEventArgs e)
     {
-        CoachModel coach = e.CurrentSelection.FirstOrDefault() as CoachModel;
+        CoachListModel model = e.CurrentSelection.FirstOrDefault() as CoachListModel;
 
         var navigationParameter = new Dictionary<string, object>
         {
-            { nameof(CoachModel), coach }
+            { nameof(CoachModel), model.Coach as CoachModel}
         };
 
         await Shell.Current.GoToAsync(nameof(CoachPage), navigationParameter);

@@ -5,6 +5,7 @@ using LOFit.DataServices.User;
 using LOFit.Enums;
 using LOFit.Models.Accounts;
 using LOFit.Models.ProfileMenu;
+using LOFit.Pages.Admin.VerifyLists;
 using LOFit.Pages.Meals;
 using LOFit.Pages.Measures;
 using LOFit.Pages.Menu;
@@ -212,7 +213,13 @@ public partial class CoachPage : ContentPage
     #region Swipe
     async void OnRightSwiped()
     {
-        if (!_isUserProfile) await Shell.Current.GoToAsync(nameof(CoachsPage));
+        if (!_isUserProfile)
+        {
+            if (Singleton.Instance.Type == TypKonta.Administrator)
+                await Shell.Current.GoToAsync(nameof(VerifyCoachPage));
+            else
+                await Shell.Current.GoToAsync(nameof(CoachsPage));
+        }
         else
         {
             if (Singleton.Instance.Type == TypKonta.Trener)
@@ -229,7 +236,10 @@ public partial class CoachPage : ContentPage
     #region Menu buttons
     async void OnBackClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(CoachsPage));
+        if (Singleton.Instance.Type == TypKonta.Administrator)
+            await Shell.Current.GoToAsync(nameof(VerifyCoachPage));
+        else
+            await Shell.Current.GoToAsync(nameof(CoachsPage));
     }
     async void OnProfileClicked(object sender, EventArgs e)
     {

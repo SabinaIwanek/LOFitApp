@@ -163,17 +163,6 @@ public partial class VerifyAppUsersPage : ContentPage
         DataTools.ButtonClicked(_buttons[type], _grids[type]);
         OnLoadData();
     }
-    async void OnUserClicked(object sender, SelectionChangedEventArgs e)
-    {
-        UserModel coach = e.CurrentSelection.FirstOrDefault() as UserModel;
-
-        var navigationParameter = new Dictionary<string, object>
-        {
-            { nameof(UserModel), coach }
-        };
-
-        // await Shell.Current.GoToAsync(nameof(UserPage), navigationParameter);
-    }
     #endregion
 
     #region Action buttons

@@ -115,7 +115,7 @@
             <!-- Lista-->
             <Grid Grid.Column="0" Grid.Row="2"  HorizontalOptions="FillAndExpand">
                 <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <CollectionView x:Name="collectionView" SelectionMode="Single" SelectionChanged="OnUserClicked">
+                    <CollectionView x:Name="collectionView" SelectionMode="Single" >
                         <CollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="model:UserListModel">

@@ -162,7 +162,25 @@ public partial class RegistrationPage : ContentPage
             return;
         }
 
-        if (Password2 == string.Empty || UserM.Haslo == string.Empty || Password2 == null || UserM.Haslo == null)
+        if ( UserM.Haslo == string.Empty || UserM.Haslo == null)
+        {
+            await DisplayAlert("Relestracja", "Wpisz has³o.", "Ok");
+            return;
+        }
+
+        if (!UserM.Haslo.Any(char.IsDigit))
+        {
+            await DisplayAlert("Relestracja", "Has³a musi zawieraæ przynajmniej jedn¹ cyfrê.", "Ok");
+            return;
+        }
+
+        if (!UserM.Haslo.Any(char.IsUpper))
+        {
+            await DisplayAlert("Relestracja", "Has³a musi zawieraæ przynajmniej jedn¹ du¿¹ literê.", "Ok");
+            return;
+        }
+
+        if (Password2 == string.Empty ||  Password2 == null)
         {
             await DisplayAlert("Relestracja", "Wpisz has³o do dwóch pól.", "Ok");
             return;

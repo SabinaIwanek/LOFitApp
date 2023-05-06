@@ -87,7 +87,25 @@ public partial class ChangePasswordPage : ContentPage
     }
     async void OnChangeButtonClicked(object sender, EventArgs e)
     {
-        if (LoginM.Password == null || Password2 == null || LoginM.Password == string.Empty || Password2 == string.Empty)
+        if (LoginM.Password == null ||  LoginM.Password == string.Empty)
+        {
+            await DisplayAlert("Zmiana has³a", "Wpisz has³o.", "Ok");
+            return;
+        }
+
+        if (!LoginM.Password.Any(char.IsDigit))
+        {
+            await DisplayAlert("Zmiana has³a", "Has³a musi zawieraæ przynajmniej jedn¹ cyfrê.", "Ok");
+            return;
+        }
+
+        if (!LoginM.Password.Any(char.IsUpper))
+        {
+            await DisplayAlert("Zmiana has³a", "Has³a musi zawieraæ przynajmniej jedn¹ du¿¹ literê.", "Ok");
+            return;
+        }
+
+        if (Password2 == null || Password2 == string.Empty)
         {
             await DisplayAlert("Zmiana has³a", "Wpisz oba has³a.", "Ok");
             return;
