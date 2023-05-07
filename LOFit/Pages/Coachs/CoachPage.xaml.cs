@@ -347,7 +347,8 @@ public partial class CoachPage : ContentPage
 
             if (result)
             {
-                CertificateModel model = e.CurrentSelection.FirstOrDefault() as CertificateModel;
+                CertificateListModel list = e.CurrentSelection.FirstOrDefault() as CertificateListModel;
+                CertificateModel model = list.Certyfikat;
                 await _dataServiceCert.Delete(model.Id);
             }
             ListLoadCertyf();

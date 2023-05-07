@@ -9,7 +9,7 @@ namespace LOFit.Tools
         //Check
         public static bool CheckEmail(string email)
         {
-            if (email == string.Empty) return false;
+            if (email == null || email == string.Empty) return false;
 
             try
             {

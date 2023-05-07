@@ -123,6 +123,7 @@ public partial class MealPage : ContentPage
         set
         {
             _model = value;
+            if (Model == null) return;
             Gramy = Model.Gramy;
 
             if (value != null)
@@ -294,7 +295,7 @@ public partial class MealPage : ContentPage
         var navigationParameter = new Dictionary<string, object>
         {
             { "myList", false },
-            { "mealDate", Model.Data_czas }
+            { "Model", Model }
         };
 
         await Shell.Current.GoToAsync(nameof(ProductsPage), navigationParameter);
@@ -356,6 +357,7 @@ public partial class MealPage : ContentPage
     #region Bottom menu
     async void OnModifyButtonClicked(object sender, EventArgs e)
     {
+        if (Model == null) return;
         if (Model.Nazwa_dania == string.Empty) await DisplayAlert("Brak danych", "Uzupe³nij nazwê dania.", "Ok");
         if (ModelProd.Nazwa == string.Empty) await DisplayAlert("Brak danych", "Uzupe³nij nazwê produktu.", "Ok");
         if (Model.Gramy == 0) await DisplayAlert("Brak danych", "Uzupe³nij gramy.", "Ok");
@@ -380,11 +382,11 @@ public partial class MealPage : ContentPage
 
         Model.Data_czas = new DateTime(Model.Data_czas.Year, Model.Data_czas.Month, Model.Data_czas.Day, MealTime.Hours, MealTime.Minutes, MealTime.Seconds);
 
-        if (Model.Id_planu == null || Model.Id_planu == 0)
-            Model.Id_usera = Singleton.Instance.IdUsera;
-
         if (_isNew)
         {
+            if (Model.Id_planu == null || Model.Id_planu == 0)
+                Model.Id_usera = Singleton.Instance.IdUsera;
+
             if (Singleton.Instance.Type == TypKonta.Trener)
                 Model.Id_trenera = Singleton.Instance.IdTrenera;
 

@@ -158,43 +158,43 @@ public partial class RegistrationPage : ContentPage
     {
         if (!DataTools.CheckEmail(UserM.Email))
         {
-            await DisplayAlert("Relestracja", "B³êdny adres email", "Ok");
+            await DisplayAlert("Rejestracja", "B³êdny adres email", "Ok");
             return;
         }
 
         if ( UserM.Haslo == string.Empty || UserM.Haslo == null)
         {
-            await DisplayAlert("Relestracja", "Wpisz has³o.", "Ok");
+            await DisplayAlert("Rejestracja", "Wpisz has³o.", "Ok");
             return;
         }
 
         if (!UserM.Haslo.Any(char.IsDigit))
         {
-            await DisplayAlert("Relestracja", "Has³a musi zawieraæ przynajmniej jedn¹ cyfrê.", "Ok");
+            await DisplayAlert("Rejestracja", "Has³o musi zawieraæ przynajmniej jedn¹ cyfrê.", "Ok");
             return;
         }
 
         if (!UserM.Haslo.Any(char.IsUpper))
         {
-            await DisplayAlert("Relestracja", "Has³a musi zawieraæ przynajmniej jedn¹ du¿¹ literê.", "Ok");
+            await DisplayAlert("Rejestracja", "Has³o musi zawieraæ przynajmniej jedn¹ du¿¹ literê.", "Ok");
             return;
         }
 
         if (Password2 == string.Empty ||  Password2 == null)
         {
-            await DisplayAlert("Relestracja", "Wpisz has³o do dwóch pól.", "Ok");
+            await DisplayAlert("Rejestracja", "Wpisz has³o do dwóch pól.", "Ok");
             return;
         }
 
         if (Password2 != UserM.Haslo)
         {
-            await DisplayAlert("Relestracja", "Has³a siê ró¿ni¹.", "Ok");
+            await DisplayAlert("Rejestracja", "Has³a siê ró¿ni¹.", "Ok");
             return;
         }
 
         if (UserM.Imie == string.Empty || UserM.Imie == null)
         {
-            await DisplayAlert("Relestracja", "Wpisz imiê.", "Ok");
+            await DisplayAlert("Rejestracja", "Wpisz imiê.", "Ok");
             return;
         }
 
@@ -214,7 +214,7 @@ public partial class RegistrationPage : ContentPage
         }
         else
         {
-            await DisplayAlert("Relestracja", answer, "Ok");
+            await DisplayAlert("Rejestracja", answer, "Ok");
         }
     }
     #endregion

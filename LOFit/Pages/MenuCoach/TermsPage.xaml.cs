@@ -228,9 +228,10 @@ public partial class TermsPage : ContentPage
     {
         if (GridAddTerm.IsVisible)
         {
-            if (Client.Id == 0)
+            if (Client == null || Client.Id == 0)
             {
                 await DisplayAlert("Dodaj termin", "Wska¿ klienta.", "Ok");
+                return;
             }
 
             List<TermModel> dayList = ((List<TermListModel>)collectionView.ItemsSource).Select(x=>x.Term).ToList();

@@ -70,11 +70,11 @@
             <Grid Grid.Column="0" Grid.Row="1"  HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource MyEntryBg}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="130" />
-                        <ColumnDefinition Width="130" />
-                        <ColumnDefinition Width="80" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="4*" />
                         <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="150" />
                     </Grid.ColumnDefinitions>
@@ -99,10 +99,10 @@
                             <DataTemplate x:DataType="model:OpinionListModel">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
-                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="110" />
+                                        <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="4*" />
                                         <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="150" />
